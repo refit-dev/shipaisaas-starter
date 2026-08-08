@@ -7,7 +7,7 @@ import * as accountSchema from "@/lib/db/schema/account";
 import * as chatSchema from "@/lib/db/schema/chat";
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var cachedPgPool: Pool | undefined;
 }
 

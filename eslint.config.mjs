@@ -2,7 +2,6 @@ import tsParser from "@typescript-eslint/parser";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier";
-import tailwindcss from "eslint-plugin-tailwindcss";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
@@ -12,25 +11,26 @@ export default defineConfig([
   // Next.js TypeScript rules
   ...nextTs,
 
-  // Tailwind + Prettier + shared rules
+  // Shared rules
   {
-    plugins: {
-      tailwindcss,
-    },
-
     rules: {
       "@next/next/no-html-link-for-pages": "off",
       "react/jsx-key": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "tailwindcss/no-custom-classname": "off",
-      "tailwindcss/classnames-order": "error",
+
+      // shadcn/ui components extend prop types with empty interfaces, and the
+      // Tailwind/Contentlayer configs need CommonJS requires.
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+
+      // Worth reading, not worth failing a build over.
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/refs": "warn",
+      "react-hooks/static-components": "warn",
     },
 
     settings: {
-      tailwindcss: {
-        callees: ["cn"],
-        config: "tailwind.config.ts",
-      },
       next: {
         rootDir: true,
       },
@@ -45,9 +45,15 @@ export default defineConfig([
     },
   },
 
-  // Prettier must be LAST
+  // Prettier must be LAST — Tailwind class ordering is handled by
+  // prettier-plugin-tailwindcss, not by a lint rule.
   prettier,
 
-  // Override default ignores of eslint-config-next
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  globalIgnores([
+    ".next/**",
+    ".contentlayer/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
 ]);

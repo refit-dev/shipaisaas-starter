@@ -195,7 +195,7 @@ export function ChatList() {
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This will permanently delete the conversation{" "}
-              <strong>"{chatToDelete?.title}"</strong> and remove its data from
+              <strong>&quot;{chatToDelete?.title}&quot;</strong> and remove its data from
               our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>

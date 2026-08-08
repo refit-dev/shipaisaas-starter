@@ -1,0 +1,90 @@
+# Ship AI SaaS Starter — AI assistant rules
+
+Context for Cursor, Windsurf, Claude Code and friends. Read this before writing
+code in this repo; it exists so you generate imports that resolve and patterns
+that match the rest of the codebase.
+
+## Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · shadcn/ui ·
+Drizzle ORM on Postgres · Better-Auth · Stripe · Resend · Vercel AI SDK ·
+Contentlayer (MDX) · Zustand.
+
+## Layout
+
+```
+app/(marketing)/        public pages       app/(docs)/        help centre
+app/(app)/(auth)/       login, signup      app/(app)/(protected)/  dashboard, admin
+app/api/chat/           chat + history     app/api/tasks/generate/  task runner
+config/                 ai, tasks, subscriptions, site, dashboard
+lib/ai/                 chat.ts, structured.ts, models.ts
+lib/db/                 index.ts, schema/, migrations/
+lib/auth.ts             Better-Auth setup  lib/auth/middleware.ts   withAuth wrapper
+lib/utils/usage.ts      updateUsage, checkRateLimits
+```
+
+Import with the `@/` alias: `import { db } from "@/lib/db"`.
+
+## Rules that matter
+
+### Database
+
+- Schema lives in `lib/db/schema/account.ts` (users, teams, usage) and
+  `lib/db/schema/chat.ts` (conversations, messages). Add new tables in that
+  folder and export them from the schema barrel in `lib/db/index.ts`.
+- Every tenant-scoped table has a `teamId`. Always filter by it — a query
+  without a team filter is a data leak.
+- After changing schema: `npm run db:generate` then `npm run db:migrate`.
+  Never hand-edit files in `lib/db/migrations/`.
+- Use Drizzle's query builder (`db.query.x.findMany`, `db.select()`), not raw SQL.
+
+### Auth
+
+- API routes use the `withAuth` wrapper from `lib/auth/middleware.ts`, which
+  injects `{ req, user, team, routeParams }`. Do not re-implement session
+  checks inside a route.
+- Server components and actions use `getCurrentUser()` / `getCurrentTeam()`
+  from `lib/auth/actions.ts`.
+- This starter is single-workspace: one team per user, created by the
+  `databaseHooks.user.create.after` hook in `lib/auth.ts`. There are no
+  invitations, no member management and no org-level roles.
+- App-level roles (`user`, `admin`, `superadmin`) gate `/admin` through
+  `proxy.ts`.
+
+### AI
+
+- All chat goes through `streamChat()` in `lib/ai/chat.ts`. One `streamText`
+  call, one persistence path.
+- Structured responses use `generateText` with `Output.object` from
+  `lib/ai/structured.ts`. **Never use `generateObject`.**
+- Models are declared in `lib/ai/models.ts` and resolved with `resolveModel()`.
+  Do not instantiate a provider client anywhere else.
+- The system prompt belongs in `config/ai.ts`, not inline in a route.
+- There are no tools, agents or background workflows in this starter. Do not
+  invent imports for them.
+
+### Usage and limits
+
+- Every AI entry point calls `checkRateLimits()` **before** the model call and
+  `updateUsage()` after it (both from `lib/utils/usage.ts`).
+- One chat message or task run counts as one request. Limits per plan live in
+  `config/subscriptions.ts`.
+
+### UI
+
+- Use existing shadcn/ui components from `components/ui/` before adding new ones.
+- **Theme tokens only.** Never write hardcoded palette classes like
+  `bg-blue-500`, `text-gray-900`, `text-emerald-400` or inline hex colours. Use
+  `bg-background`, `bg-card`, `bg-muted`, `bg-primary`, `bg-destructive`,
+  `text-foreground`, `text-muted-foreground`, `border`, `ring`, and
+  `chart-1`…`chart-5`, all defined in `styles/globals.css`.
+- Client components need `"use client"`. Keep data fetching in server
+  components or route handlers where you can.
+- Global client state uses Zustand stores in `stores/`.
+
+### General
+
+- TypeScript everywhere; no new `.js` files.
+- Prefer editing an existing file over creating a parallel one.
+- Match the surrounding comment density and naming. This is a starter people
+  read to learn the codebase — clarity beats cleverness.

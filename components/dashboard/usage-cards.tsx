@@ -53,7 +53,7 @@ export function UsageCards({
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
-            Today's Requests
+            Today&apos;s Requests
           </CardTitle>
           <Activity className="text-muted-foreground size-4" />
         </CardHeader>

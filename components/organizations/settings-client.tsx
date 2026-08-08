@@ -124,7 +124,7 @@ export function OrganizationSettingsClient({
                 Workspace Settings
               </h2>
               <p className="text-muted-foreground text-sm">
-                Manage your team's basic information.
+                Manage your team&apos;s basic information.
               </p>
             </div>
           </div>

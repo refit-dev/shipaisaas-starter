@@ -518,7 +518,7 @@ export function UsersClient({
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete{" "}
               <strong className="text-foreground">{userToDelete?.name}</strong>
-              's account and remove their data from our servers.
+              &apos;s account and remove their data from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

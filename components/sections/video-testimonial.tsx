@@ -45,7 +45,7 @@ export default function VideoTestimonial() {
               </div>
 
               <blockquote className="text-foreground mb-6 text-2xl font-semibold tracking-tight text-balance leading-snug sm:text-3xl">
-                "This replaced three full-time hires."
+                &quot;This replaced three full-time hires.&quot;
               </blockquote>
 
               <div>

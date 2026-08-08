@@ -1,32 +1,71 @@
-# Ship AI SaaS - Developer Context
+# Ship AI SaaS Starter — Developer Context
 
-## 🏗️ Core Architecture
+An open source (MIT) Next.js starter for AI SaaS products: auth, Postgres,
+Stripe subscriptions, transactional email and a direct Vercel AI SDK layer.
 
-This is a Vertical SaaS boilerplate built on the **Orchestrator -> Agent -> Tool** paradigm using the Vercel AI SDK.
+## Architecture
 
-- **Orchestrator (`lib/ai/orchestrator.ts`):** Fast semantic router (`gpt-4o-mini`). It classifies the user's intent and routes it to a specific Agent.
-- **Agents (`lib/ai/agents/`):** Hyper-specialized workflows (e.g., `youtube-short-creator`). They use `ToolLoopAgent` or `generateText` with `stopWhen` to autonomously loop and execute tasks.
-- **Tools (`lib/ai/tools/`):** Atomic, Zod-enforced functions (e.g., `web_search`, `generate_video`).
+The AI layer is deliberately flat — a request goes straight to a model, with no
+orchestrator, agents, tools or background queue.
 
-## 🛠️ Tech Stack
+- **`lib/ai/chat.ts`** — `streamChat()`, the single `streamText` entry point.
+  Streams to the client and persists the finished assistant message.
+- **`lib/ai/structured.ts`** — `generatePlainText()` and `generateStructured()`
+  for one-shot task templates.
+- **`lib/ai/models.ts`** — the supported models and `resolveModel()`.
+- **`config/ai.ts`** — system prompt, history window, temperature.
 
-- **Framework:** Next.js 16 (App Router)
-- **Auth:** Better-Auth
+Routes: `app/api/chat/` (stream, history, conversations) and
+`app/api/tasks/generate/` (runs a template from `config/tasks.ts`).
+
+## Tech stack
+
+- **Framework:** Next.js 16 (App Router), React 19
+- **Auth:** Better-Auth (email/password, Google, email OTP verification)
 - **Database:** PostgreSQL + Drizzle ORM
-- **AI:** Vercel AI SDK (`@ai-sdk/openai`, etc.)
-- **Background Jobs:** Upstash QStash (for durable, long-running workflow execution bypassing serverless timeouts).
-- **Styling:** Tailwind CSS V4 + shadcn/ui
+- **Payments:** Stripe (three subscription tiers)
+- **Email:** Resend
+- **AI:** Vercel AI SDK (`@ai-sdk/openai`, `@ai-sdk/anthropic`)
+- **Styling:** Tailwind CSS v4 + shadcn/ui
+- **Content:** Contentlayer (MDX blog and help centre)
 
-## 💾 Database & State (Crucial Rules)
+## Data model
 
-- **Chat-as-State:** Background workflow runs are saved natively as conversations. We do NOT maintain a separate complex state tree. The agent reads conversation messages to understand previous steps.
-- **Memory:** We save important information in db as memories using memory-tool. This part needs to be improved and properly implemented.
-- **The Asset Interceptor (`lib/ai/utils.ts`):** Do NOT rely on the LLM to save files. We intercept successful tool calls (like `generate_image` or `generate_video`) in the backend and automatically write the output to the `assets` table.
+Eleven tables. `users`, `sessions`, `accounts`, `verifications` come from
+Better-Auth; `teams` and `team_members` hold the workspace and its Stripe state;
+`daily_usages` and `monthly_usages` hold request and token counters;
+`conversations` and `messages` hold chat history; `activity_logs` is available
+for auditing.
 
-## ⚠️ strict Coding Conventions
+**Single workspace.** Each user gets one team, created by the user-create hook
+in `lib/auth.ts`, and the session's `activeOrganizationId` is set on session
+creation. There are no invitations, member management or org roles — those are
+premium features. Every tenant-scoped query filters by `teamId`.
 
-1. **Never use `experimental_generateObject or generateObject`.** Use the stable `generateText` with `Output` from the current Vercel AI SDK.
-2. **Kebab-Case Slugs:** All agent IDs and routing configurations must use kebab-case (e.g., `youtube-short`, not `youtube_short`).
-3. **Zod Enforcement:** Every tool MUST have a strict Zod `parameters` schema. The Orchestrator relies on this to ask the user for missing information.
-4. **No UI Hallucinations:** If updating the Chat UI to render videos or images, ensure it reads the tool output structure accurately. Do not fake streaming states for long-running video API calls; use explicit loading indicators ("Generating video (this may take 3 minutes)...").
-5. **Theme-only colors in UI:** Never use hardcoded Tailwind palette classes (e.g., `text-blue-600`, `bg-rose-50`, `text-emerald-400`). All colors must come from the CSS custom properties defined in `styles/globals.css` — use only semantic tokens: `bg-background`, `bg-card`, `bg-muted`, `bg-accent`, `bg-primary`, `bg-secondary`, `bg-destructive`, `text-foreground`, `text-muted-foreground`, `text-primary`, `text-primary-foreground`, `border`, `ring`, `chart-1` through `chart-5`, and their sidebar equivalents.
+## Coding conventions
+
+1. **Never use `generateObject`.** Use `generateText` with `Output` from the
+   Vercel AI SDK — see `lib/ai/structured.ts`.
+2. **Rate limit before you spend tokens.** Every AI entry point calls
+   `checkRateLimits()` first and `updateUsage()` after. One chat message or task
+   run is one request.
+3. **Use `withAuth`** (`lib/auth/middleware.ts`) for authenticated API routes
+   rather than re-checking sessions by hand.
+4. **Schema changes go through Drizzle.** Edit `lib/db/schema/`, then
+   `npm run db:generate` and `npm run db:migrate`. Never hand-edit migrations.
+5. **Theme-only colours in UI.** No hardcoded Tailwind palette classes
+   (`text-blue-600`, `bg-rose-50`, …) or inline hex. Use the semantic tokens
+   from `styles/globals.css`: `bg-background`, `bg-card`, `bg-muted`,
+   `bg-accent`, `bg-primary`, `bg-secondary`, `bg-destructive`,
+   `text-foreground`, `text-muted-foreground`, `text-primary`, `border`, `ring`,
+   `chart-1`–`chart-5` and their sidebar equivalents.
+6. **English only.** i18n is not part of this starter; write user-facing strings
+   inline.
+
+## Verifying changes
+
+```bash
+npm run lint        # must stay at 0 errors
+npm run build       # type checks and builds
+npm run db:studio   # inspect data
+```

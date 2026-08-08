@@ -165,7 +165,7 @@ export function OnboardingClient() {
                   Set up your workspace
                 </h2>
                 <p className="text-muted-foreground text-sm">
-                  Let's start with the basics of your team.
+                  Let&apos;s start with the basics of your team.
                 </p>
               </div>
               <div className="grid gap-4">
