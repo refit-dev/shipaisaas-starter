@@ -124,16 +124,23 @@ Without this, checkout will succeed but your database will never learn about it.
 
 ---
 
-## 7. File uploads (optional)
+## 7. File storage (optional)
 
-Chat attachments are stored in Supabase Storage. Skip this if you do not need uploads.
+Chat attachments and profile pictures are stored in Supabase Storage. Skip this if you need neither.
 
 ```bash
 SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=...
 ```
 
-Create a public bucket named `uploads` in the Supabase dashboard.
+In the Supabase dashboard, create two **public** buckets:
+
+| Bucket    | Holds                                              |
+| --------- | -------------------------------------------------- |
+| `uploads` | Chat attachments — images and PDFs, up to 10 MB     |
+| `avatars` | Profile pictures uploaded from Settings             |
+
+Both must be public: the app stores the URL returned by `getPublicUrl()` on the message or user record. If you need private files, switch `lib/supabase/storage.ts` to signed URLs and store the object path instead.
 
 ---
 
