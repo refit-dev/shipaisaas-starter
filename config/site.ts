@@ -39,6 +39,7 @@ export const footerLinks: SidebarNavItem[] = [
     items: [
       { title: "Help centre", href: "/help" },
       { title: "Blog", href: "/blog" },
+      { title: "Changelog", href: "/changelog" },
       { title: "Pricing", href: "/pricing" },
       { title: "GitHub", href: "https://github.com/jeanchrinot/shipaisaas-starter" },
     ],
