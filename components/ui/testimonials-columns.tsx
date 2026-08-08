@@ -48,12 +48,12 @@ export function TestimonialsColumn({
             {testimonials.map(({ text, image, name, role }, i) => (
               <div
                 key={i}
-                className="border border-dashed border-border bg-card p-6 transition-colors duration-300 hover:bg-accent/50"
+                className="border border-border bg-card p-6 transition-colors duration-300 hover:bg-accent/50"
               >
                 <p className="text-foreground/70 text-sm leading-relaxed">
                   &ldquo;{text}&rdquo;
                 </p>
-                <div className="mt-5 flex items-center gap-3 border-t border-dashed border-border pt-4">
+                <div className="mt-5 flex items-center gap-3 border-t border-border pt-4">
                   <div className="relative size-8 shrink-0 overflow-hidden rounded-full border border-border">
                     <Image src={image} alt={name} fill className="object-cover" />
                   </div>

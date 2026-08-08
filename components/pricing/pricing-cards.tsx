@@ -50,7 +50,7 @@ function PricingCard({
       viewport={viewport}
       transition={{ duration: duration.base, delay: staggerDelay(index), ease }}
       className={cn(
-        "group relative flex flex-col border-r border-dashed border-border transition-colors duration-300",
+        "group relative flex flex-col border-r border-border transition-colors duration-300",
         isPro ? "bg-card" : "bg-background",
         "hover:bg-accent/50",
       )}
@@ -70,7 +70,7 @@ function PricingCard({
       <div className="flex flex-1 flex-col p-7">
         {/* Plan name + badge */}
         <div className="mb-6 flex items-center justify-between">
-          <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.2em]">
+          <p className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
             {offer.title}
           </p>
           {isPro && (
@@ -100,7 +100,7 @@ function PricingCard({
         </p>
 
         {/* Divider */}
-        <div className="border-border my-6 border-t border-dashed" />
+        <div className="border-border my-6 border-t" />
 
         {/* Features */}
         <ul className="flex flex-1 flex-col gap-3">
@@ -133,7 +133,7 @@ function PricingCard({
             offer.prices.monthly === 0 ? (
               <Link
                 href="/dashboard"
-                className="inline-flex w-full items-center justify-center rounded-full border border-dashed border-border px-4 py-2.5 text-sm text-foreground/70 transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground"
+                className="inline-flex w-full items-center justify-center rounded-full border border-border px-4 py-2.5 text-sm text-foreground/70 transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground"
               >Go to dashboard</Link>
             ) : (
               <BillingFormButton
@@ -149,7 +149,7 @@ function PricingCard({
                 "inline-flex w-full items-center justify-center rounded-full px-4 py-2.5 text-sm font-medium transition-colors",
                 isPro
                   ? "bg-foreground text-background hover:bg-foreground/90"
-                  : "border border-dashed border-border text-foreground/70 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground",
+                  : "border border-border text-foreground/70 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground",
               )}
             >Get started</Link>
           )}
@@ -176,8 +176,8 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
         viewport={viewport}
         transition={{ duration: duration.base, ease }}
       >
-        <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Pricing</p>
-        <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">Start at full speed!</h2>
+        <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">Pricing</p>
+        <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Start at full speed!</h2>
       </motion.div>
 
       {/* Toggle */}
@@ -203,7 +203,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
       </div>
 
       {/* Cards grid */}
-      <div className="overflow-hidden border border-dashed border-border grid grid-cols-1 lg:grid-cols-3">
+      <div className="overflow-hidden border border-border grid grid-cols-1 lg:grid-cols-3">
         {pricingData.map((offer, i) => (
           <PricingCard
             key={offer.title}

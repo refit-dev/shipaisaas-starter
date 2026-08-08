@@ -23,7 +23,7 @@ export default function BentoFeatures() {
   ];
 
   return (
-    <section className="bg-muted/20 py-24 sm:py-32">
+    <section className="bg-muted/20 py-24 sm:py-28">
       <MaxWidthWrapper>
         <div className="flex flex-col gap-10 sm:gap-16">
 
@@ -35,8 +35,8 @@ export default function BentoFeatures() {
             viewport={viewport}
             transition={{ duration: duration.base, ease }}
           >
-            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Features</p>
-            <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">Everything a working AI product needs.</h2>
+            <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">Features</p>
+            <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Everything a working AI product needs.</h2>
           </motion.div>
 
           {/* Cards */}

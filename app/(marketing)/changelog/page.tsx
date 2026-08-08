@@ -20,9 +20,9 @@ export default function ChangelogPage() {
   return (
     <div className="flex w-full flex-col">
       {/* Header */}
-      <div className="bg-muted border-border border-b border-dashed">
+      <div className="bg-muted border-border border-b">
         <MaxWidthWrapper className="py-16 md:py-20">
-          <p className="text-primary mb-3 text-[11px] font-semibold tracking-[0.2em] uppercase">
+          <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             Changelog
           </p>
           <h1 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">
@@ -41,7 +41,7 @@ export default function ChangelogPage() {
             {changelog.map((entry) => (
               <div
                 key={`${entry.date}-${entry.title}`}
-                className="border-border grid grid-cols-1 gap-8 border-t border-dashed py-12 md:grid-cols-4 md:gap-12"
+                className="border-border grid grid-cols-1 gap-8 border-t py-12 md:grid-cols-4 md:gap-12"
               >
                 {/* Left: date + tag */}
                 <div className="md:col-span-1">
@@ -63,7 +63,7 @@ export default function ChangelogPage() {
                   <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
                     {entry.description}
                   </p>
-                  <ul className="border-border space-y-2.5 border-t border-dashed pt-5">
+                  <ul className="border-border space-y-2.5 border-t pt-5">
                     {entry.changes.map((change) => (
                       <li key={change} className="flex items-start gap-3 text-sm">
                         <Check
@@ -81,8 +81,8 @@ export default function ChangelogPage() {
             ))}
 
             {/* End marker */}
-            <div className="border-border border-t border-dashed pt-10 text-center">
-              <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
+            <div className="border-border border-t pt-10 text-center">
+              <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
                 You&apos;re up to date
               </p>
             </div>

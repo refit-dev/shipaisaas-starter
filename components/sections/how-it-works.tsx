@@ -16,7 +16,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="bg-background py-24 sm:py-32">
+    <section className="bg-background py-16 sm:py-20">
       <MaxWidthWrapper>
         <div className="flex flex-col gap-10 sm:gap-16">
 
@@ -28,12 +28,11 @@ export default function HowItWorks() {
             viewport={viewport}
             transition={{ duration: duration.base, ease }}
           >
-            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">How it works</p>
-            <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">From clone to deployed in three steps.</h2>
+            <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">From clone to deployed in three steps.</h2>
           </motion.div>
 
           {/* Steps */}
-          <div className="grid grid-cols-1 border border-dashed border-border md:grid-cols-3">
+          <div className="grid grid-cols-1 border border-border md:grid-cols-3">
             {steps.map((step, i) => {
               const p = genRandomPattern(parseInt(step.number, 10) * 7 + 13);
               return (
@@ -43,7 +42,7 @@ export default function HowItWorks() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={viewport}
                   transition={{ duration: duration.base, delay: staggerDelay(i), ease }}
-                  className={`group relative overflow-hidden border-dashed border-border p-8 transition-colors duration-300 hover:bg-primary/[0.03] ${
+                  className={`group relative overflow-hidden border-border p-8 transition-colors duration-300 hover:bg-primary/[0.03] ${
                     i < steps.length - 1 ? "md:border-r" : ""
                   }`}
                 >
@@ -61,7 +60,7 @@ export default function HowItWorks() {
                     </div>
                   </div>
 
-                  <div className="relative z-10 mb-6 inline-flex h-12 w-12 items-center justify-center border border-dashed border-border bg-background">
+                  <div className="relative z-10 mb-6 inline-flex h-12 w-12 items-center justify-center border border-border bg-background">
                     <span className="text-foreground/60 font-mono text-sm font-light tracking-widest">
                       {step.number}
                     </span>

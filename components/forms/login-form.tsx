@@ -16,7 +16,7 @@ import { Icons } from "@/components/shared/icons";
 function messageClasses(style: string) {
   if (style === "success") return "bg-primary/10 text-primary";
   if (style === "error") return "bg-destructive/10 text-destructive";
-  return "bg-muted text-foreground border border-dashed border-border";
+  return "bg-muted text-foreground border border-border";
 }
 
 export function LoginForm() {
@@ -94,7 +94,7 @@ export function LoginForm() {
         </p>
       </div>
 
-      <div className="border-border bg-background grid gap-6 border border-dashed p-6 sm:p-8">
+      <div className="border-border bg-background grid gap-6 border p-6 sm:p-8">
         {messageText && (
           <div
             className={cn(
@@ -160,7 +160,7 @@ export function LoginForm() {
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="border-border w-full border-t border-dashed" />
+            <span className="border-border w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs tracking-wide uppercase">
             <span className="bg-background text-muted-foreground px-3">

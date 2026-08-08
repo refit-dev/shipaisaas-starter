@@ -8,7 +8,7 @@ export function HeaderSection({ label, title, subtitle }: HeaderSectionProps) {
   return (
     <div className="flex flex-col items-center text-center">
       {label ? (
-        <p className="text-muted-foreground mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
+        <p className="text-muted-foreground mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
           {label}
         </p>
       ) : null}

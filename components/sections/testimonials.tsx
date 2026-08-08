@@ -32,8 +32,7 @@ export default function Testimonials() {
           viewport={viewport}
           transition={{ duration: duration.base, ease }}
         >
-          <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Testimonials</p>
-          <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">Teams that ship faster with AI agents.</h2>
+          <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Teams that ship faster with AI agents.</h2>
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">See how operators and founders are automating their workflows and reclaiming time for the work that actually moves the needle.</p>
         </motion.div>
       </MaxWidthWrapper>

@@ -222,7 +222,7 @@ export default function HeroLanding() {
           className="mb-6 text-center"
           style={{ opacity: 0, animation: "word-appear 0.35s ease-out forwards" }}
         >
-          <h2 className="text-muted-foreground font-mono text-xs font-light tracking-[0.2em] uppercase md:text-sm">The open source AI SaaS starter.</h2>
+          <h2 className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase md:text-sm">The open source AI SaaS starter.</h2>
           <div className="via-foreground/20 mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent to-transparent" />
         </div>
 
@@ -334,7 +334,7 @@ export default function HeroLanding() {
           />
 
           {/* Frame */}
-          <div className="relative z-10 overflow-hidden rounded-xl border border-dashed border-border shadow-[0_32px_80px_-12px_rgba(0,0,0,0.4)]">
+          <div className="relative z-10 overflow-hidden rounded-xl border border-border shadow-[0_32px_80px_-12px_rgba(0,0,0,0.4)]">
             <Image
               src="/_static/ui-ss/dashboard.png"
               alt="Dashboard preview"

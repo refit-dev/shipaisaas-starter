@@ -14,7 +14,7 @@ export async function SiteFooter({
 
   return (
     <footer
-      className={cn("relative border-t border-dashed border-border", className)}
+      className={cn("relative border-t border-border", className)}
       style={{
         background: `linear-gradient(to bottom right, var(--hero-bg-from) 0%, var(--muted) 55%, var(--secondary) 100%)`,
       }}
@@ -56,7 +56,7 @@ export async function SiteFooter({
           <div className="col-span-1 grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-3 lg:pl-8">
             {footerLinks.map((section) => (
               <div key={section.title}>
-                <p className="text-muted-foreground mb-4 text-[10px] font-semibold uppercase tracking-[0.2em]">
+                <p className="text-muted-foreground mb-4 font-mono text-[10px] tracking-[0.18em] uppercase">
                   {section.title}
                 </p>
                 <ul className="space-y-3">
@@ -78,7 +78,7 @@ export async function SiteFooter({
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 py-6 border-t border-dashed border-border md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 py-6 border-t border-border md:flex-row">
           <span className="text-muted-foreground text-xs">
             {`Copyright © ${new Date().getFullYear()} Ship AI SaaS. All rights reserved.`}
           </span>

@@ -17,7 +17,7 @@ export function BlogCard({
   return (
     <article
       className={cn(
-        "group relative flex flex-col overflow-hidden border border-dashed border-border bg-card transition-colors duration-300 hover:bg-accent/50",
+        "group relative flex flex-col overflow-hidden border border-border bg-card transition-colors duration-300 hover:bg-accent/50",
         horizontale ? "md:flex-row md:items-stretch" : "",
       )}
     >
@@ -27,8 +27,8 @@ export function BlogCard({
           className={cn(
             "relative shrink-0 overflow-hidden bg-muted/20",
             horizontale
-              ? "aspect-[4/3] w-full border-b border-dashed border-border md:aspect-auto md:w-2/5 md:border-r md:border-b-0"
-              : "aspect-[16/9] w-full border-b border-dashed border-border",
+              ? "aspect-[4/3] w-full border-b border-border md:aspect-auto md:w-2/5 md:border-r md:border-b-0"
+              : "aspect-[16/9] w-full border-b border-border",
           )}
         >
           <BlurImage

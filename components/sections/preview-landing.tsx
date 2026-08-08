@@ -18,9 +18,9 @@ export default function PreviewLanding() {
             aria-hidden
           />
           {/* Outer dashed frame */}
-          <div className="relative z-10 border border-dashed border-border rounded-2xl p-2 bg-muted/10 backdrop-blur-sm md:rounded-3xl">
+          <div className="relative z-10 border border-border rounded-2xl p-2 bg-muted/10 backdrop-blur-sm md:rounded-3xl">
             {/* Inner application window */}
-            <div className="bg-background relative overflow-hidden rounded-xl border border-dashed border-border shadow-[0_32px_80px_-12px_rgba(0,0,0,0.15)]">
+            <div className="bg-background relative overflow-hidden rounded-xl border border-border shadow-[0_32px_80px_-12px_rgba(0,0,0,0.15)]">
               <Image
                 className="w-full object-cover object-top dark:opacity-90"
                 src="/_static/ui-ss/dashboard.png"

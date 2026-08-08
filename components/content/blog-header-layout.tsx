@@ -19,10 +19,10 @@ export function BlogHeaderLayout() {
 
   return (
     <>
-      <div className="bg-muted border-b border-dashed border-border">
+      <div className="bg-muted border-b border-border">
         <MaxWidthWrapper className="py-16 md:py-20">
           {/* Heading */}
-          <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
+          <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             Blog
           </p>
           <h1 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">
@@ -36,7 +36,7 @@ export function BlogHeaderLayout() {
           <nav className="mt-10 hidden md:flex">
             <ul
               role="list"
-              className="flex w-full flex-1 gap-x-1 border-b border-dashed border-border text-[13px] font-medium text-muted-foreground"
+              className="flex w-full flex-1 gap-x-1 border-b border-border text-[13px] font-medium text-muted-foreground"
             >
               <CategoryLink title="All" href="/blog" active={!slug} />
               {BLOG_CATEGORIES.map((category) => (
@@ -56,7 +56,7 @@ export function BlogHeaderLayout() {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="border-b border-dashed border-border bg-muted/30 text-foreground/80 mb-8 flex w-full items-center p-4 md:hidden"
+          className="border-b border-border bg-muted/30 text-foreground/80 mb-8 flex w-full items-center p-4 md:hidden"
         >
           <List className="size-4" />
           <p className="ml-2.5 text-xs font-semibold uppercase tracking-[0.15em]">
@@ -68,7 +68,7 @@ export function BlogHeaderLayout() {
           onClick={closeDrawer}
         />
         <Drawer.Portal>
-          <Drawer.Content className="border-t border-dashed border-border bg-background fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[16px] shadow-2xl">
+          <Drawer.Content className="border-t border-border bg-background fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[16px] shadow-2xl">
             <div className="bg-background sticky top-0 z-20 flex w-full items-center justify-center pt-3 pb-2">
               <div className="bg-muted-foreground/20 h-1 w-10 rounded-full" />
             </div>

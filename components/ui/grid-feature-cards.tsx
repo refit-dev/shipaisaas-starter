@@ -18,7 +18,7 @@ export function FeatureCard({ feature, className, ...props }: FeatureCardProps) 
   return (
     <div
       className={cn(
-        "group relative overflow-hidden border border-dashed border-border p-6 bg-background/30 transition-colors duration-300 hover:bg-primary/[0.04]",
+        "group relative overflow-hidden border border-border p-6 bg-background/30 transition-colors duration-300 hover:bg-primary/[0.04]",
         className,
       )}
       {...props}

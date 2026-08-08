@@ -245,7 +245,7 @@ export default function Powered() {
         {/* Anchored Header */}
         <div className="flex items-center justify-center gap-4 md:gap-6">
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />
-          <h2 className="text-muted-foreground text-center text-[11px] font-semibold tracking-[0.2em] uppercase">
+          <h2 className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.18em] uppercase">
             Powered by industry standards
           </h2>
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />

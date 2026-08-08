@@ -183,7 +183,7 @@ export default function LogoCloud() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-background relative z-20 py-24">
+    <section className="bg-background relative z-20 py-12">
       <MaxWidthWrapper>
         <motion.div
           className="flex items-center justify-center gap-4 md:gap-6"
@@ -193,13 +193,13 @@ export default function LogoCloud() {
           transition={{ duration: duration.base, ease }}
         >
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />
-          <h2 className="text-muted-foreground text-center text-[11px] font-semibold tracking-[0.2em] uppercase">Built on technology you trust</h2>
+          <h2 className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.18em] uppercase">Built on technology you trust</h2>
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />
         </motion.div>
       </MaxWidthWrapper>
 
       {/* Full-width marquee track */}
-      <div className="border-border relative mt-12 border-y border-dashed">
+      <div className="border-border relative mt-12 border-y">
         <div
           className="relative overflow-hidden py-6"
           style={{

@@ -19,7 +19,7 @@ const rows = [
   { feature: "Security, Patches & Dependency Updates",        buildTime: "Ongoing"   },
 ];
 
-const COL = "border-l border-dashed border-border";
+const COL = "border-l border-border";
 const CELL = "flex items-center p-5 sm:px-8";
 
 export default function TimeSavings() {
@@ -36,10 +36,10 @@ export default function TimeSavings() {
           viewport={viewport}
           transition={{ duration: duration.base, ease }}
         >
-          <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
+          <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             Save 300+ Hours
           </p>
-          <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">
+          <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">
             Focus on your AI logic.
           </h2>
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">
@@ -49,14 +49,14 @@ export default function TimeSavings() {
 
         {/* Table */}
         <motion.div
-          className="mx-auto max-w-4xl overflow-hidden border border-dashed border-border"
+          className="mx-auto max-w-4xl overflow-hidden border border-border"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
           transition={{ duration: duration.base, delay: stagger.step * 2, ease }}
         >
           {/* Column headers */}
-          <div className="grid grid-cols-3 border-b border-dashed border-border bg-muted/20">
+          <div className="grid grid-cols-3 border-b border-border bg-muted/20">
             <div className={CELL}>
               <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.18em]">
                 Component
@@ -78,7 +78,7 @@ export default function TimeSavings() {
           {rows.map((row, i) => (
             <motion.div
               key={i}
-              className="group grid grid-cols-3 border-b border-dashed border-border transition-colors duration-200 hover:bg-muted/30"
+              className="group grid grid-cols-3 border-b border-border transition-colors duration-200 hover:bg-muted/30"
               initial={shouldReduceMotion ? false : { opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={viewport}

@@ -120,14 +120,14 @@ export function ComparePlans() {
         viewport={viewport}
         transition={{ duration: duration.base, ease }}
       >
-        <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Plans</p>
-        <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">Compare Our Plans</h2>
+        <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">Plans</p>
+        <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Compare Our Plans</h2>
         <p className="text-muted-foreground mt-4 text-base font-light leading-relaxed text-balance">Find the perfect plan tailored for your business needs!</p>
       </motion.div>
 
       {/* Table */}
       <motion.div
-        className="overflow-hidden border border-dashed border-border"
+        className="overflow-hidden border border-border"
         initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={viewport}
@@ -136,14 +136,14 @@ export function ComparePlans() {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left">
             <thead>
-              <tr className="border-b border-dashed border-border bg-muted/20">
+              <tr className="border-b border-border bg-muted/20">
                 <th className="sticky left-0 z-20 w-40 bg-muted/20 p-5 md:w-1/4">
                   <span className="sr-only">Features</span>
                 </th>
                 {plansColumns.map((col) => (
                   <th
                     key={col}
-                    className={`border-l border-dashed border-border p-5 text-center text-[10px] font-semibold uppercase tracking-[0.18em] ${
+                    className={`border-l border-border p-5 text-center text-[10px] font-semibold uppercase tracking-[0.18em] ${
                       col === "pro" ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
@@ -157,14 +157,14 @@ export function ComparePlans() {
               {translatedRows.map((row: PlansRow, i: number) => (
                 <motion.tr
                   key={i}
-                  className="group border-b border-dashed border-border transition-colors duration-200 hover:bg-muted/30"
+                  className="group border-b border-border transition-colors duration-200 hover:bg-muted/30"
                   initial={shouldReduceMotion ? false : { opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={viewport}
                   transition={{ delay: 0.2 + i * 0.03, duration: 0.4 }}
                 >
                   {/* Sticky feature name */}
-                  <td className="bg-card group-hover:bg-muted/30 sticky left-0 z-10 border-r border-dashed border-border transition-colors md:bg-transparent md:group-hover:bg-transparent">
+                  <td className="bg-card group-hover:bg-muted/30 sticky left-0 z-10 border-r border-border transition-colors md:bg-transparent md:group-hover:bg-transparent">
                     <div className="flex items-center gap-2 py-4 pr-4 pl-5">
                       <span className="text-foreground text-sm font-medium leading-snug">
                         {row.feature}
@@ -186,7 +186,7 @@ export function ComparePlans() {
                   {plansColumns.map((col) => (
                     <td
                       key={col}
-                      className="border-l border-dashed border-border p-5 text-center text-sm"
+                      className="border-l border-border p-5 text-center text-sm"
                     >
                       {renderCell(row[col])}
                     </td>

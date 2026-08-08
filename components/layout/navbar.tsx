@@ -52,7 +52,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
         "sticky top-0 z-40 flex w-full justify-center transition-all duration-300",
         isTransparent
           ? "border-transparent bg-transparent"
-          : "border-b border-dashed border-border bg-background/80 backdrop-blur-xl",
+          : "border-b border-border bg-background/80 backdrop-blur-xl",
       )}
     >
       <MaxWidthWrapper

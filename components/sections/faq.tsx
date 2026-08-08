@@ -23,7 +23,7 @@ export default function Faq() {
   ];
 
   return (
-    <section className="bg-background py-24 sm:py-32">
+    <section className="bg-background py-16 sm:py-24">
       <MaxWidthWrapper>
         <div className="mx-auto max-w-3xl">
           <motion.div
@@ -33,14 +33,14 @@ export default function Faq() {
             viewport={viewport}
             transition={{ duration: duration.base, ease }}
           >
-            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">FAQ</p>
-            <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">Common questions, straight answers.</h2>
+            <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">FAQ</p>
+            <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Common questions, straight answers.</h2>
           </motion.div>
 
           <Accordion
             type="single"
             collapsible
-            className="w-full border-t border-dashed border-border"
+            className="w-full border-t border-border"
           >
             {faqItems.map((item, i) => (
               <motion.div
@@ -52,7 +52,7 @@ export default function Faq() {
               >
                 <AccordionItem
                   value={item.id}
-                  className="border-b border-dashed border-border"
+                  className="border-b border-border"
                 >
                   <AccordionTrigger className="text-foreground hover:text-foreground py-5 text-left text-[15px] font-medium hover:no-underline [&>svg]:text-muted-foreground [&>svg]:shrink-0">
                     {item.question}
