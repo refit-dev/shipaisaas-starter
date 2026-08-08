@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { duration, ease, staggerDelay, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 export default function Faq() {
@@ -27,10 +28,10 @@ export default function Faq() {
         <div className="mx-auto max-w-3xl">
           <motion.div
             className="mb-14 text-center"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: -8, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: duration.base, ease }}
           >
             <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">FAQ</p>
             <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Common questions, straight answers.</h2>
@@ -46,8 +47,8 @@ export default function Faq() {
                 key={item.id}
                 initial={shouldReduceMotion ? false : { opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
+                viewport={viewport}
+                transition={{ duration: duration.base, delay: staggerDelay(i), ease }}
               >
                 <AccordionItem
                   value={item.id}

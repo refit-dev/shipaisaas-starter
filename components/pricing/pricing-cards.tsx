@@ -11,6 +11,7 @@ import { pricingData } from "@/config/subscriptions";
 import { cn } from "@/lib/utils";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { BillingFormButton } from "@/components/forms/billing-form-button";
+import { duration, ease, staggerDelay, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 interface PricingCardsProps {
@@ -46,8 +47,8 @@ function PricingCard({
     <motion.div
       initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.12, duration: 0.6 }}
+      viewport={viewport}
+      transition={{ duration: duration.base, delay: staggerDelay(index), ease }}
       className={cn(
         "group relative flex flex-col border-r border-dashed border-border transition-colors duration-300",
         isPro ? "bg-card" : "bg-background",
@@ -170,10 +171,10 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
       {/* Inline header */}
       <motion.div
         className="mx-auto mb-14 max-w-2xl text-center"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: -8, filter: "blur(4px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: duration.base, ease }}
       >
         <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Pricing</p>
         <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Start at full speed!</h2>

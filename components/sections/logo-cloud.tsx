@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 
+import { duration, ease, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 const logos = [
@@ -186,10 +187,10 @@ export default function LogoCloud() {
       <MaxWidthWrapper>
         <motion.div
           className="flex items-center justify-center gap-4 md:gap-6"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: -8, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewport}
+          transition={{ duration: duration.base, ease }}
         >
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />
           <h2 className="text-muted-foreground text-center text-[11px] font-semibold tracking-[0.2em] uppercase">Built on technology you trust</h2>

@@ -23,7 +23,7 @@ export default function HeroLanding() {
     words.forEach((word) => {
       const delay = parseInt(word.getAttribute("data-delay") ?? "0", 10);
       setTimeout(() => {
-        word.style.animation = "word-appear 0.8s ease-out forwards";
+        word.style.animation = "word-appear 0.35s ease-out forwards";
       }, delay);
     });
 
@@ -118,7 +118,7 @@ export default function HeroLanding() {
           x2="100%"
           y2="20%"
           className="grid-line"
-          style={{ animationDelay: "0.5s" }}
+          style={{ animationDelay: "0s" }}
         />
         <line
           x1="0"
@@ -126,7 +126,7 @@ export default function HeroLanding() {
           x2="100%"
           y2="80%"
           className="grid-line"
-          style={{ animationDelay: "1s" }}
+          style={{ animationDelay: "0.1s" }}
         />
         <line
           x1="20%"
@@ -134,7 +134,7 @@ export default function HeroLanding() {
           x2="20%"
           y2="100%"
           className="grid-line"
-          style={{ animationDelay: "1.5s" }}
+          style={{ animationDelay: "0.2s" }}
         />
         <line
           x1="80%"
@@ -142,7 +142,7 @@ export default function HeroLanding() {
           x2="80%"
           y2="100%"
           className="grid-line"
-          style={{ animationDelay: "2s" }}
+          style={{ animationDelay: "0.3s" }}
         />
         <line
           x1="50%"
@@ -150,7 +150,7 @@ export default function HeroLanding() {
           x2="50%"
           y2="100%"
           className="grid-line"
-          style={{ animationDelay: "2.5s", opacity: 0.05 }}
+          style={{ animationDelay: "0.4s", opacity: 0.05 }}
         />
         <line
           x1="0"
@@ -158,61 +158,61 @@ export default function HeroLanding() {
           x2="100%"
           y2="50%"
           className="grid-line"
-          style={{ animationDelay: "3s", opacity: 0.05 }}
+          style={{ animationDelay: "0.5s", opacity: 0.05 }}
         />
         <circle
           cx="20%"
           cy="20%"
           r="2"
           className="detail-dot"
-          style={{ animationDelay: "3s" }}
+          style={{ animationDelay: "0.5s" }}
         />
         <circle
           cx="80%"
           cy="20%"
           r="2"
           className="detail-dot"
-          style={{ animationDelay: "3.2s" }}
+          style={{ animationDelay: "0.55s" }}
         />
         <circle
           cx="20%"
           cy="80%"
           r="2"
           className="detail-dot"
-          style={{ animationDelay: "3.4s" }}
+          style={{ animationDelay: "0.6s" }}
         />
         <circle
           cx="80%"
           cy="80%"
           r="2"
           className="detail-dot"
-          style={{ animationDelay: "3.6s" }}
+          style={{ animationDelay: "0.65s" }}
         />
         <circle
           cx="50%"
           cy="50%"
           r="1.5"
           className="detail-dot"
-          style={{ animationDelay: "4s" }}
+          style={{ animationDelay: "0.7s" }}
         />
       </svg>
 
       {/* Floating particles */}
       <div
         className="floating-element"
-        style={{ top: "25%", left: "15%", animationDelay: "5s" }}
+        style={{ top: "25%", left: "15%", animationDelay: "0.8s" }}
       />
       <div
         className="floating-element"
-        style={{ top: "60%", left: "85%", animationDelay: "5.5s" }}
+        style={{ top: "60%", left: "85%", animationDelay: "0.85s" }}
       />
       <div
         className="floating-element"
-        style={{ top: "40%", left: "10%", animationDelay: "6s" }}
+        style={{ top: "40%", left: "10%", animationDelay: "0.9s" }}
       />
       <div
         className="floating-element"
-        style={{ top: "75%", left: "90%", animationDelay: "6.5s" }}
+        style={{ top: "75%", left: "90%", animationDelay: "0.95s" }}
       />
 
       {/* Content */}
@@ -220,7 +220,7 @@ export default function HeroLanding() {
         {/* Top label */}
         <div
           className="mb-6 text-center"
-          style={{ opacity: 0, animation: "word-appear 0.8s ease-out 0.2s forwards" }}
+          style={{ opacity: 0, animation: "word-appear 0.35s ease-out forwards" }}
         >
           <h2 className="text-muted-foreground font-mono text-xs font-light tracking-[0.2em] uppercase md:text-sm">The open source AI SaaS starter.</h2>
           <div className="via-foreground/20 mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent to-transparent" />
@@ -231,11 +231,11 @@ export default function HeroLanding() {
           <h1 className="text-foreground text-4xl leading-tight font-extralight tracking-tight md:text-6xl lg:text-7xl">
             <div
               className="mb-3 md:mb-2"
-              style={{ opacity: 0, animation: "word-appear 0.8s ease-out 0.6s forwards" }}
+              style={{ opacity: 0, animation: "word-appear 0.35s ease-out 0.05s forwards" }}
             >Ship your AI SaaS.</div>
             <div
               className="text-muted-foreground text-xl leading-tight font-thin md:text-3xl lg:text-4xl"
-              style={{ opacity: 0, animation: "word-appear 0.8s ease-out 1.0s forwards" }}
+              style={{ opacity: 0, animation: "word-appear 0.35s ease-out 0.1s forwards" }}
             >Auth, billing and AI, already wired together.</div>
           </h1>
 
@@ -244,7 +244,7 @@ export default function HeroLanding() {
             className="text-muted-foreground mx-auto mt-6 max-w-xl text-sm leading-relaxed font-light md:text-base"
             style={{
               opacity: 0,
-              animation: "word-appear 0.8s ease-out 1.4s forwards",
+              animation: "word-appear 0.35s ease-out 0.15s forwards",
             }}
           >A production-ready Next.js starter with Better-Auth, Drizzle, Stripe subscriptions, Resend and a streaming Vercel AI SDK chat layer. MIT licensed.</p>
 
@@ -253,7 +253,7 @@ export default function HeroLanding() {
             className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
             style={{
               opacity: 0,
-              animation: "word-appear 0.8s ease-out 1.8s forwards",
+              animation: "word-appear 0.35s ease-out 0.2s forwards",
             }}
           >
             <SlidingButton href="/signup" label={"Get started"} />
@@ -270,7 +270,7 @@ export default function HeroLanding() {
             className="mt-8 flex items-center justify-center gap-4"
             style={{
               opacity: 0,
-              animation: "word-appear 0.8s ease-out 2.1s forwards",
+              animation: "word-appear 0.35s ease-out 0.25s forwards",
             }}
           >
             <div className="flex items-center -space-x-2.5">
@@ -315,7 +315,7 @@ export default function HeroLanding() {
           style={{
             marginBottom: "-40px",
             opacity: 0,
-            animation: "word-appear 1s ease-out 2.4s forwards",
+            animation: "word-appear 0.35s ease-out 0.3s forwards",
           }}
         >
           {/* Neutral bloom above the image */}

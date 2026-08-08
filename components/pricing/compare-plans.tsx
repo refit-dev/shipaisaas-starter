@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { duration, ease, stagger, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 function renderCell(value: string | boolean | null) {
@@ -114,10 +115,10 @@ export function ComparePlans() {
       {/* Header */}
       <motion.div
         className="mx-auto mb-14 max-w-2xl text-center"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: -8, filter: "blur(4px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: duration.base, ease }}
       >
         <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Plans</p>
         <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Compare Our Plans</h2>
@@ -129,8 +130,8 @@ export function ComparePlans() {
         className="overflow-hidden border border-dashed border-border"
         initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.15 }}
+        viewport={viewport}
+        transition={{ duration: duration.base, delay: stagger.step * 2, ease }}
       >
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left">
@@ -159,7 +160,7 @@ export function ComparePlans() {
                   className="group border-b border-dashed border-border transition-colors duration-200 hover:bg-muted/30"
                   initial={shouldReduceMotion ? false : { opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
+                  viewport={viewport}
                   transition={{ delay: 0.2 + i * 0.03, duration: 0.4 }}
                 >
                   {/* Sticky feature name */}

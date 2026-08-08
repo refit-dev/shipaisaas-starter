@@ -3,6 +3,7 @@
 import { Check, Clock } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
+import { duration, ease, stagger, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 const rows = [
@@ -30,10 +31,10 @@ export default function TimeSavings() {
         {/* Header */}
         <motion.div
           className="mx-auto mb-16 max-w-2xl text-center"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: -8, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewport}
+          transition={{ duration: duration.base, ease }}
         >
           <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
             Save 300+ Hours
@@ -51,8 +52,8 @@ export default function TimeSavings() {
           className="mx-auto max-w-4xl overflow-hidden border border-dashed border-border"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={viewport}
+          transition={{ duration: duration.base, delay: stagger.step * 2, ease }}
         >
           {/* Column headers */}
           <div className="grid grid-cols-3 border-b border-dashed border-border bg-muted/20">
@@ -80,7 +81,7 @@ export default function TimeSavings() {
               className="group grid grid-cols-3 border-b border-dashed border-border transition-colors duration-200 hover:bg-muted/30"
               initial={shouldReduceMotion ? false : { opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={viewport}
               transition={{ delay: 0.25 + i * 0.04, duration: 0.4 }}
             >
               <div className={CELL}>
