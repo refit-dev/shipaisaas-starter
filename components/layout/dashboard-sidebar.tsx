@@ -63,17 +63,11 @@ interface DashboardSidebarProps {
   role: string | undefined | null;
 }
 
-// 1. New Organization Switcher Component
+// Workspace label — the OSS starter is single-workspace.
 function OrganizationSwitcher({ expanded }: { expanded: boolean }) {
-  const t = useTranslations("sidebar.orgSwitcher");
-  const router = useRouter();
-  const { data: orgList, isPending: isListPending } =
-    authClient.useListOrganizations();
-  const { data: activeOrg, isPending: isActivePending } =
-    authClient.useActiveOrganization();
-  const [isSwitching, setIsSwitching] = useState(false);
+  const { data: activeOrg, isPending } = authClient.useActiveOrganization();
 
-  if (isListPending || isActivePending) {
+  if (isPending) {
     return (
       <div className={cn("px-4 py-2", !expanded && "px-2")}>
         <div className="bg-muted h-10 w-full animate-pulse rounded-md" />
@@ -81,78 +75,23 @@ function OrganizationSwitcher({ expanded }: { expanded: boolean }) {
     );
   }
 
-  const handleSelect = async (orgId: string) => {
-    if (activeOrg?.id === orgId) return;
-    setIsSwitching(true);
-    try {
-      await authClient.organization.setActive({ organizationId: orgId });
-      window.location.reload();
-    } catch (error) {
-      console.error("Failed to switch organization", error);
-    } finally {
-      setIsSwitching(false);
-    }
-  };
-
   return (
     <div className={cn("px-4 py-2", !expanded && "flex justify-center px-2")}>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            disabled={isSwitching}
-            className={cn(
-              "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex h-10 w-full items-center gap-2 rounded-md border border-transparent",
-              !expanded ? "w-10 justify-center p-0" : "justify-between px-3",
-            )}
-          >
-            <div className="flex items-center gap-2 overflow-hidden">
-              <div className="bg-primary/10 text-primary flex size-6 shrink-0 items-center justify-center rounded-sm">
-                <Building2 className="size-4" />
-              </div>
-              {expanded && (
-                <span className="truncate text-sm font-medium">
-                  {activeOrg?.name || "Select Workspace"}
-                </span>
-              )}
-            </div>
-            {expanded && (
-              <ChevronsUpDown className="text-muted-foreground size-4 shrink-0" />
-            )}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align={expanded ? "start" : "center"}
-          className="w-56"
-        >
-          <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
-            {t("workspaces")}
-          </div>
-          {orgList?.map((org) => (
-            <DropdownMenuItem
-              key={org.id}
-              onClick={() => handleSelect(org.id)}
-              className="flex cursor-pointer items-center justify-between"
-            >
-              <div className="flex items-center gap-2 truncate">
-                <Building2 className="text-muted-foreground size-4" />
-                <span className="truncate">{org.name}</span>
-              </div>
-              {activeOrg?.id === org.id && <Check className="size-4" />}
-            </DropdownMenuItem>
-          ))}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="text-muted-foreground flex cursor-pointer items-center gap-2"
-            onClick={() => router.push("/organizations/new")}
-          >
-            <div className="border-muted-foreground/50 bg-background flex size-5 items-center justify-center rounded-sm border border-dashed">
-              <Plus className="size-4" />
-            </div>
-            {t("newOrganization")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div
+        className={cn(
+          "flex h-10 w-full items-center gap-2 rounded-md",
+          !expanded ? "w-10 justify-center p-0" : "px-3",
+        )}
+      >
+        <div className="bg-primary/10 text-primary flex size-6 shrink-0 items-center justify-center rounded-sm">
+          <Building2 className="size-4" />
+        </div>
+        {expanded && (
+          <span className="truncate text-sm font-medium">
+            {activeOrg?.name || "Workspace"}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

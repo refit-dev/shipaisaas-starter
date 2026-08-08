@@ -54,7 +54,6 @@ export const sidebarLinks: SidebarNavItem[] = [
         icon: "usage",
         title: "Usage",
         appRoles: ["user"],
-        teamRoles: ["admin", "owner"],
       },
       {
         href: "/dashboard/charts",
@@ -72,20 +71,12 @@ export const sidebarLinks: SidebarNavItem[] = [
         icon: "settings",
         title: "Settings",
         appRoles: ["user"],
-        teamRoles: ["admin", "owner"],
-      },
-      {
-        href: "/organizations/members",
-        icon: "users",
-        title: "Members",
-        appRoles: ["user"],
       },
       {
         href: "/dashboard/billing",
         icon: "billing",
         title: "Billing",
         appRoles: ["user"],
-        teamRoles: ["admin", "owner"],
       },
     ],
   },

@@ -1,18 +1,14 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin, emailOTP, magicLink, organization } from "better-auth/plugins";
+import { admin, emailOTP, organization } from "better-auth/plugins";
 import { createAccessControl } from "better-auth/plugins/access";
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import { env } from "@/env.mjs";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema/account";
-import {
-  sendEmailVerificationEmail,
-  sendEmailVerificationOTP,
-  sendInvitationEmail,
-  sendMagicLinkEmail,
-} from "@/lib/mails/auth-emails";
+import { sendEmailVerificationOTP } from "@/lib/mails/auth-emails";
 
 // 1. Define the actions that can be performed on a "user" entity
 const statement = {
@@ -83,8 +79,19 @@ export const auth = betterAuth({
     },
     session: {
       create: {
-        after: async (session) => {
-          // Log sign-ins!
+        // The starter is single-workspace: every session automatically points at
+        // the team created for the user at sign-up, so there is no picker.
+        before: async (session) => {
+          const membership = await db.query.teamMembers.findFirst({
+            where: eq(schema.teamMembers.userId, session.userId),
+          });
+
+          return {
+            data: {
+              ...session,
+              activeOrganizationId: membership?.teamId ?? null,
+            },
+          };
         },
       },
     },
@@ -115,29 +122,6 @@ export const auth = betterAuth({
             organizationId: "teamId", // Maps Better-Auth's internal 'organizationId' to your Drizzle 'teamId' property
           },
         },
-        invitation: {
-          modelName: "invitation",
-          fields: {
-            organizationId: "teamId", // Same mapping here
-          },
-        },
-      },
-      // Hook into team events
-      //   hooks: {
-      //     organizationCreated: async (org, user) => {
-      //        await logActivity(org.id, user.id, ActivityType.CREATE_TEAM);
-      //     },
-      //     memberAdded: async (member, org) => {
-      //        await logActivity(org.id, member.userId, ActivityType.ACCEPT_INVITATION);
-      //     }
-      //   },
-
-      // 2. Correct Email Hook
-      async sendInvitationEmail({ id, email, role, organization }) {
-        // We construct the invite link manually using the generated invitation 'id'
-        const inviteUrl = `${env.NEXT_PUBLIC_APP_URL}/accept-invite?id=${id}`;
-
-        await sendInvitationEmail(email, organization.name, role, inviteUrl);
       },
     }),
 
@@ -154,11 +138,6 @@ export const auth = betterAuth({
       },
     }),
 
-    magicLink({
-      sendMagicLink: async ({ email, url }) => {
-        await sendMagicLinkEmail(email, url);
-      },
-    }),
     emailOTP({
       // Tell Better Auth to automatically send the OTP on signup
       sendVerificationOnSignUp: true,

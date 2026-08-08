@@ -19,7 +19,6 @@ const AUTH_ROUTES = new Set([
   "/signup",
   "/verify-email",
   "/forgot-password",
-  "/accept-invite",
 ]);
 
 // Known protected route prefixes handled by (app)/(protected) — no locale prefix
@@ -47,7 +46,6 @@ const routeRules = [
   {
     path: "/dashboard",
     appRoles: ["user"],
-    teamRoles: ["owner", "admin", "member"],
   },
   {
     path: "/dashboard/settings",
@@ -56,21 +54,14 @@ const routeRules = [
   {
     path: "/organizations/settings",
     appRoles: ["user"],
-    teamRoles: ["owner", "admin"],
-  },
-  {
-    path: "/organizations/members",
-    appRoles: ["user"],
   },
   {
     path: "/dashboard/billing",
     appRoles: ["user"],
-    teamRoles: ["owner", "admin"],
   },
   {
     path: "/dashboard/usage",
     appRoles: ["user"],
-    teamRoles: ["owner", "admin"],
   },
   // Add other role protected routes here...
 ];
@@ -123,25 +114,6 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(
         new URL("/dashboard?error=unauthorized-app-role", request.url),
       );
-    }
-
-    if (rule.teamRoles) {
-      try {
-        const activeMember = await auth.api.getActiveMemberRole({
-          headers: await headers(),
-        });
-
-        if (!activeMember || !rule.teamRoles.includes(activeMember.role)) {
-          return NextResponse.redirect(
-            new URL("/dashboard?error=unauthorized-team-role", request.url),
-          );
-        }
-      } catch (error) {
-        console.error("Middleware Organization Check Failed:", error);
-        return NextResponse.redirect(
-          new URL("/organizations?error=auth-failure", request.url),
-        );
-      }
     }
   }
 

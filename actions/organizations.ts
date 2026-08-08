@@ -2,7 +2,6 @@
 
 import { headers } from "next/headers";
 import { and, eq } from "drizzle-orm";
-import { nanoid } from "nanoid";
 
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -94,49 +93,5 @@ export async function updateOrganizationSettings(data: OrganizationData) {
     }
 
     return { error: "Something went wrong while saving your workspace." };
-  }
-}
-
-export async function createNewWorkspace(name: string) {
-  try {
-    // 1. Verify the user is authenticated
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session?.user) {
-      return { error: "Unauthorized. Please log in." };
-    }
-
-    // 2. Generate IDs and a safe slug
-    const teamId = nanoid();
-    const cleanSlug = name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "");
-    const uniqueSlug = `${cleanSlug}-${Date.now().toString().slice(-4)}`;
-
-    // 3. Create the barebones team
-    await db.insert(teams).values({
-      id: teamId,
-      name: name,
-      slug: uniqueSlug,
-      email: session.user.email, // Assuming your email field doesn't have a .unique() constraint!
-      onboardingCompleted: false, // Explicitly false so it triggers the flow
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-
-    // 4. Assign the user as the owner
-    await db.insert(teamMembers).values({
-      teamId: teamId,
-      userId: session.user.id,
-      role: "owner",
-    });
-
-    return { success: true, teamId };
-  } catch (error: any) {
-    console.error("Create Workspace Error:", error);
-    return { error: "Failed to create workspace. Please try again." };
   }
 }

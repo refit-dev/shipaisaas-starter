@@ -19,7 +19,7 @@ export default async function DashboardLayout({
   const org = await auth.api.getFullOrganization({
     headers: await headers(),
   });
-  if (!org) redirect("/organizations");
+  if (!org) redirect("/dashboard");
 
   if (org.onboardingCompleted) {
     redirect("/dashboard");

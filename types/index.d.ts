@@ -22,7 +22,6 @@ export type NavItem = {
   disabled?: boolean;
   external?: boolean;
   appRoles?: string[];
-  teamRoles?: string[];
   icon?: keyof typeof Icons;
   translationKey?: string;
 };
@@ -37,7 +36,6 @@ export type SidebarNavItem = {
   title: string;
   items: NavItem[];
   appRoles?: string[];
-  teamRoles?: string[];
   icon?: keyof typeof Icons;
 };
 

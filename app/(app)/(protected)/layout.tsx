@@ -21,26 +21,13 @@ export default async function DashboardLayout({
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  // Get team member role
-  let memberRole: { role: "member" | "admin" | "owner" } | null = null;
-  try {
-    memberRole = await auth.api.getActiveMemberRole({
-      headers: await headers(),
-    });
-  } catch (error) {
-    console.error("No active organization or member role found", error);
-  }
-
   if (!session || !session.user) redirect("/login");
   const user = session.user;
 
   const filteredLinks = sidebarLinks.map((section) => ({
     ...section,
-    items: section.items.filter(({ appRoles, teamRoles }) => {
+    items: section.items.filter(({ appRoles }) => {
       if (appRoles && !appRoles.includes(user.role!)) {
-        return false;
-      }
-      if (teamRoles && !teamRoles.includes(memberRole?.role!)) {
         return false;
       }
       return true;
@@ -64,9 +51,7 @@ export default async function DashboardLayout({
           </MaxWidthWrapper>
         </main>
       </div>
-      {session?.user?.role === "user" && memberRole?.role && (
-        <AssistantContainer />
-      )}
+      {session?.user?.role === "user" && <AssistantContainer />}
     </div>
   );
 }

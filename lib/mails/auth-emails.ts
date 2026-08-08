@@ -29,29 +29,11 @@ export async function sendEmailVerificationOTP(email: string, otp: string) {
   });
 }
 
-export async function sendMagicLinkEmail(email: string, url: string) {
+export async function sendPasswordResetEmail(email: string, url: string) {
   await resend.emails.send({
     from: mailFrom,
     to: email,
-    subject: `Sign in to ${appName}`,
-    html: `<p>Click <a href="${url}">here</a> to sign in instantly.</p>`,
-  });
-}
-
-export async function sendInvitationEmail(
-  email: string,
-  teamName: string,
-  role: string,
-  url: string,
-) {
-  await resend.emails.send({
-    from: mailFrom,
-    to: email,
-    subject: `You're invited to join ${teamName}`,
-    html: `
-      <h1>Join ${teamName}</h1>
-      <p>You've been invited as a <strong>${role}</strong>.</p>
-      <a href="${url}" style="background: #FF6B6B; color: white; padding: 10px 20px; text-decoration: none;">Accept Invitation</a>
-    `,
+    subject: `Reset your ${appName} password`,
+    html: `<p>Click <a href="${url}">here</a> to choose a new password. This link expires in one hour.</p>`,
   });
 }

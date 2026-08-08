@@ -27,7 +27,7 @@ export default async function OrganizationSettingsPage() {
 
     const activeOrgId = session?.session.activeOrganizationId;
 
-    if (!activeOrgId) redirect("/organizations");
+    if (!activeOrgId) redirect("/dashboard");
 
     // Fetch the full workspace data from Drizzle
 
@@ -39,9 +39,8 @@ export default async function OrganizationSettingsPage() {
 
     organizationData = result[0] || null;
   } catch (error) {
-    // redirect to organizations page if there's an error fetching the organization (e.g., no access, not found)
     console.error("Error fetching organization:", error);
-    redirect("/organizations");
+    redirect("/dashboard");
   }
 
   return (
