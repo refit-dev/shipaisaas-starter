@@ -10,10 +10,10 @@ import { marketingConfig } from "@/config/marketing";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
-import { SlidingButton } from "@/components/shared/sliding-button";
+import { buttonVariants } from "@/components/ui/button";
+import { CtaButton } from "@/components/shared/cta-button";
 
 import Logo from "./logo";
-import { ModeToggle } from "./mode-toggle";
 
 interface NavMobileProps {
 }
@@ -42,7 +42,7 @@ function NavItem({
         rel={external ? "noopener noreferrer" : undefined}
         onClick={onClick}
         className={cn(
-          "group flex w-full items-center justify-between py-4 text-base font-medium transition-colors text-muted-foreground hover:text-foreground",
+          "group flex w-full items-center justify-between py-4 text-lg font-semibold transition-colors text-muted-foreground hover:text-foreground",
           disabled && "pointer-events-none opacity-40",
         )}
       >
@@ -80,8 +80,6 @@ export function NavMobile({}: NavMobileProps) {
     <>
       {/* Fixed top-right controls */}
       <div className="fixed top-3 right-3 z-[60] flex items-center gap-1 md:hidden">
-        <ModeToggle />
-        <div className="h-4 w-px mx-1 bg-foreground/20" />
         <button
           onClick={() => setOpen(!open)}
           className="rounded-full p-2 text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground focus:outline-none"
@@ -98,25 +96,6 @@ export function NavMobile({}: NavMobileProps) {
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}
       >
-        {/* Subtle grid pattern */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden
-        >
-          <defs>
-            <pattern id="mobile-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path
-                d="M 60 0 L 0 0 0 60"
-                fill="none"
-                stroke="var(--hero-grid-base)"
-                strokeWidth="0.5"
-                strokeDasharray="2 4"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#mobile-grid)" />
-        </svg>
 
         {/* Top bar — Logo */}
         <div className="relative z-10 flex items-center px-5 pt-3 pb-4 border-b border-border">
@@ -149,8 +128,27 @@ export function NavMobile({}: NavMobileProps) {
         </ul>
 
         {/* CTA */}
-        <div className="relative z-10 px-5 py-8 flex justify-center">
-          <SlidingButton href={ctaHref} label={ctaLabel} size="md" />
+        <div className="relative z-10 flex flex-col gap-3 px-5 py-8">
+          <CtaButton
+            href={ctaHref}
+            label={ctaLabel}
+            size="lg"
+            className="w-full"
+          />
+          {!user && (
+            <Link
+              href="/signup"
+              onClick={() => setOpen(false)}
+              className={buttonVariants({
+                variant: "outline",
+                size: "lg",
+                rounded: "full",
+                className: "w-full font-semibold",
+              })}
+            >
+              Start for $0
+            </Link>
+          )}
         </div>
 
         {documentation && (

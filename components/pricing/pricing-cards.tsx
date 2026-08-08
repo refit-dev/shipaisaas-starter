@@ -13,6 +13,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { BillingFormButton } from "@/components/forms/billing-form-button";
 import { duration, ease, staggerDelay, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight } from "@/components/shared/ornaments";
 
 interface PricingCardsProps {
   userId?: string;
@@ -50,31 +51,29 @@ function PricingCard({
       viewport={viewport}
       transition={{ duration: duration.base, delay: staggerDelay(index), ease }}
       className={cn(
-        "group relative flex flex-col border-r border-border transition-colors duration-300",
-        isPro ? "bg-card" : "bg-background",
-        "hover:bg-accent/50",
+        "group bg-card relative flex h-full flex-col overflow-hidden rounded-2xl border transition-colors duration-200",
+        isPro ? "border-primary/60" : "hover:border-primary/30",
       )}
     >
-      {/* Featured top accent */}
       {isPro && (
         <div
-          className="absolute inset-x-0 top-0 h-px"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(to right, transparent, var(--foreground), transparent)",
-            opacity: 0.3,
+              "radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--primary) 9%, transparent) 0%, transparent 55%)",
           }}
+          aria-hidden
         />
       )}
 
-      <div className="flex flex-1 flex-col p-7">
+      <div className="relative flex flex-1 flex-col p-7 sm:p-8">
         {/* Plan name + badge */}
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
-            {offer.title}
-          </p>
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <p className="text-foreground text-lg font-semibold">{offer.title}</p>
           {isPro && (
-            <p className="text-primary text-[10px] font-semibold uppercase tracking-[0.15em]">Most popular</p>
+            <span className="bg-primary text-primary-foreground rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] uppercase">
+              Most popular
+            </span>
           )}
         </div>
 
@@ -85,7 +84,7 @@ function PricingCard({
               ${offer.prices.monthly}
             </span>
           )}
-          <span className="text-foreground text-4xl font-bold tracking-tight">
+          <span className="font-display text-foreground text-5xl font-light tracking-[-0.03em]">
             ${monthlyPrice}
           </span>
           <span className="text-muted-foreground text-sm">/mo</span>
@@ -98,6 +97,8 @@ function PricingCard({
               ? "billed monthly"
               : null}
         </p>
+
+        <p className="text-muted-foreground mt-4 text-sm">{offer.description}</p>
 
         {/* Divider */}
         <div className="border-border my-6 border-t" />
@@ -133,7 +134,7 @@ function PricingCard({
             offer.prices.monthly === 0 ? (
               <Link
                 href="/dashboard"
-                className="inline-flex w-full items-center justify-center rounded-full border border-border px-4 py-2.5 text-sm text-foreground/70 transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground"
+                className="border-border text-foreground/80 hover:bg-secondary inline-flex w-full items-center justify-center rounded-full border px-4 py-3 text-sm font-medium transition-colors"
               >Go to dashboard</Link>
             ) : (
               <BillingFormButton
@@ -146,10 +147,10 @@ function PricingCard({
             <Link
               href="/login"
               className={cn(
-                "inline-flex w-full items-center justify-center rounded-full px-4 py-2.5 text-sm font-medium transition-colors",
+                "inline-flex w-full items-center justify-center rounded-full px-4 py-3 text-sm font-medium transition-colors",
                 isPro
-                  ? "bg-foreground text-background hover:bg-foreground/90"
-                  : "border border-border text-foreground/70 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground",
+                  ? "bg-primary text-primary-foreground hover:bg-primary-hover"
+                  : "border-border text-foreground/80 hover:bg-secondary border",
               )}
             >Get started</Link>
           )}
@@ -177,7 +178,9 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
         transition={{ duration: duration.base, ease }}
       >
         <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">Pricing</p>
-        <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Start at full speed!</h2>
+        <h2 className="text-foreground font-display text-3xl font-extrabold tracking-[-0.03em] text-balance md:text-5xl lg:text-6xl">
+          Start at <Highlight>full speed</Highlight>.
+        </h2>
       </motion.div>
 
       {/* Toggle */}
@@ -203,7 +206,9 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
       </div>
 
       {/* Cards grid */}
-      <div className="overflow-hidden border border-border grid grid-cols-1 lg:grid-cols-3">
+      {/* items-stretch (the default) keeps all three the same height however
+          long the feature list is; the CTA is pinned to the bottom below. */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
         {pricingData.map((offer, i) => (
           <PricingCard
             key={offer.title}

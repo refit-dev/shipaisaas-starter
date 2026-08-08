@@ -1,11 +1,12 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-import { SlidingButton } from "@/components/shared/sliding-button";
+import { siteConfig } from "@/config/site";
+import { buttonVariants } from "@/components/ui/button";
+import { CtaButton } from "@/components/shared/cta-button";
+import { InstallCommand } from "@/components/shared/install-command";
+import { Loop, Squiggle } from "@/components/shared/ornaments";
 
 const AVATARS = [
   { src: "https://randomuser.me/api/portraits/men/1.jpg", alt: "John D." },
@@ -16,267 +17,104 @@ const AVATARS = [
 ];
 
 export default function HeroLanding() {
-  const gradientRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const words = document.querySelectorAll<HTMLElement>(".word");
-    words.forEach((word) => {
-      const delay = parseInt(word.getAttribute("data-delay") ?? "0", 10);
-      setTimeout(() => {
-        word.style.animation = "word-appear 0.35s ease-out forwards";
-      }, delay);
-    });
-
-    const gradient = gradientRef.current;
-    function onMouseMove(e: MouseEvent) {
-      if (gradient) {
-        gradient.style.left = e.clientX - 192 + "px";
-        gradient.style.top = e.clientY - 192 + "px";
-        gradient.style.opacity = "1";
-      }
-    }
-    function onMouseLeave() {
-      if (gradient) gradient.style.opacity = "0";
-    }
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseleave", onMouseLeave);
-
-    words.forEach((word) => {
-      word.addEventListener("mouseenter", () => {
-        word.style.textShadow = "0 0 20px rgba(0, 0, 0, 0.2)";
-      });
-      word.addEventListener("mouseleave", () => {
-        word.style.textShadow = "none";
-      });
-    });
-
-    function onClick(e: MouseEvent) {
-      const ripple = document.createElement("div");
-      ripple.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:4px;height:4px;background:rgba(0,0,0,0.12);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;animation:pulse-glow 1s ease-out forwards`;
-      document.body.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 1000);
-    }
-    document.addEventListener("click", onClick);
-
-    let scrolled = false;
-    function onScroll() {
-      if (!scrolled) {
-        scrolled = true;
-        document
-          .querySelectorAll<HTMLElement>(".floating-element")
-          .forEach((el, i) => {
-            setTimeout(() => {
-              el.style.animationPlayState = "running";
-            }, i * 200);
-          });
-      }
-    }
-    window.addEventListener("scroll", onScroll);
-
-    return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseleave", onMouseLeave);
-      document.removeEventListener("click", onClick);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
   return (
-    <div
-      className="text-foreground relative -mt-14 w-full"
-      style={{
-        background:
-          "linear-gradient(to bottom right, var(--hero-bg-from) 0%, var(--muted) 55%, var(--background) 100%)",
-      }}
-    >
-      {/* SVG Grid */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        xmlns="http://www.w3.org/2000/svg"
+    <section className="bg-background text-foreground relative -mt-16 w-full overflow-hidden">
+      {/* Brand glow behind the headline */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[620px]"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 50% 0%, var(--hero-glow) 0%, transparent 70%)",
+        }}
         aria-hidden
-      >
-        <defs>
-          <pattern
-            id="hero-grid"
-            width="60"
-            height="60"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 60 0 L 0 0 0 60"
-              fill="none"
-              stroke="var(--hero-grid-base)"
-              strokeWidth="0.5"
-              strokeDasharray="2 4"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hero-grid)" />
-        <line
-          x1="0"
-          y1="20%"
-          x2="100%"
-          y2="20%"
-          className="grid-line"
-          style={{ animationDelay: "0s" }}
-        />
-        <line
-          x1="0"
-          y1="80%"
-          x2="100%"
-          y2="80%"
-          className="grid-line"
-          style={{ animationDelay: "0.1s" }}
-        />
-        <line
-          x1="20%"
-          y1="0"
-          x2="20%"
-          y2="100%"
-          className="grid-line"
-          style={{ animationDelay: "0.2s" }}
-        />
-        <line
-          x1="80%"
-          y1="0"
-          x2="80%"
-          y2="100%"
-          className="grid-line"
-          style={{ animationDelay: "0.3s" }}
-        />
-        <line
-          x1="50%"
-          y1="0"
-          x2="50%"
-          y2="100%"
-          className="grid-line"
-          style={{ animationDelay: "0.4s", opacity: 0.05 }}
-        />
-        <line
-          x1="0"
-          y1="50%"
-          x2="100%"
-          y2="50%"
-          className="grid-line"
-          style={{ animationDelay: "0.5s", opacity: 0.05 }}
-        />
-        <circle
-          cx="20%"
-          cy="20%"
-          r="2"
-          className="detail-dot"
-          style={{ animationDelay: "0.5s" }}
-        />
-        <circle
-          cx="80%"
-          cy="20%"
-          r="2"
-          className="detail-dot"
-          style={{ animationDelay: "0.55s" }}
-        />
-        <circle
-          cx="20%"
-          cy="80%"
-          r="2"
-          className="detail-dot"
-          style={{ animationDelay: "0.6s" }}
-        />
-        <circle
-          cx="80%"
-          cy="80%"
-          r="2"
-          className="detail-dot"
-          style={{ animationDelay: "0.65s" }}
-        />
-        <circle
-          cx="50%"
-          cy="50%"
-          r="1.5"
-          className="detail-dot"
-          style={{ animationDelay: "0.7s" }}
-        />
-      </svg>
-
-      {/* Floating particles */}
-      <div
-        className="floating-element"
-        style={{ top: "25%", left: "15%", animationDelay: "0.8s" }}
-      />
-      <div
-        className="floating-element"
-        style={{ top: "60%", left: "85%", animationDelay: "0.85s" }}
-      />
-      <div
-        className="floating-element"
-        style={{ top: "40%", left: "10%", animationDelay: "0.9s" }}
-      />
-      <div
-        className="floating-element"
-        style={{ top: "75%", left: "90%", animationDelay: "0.95s" }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-6 pt-28 pb-0 md:px-16 md:pt-32">
-        {/* Top label */}
+      <Loop className="text-foreground/15 pointer-events-none absolute top-52 -left-12 hidden w-56 lg:block" />
+
+      <div className="relative z-10 flex flex-col items-center px-6 pt-32 pb-0 md:px-16">
+        {/* The first thing a developer actually does */}
         <div
-          className="mb-6 text-center"
-          style={{ opacity: 0, animation: "word-appear 0.35s ease-out forwards" }}
+          className="mb-9"
+          style={{
+            opacity: 0,
+            animation: "word-appear 0.35s ease-out forwards",
+          }}
         >
-          <h2 className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase md:text-sm">The open source AI SaaS starter.</h2>
-          <div className="via-foreground/20 mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent to-transparent" />
+          <InstallCommand command="npx degit jeanchrinot/shipaisaas-starter my-app" />
         </div>
 
-        {/* Headline + subtext + CTAs + social proof */}
-        <div className="mx-auto mb-4 w-full max-w-5xl text-center">
-          <h1 className="text-foreground font-display text-4xl leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-            <div
-              className="mb-3 md:mb-2"
-              style={{ opacity: 0, animation: "word-appear 0.35s ease-out 0.05s forwards" }}
-            >Ship your AI SaaS.</div>
-            <div
-              className="text-muted-foreground font-display text-xl leading-tight italic md:text-3xl lg:text-4xl"
-              style={{ opacity: 0, animation: "word-appear 0.35s ease-out 0.1s forwards" }}
-            >Auth, billing and AI, already wired together.</div>
+        {/* Headline */}
+        <div className="mx-auto mb-4 w-full max-w-4xl text-center">
+          <h1 className="font-display text-foreground text-4xl leading-[1.02] font-extrabold tracking-[-0.035em] md:text-5xl lg:text-6xl">
+            <span
+              className="block"
+              style={{
+                opacity: 0,
+                animation: "word-appear 0.35s ease-out 0.05s forwards",
+              }}
+            >
+              Ship your AI SaaS
+            </span>
+            <span
+              className="relative mt-2 block"
+              style={{
+                opacity: 0,
+                animation: "word-appear 0.35s ease-out 0.1s forwards",
+              }}
+            >
+              in a weekend
+              <Squiggle className="text-primary absolute -bottom-3 left-1/2 h-4 w-[min(52%,20rem)] -translate-x-1/2 md:-bottom-4 md:h-5" />
+            </span>
           </h1>
 
-          {/* Description */}
           <p
-            className="text-muted-foreground mx-auto mt-6 max-w-xl text-sm leading-relaxed font-light md:text-base"
+            className="text-muted-foreground mx-auto mt-9 max-w-xl text-base leading-relaxed md:text-lg"
             style={{
               opacity: 0,
               animation: "word-appear 0.35s ease-out 0.15s forwards",
             }}
-          >A production-ready Next.js starter with Better-Auth, Drizzle, Stripe subscriptions, Resend and a streaming Vercel AI SDK chat layer. MIT licensed.</p>
+          >
+            Auth, Postgres, Stripe subscriptions, transactional email and a
+            streaming AI layer — wired together and ready to deploy. MIT
+            licensed, so whatever you build on it is yours.
+          </p>
 
           {/* CTAs */}
           <div
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
             style={{
               opacity: 0,
               animation: "word-appear 0.35s ease-out 0.2s forwards",
             }}
           >
-            <SlidingButton href="/signup" label={"Get started"} />
+            <CtaButton href="/signup" label="Start for $0" size="lg" />
             <Link
-              href="/pricing"
-              prefetch={true}
-              className="hero-btn-secondary group text-foreground inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold tracking-wide"
-            >Pricing<ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
+              className={buttonVariants({
+                variant: "outline",
+                size: "lg",
+                rounded: "full",
+              })}
+            >
+              Star on GitHub
+              <ArrowUpRight className="ml-1 size-4" />
             </Link>
           </div>
 
-          {/* Avatar trust stack */}
+          {/* Social proof */}
           <div
-            className="mt-8 flex items-center justify-center gap-4"
+            className="mt-10 flex items-center justify-center gap-4"
             style={{
               opacity: 0,
               animation: "word-appear 0.35s ease-out 0.25s forwards",
             }}
           >
             <div className="flex items-center -space-x-2.5">
-              {AVATARS.map((avatar, i) => (
+              {AVATARS.map((avatar) => (
                 <div
-                  key={i}
+                  key={avatar.src}
                   className="border-background relative size-8 overflow-hidden rounded-full border-2"
                 >
                   <Image
@@ -289,13 +127,13 @@ export default function HeroLanding() {
                 </div>
               ))}
             </div>
-            <div className="bg-foreground/15 h-8 w-px" />
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-0.5">
+            <div className="bg-border h-8 w-px" />
+            <div className="flex flex-col gap-1 text-left">
+              <div className="text-primary flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <svg
                     key={i}
-                    className="text-foreground h-3.5 w-3.5"
+                    className="size-3.5"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden
@@ -304,58 +142,42 @@ export default function HeroLanding() {
                   </svg>
                 ))}
               </div>
-              <p className="text-muted-foreground text-xs">Trusted by 10,000+ forward-thinking teams</p>
+              <p className="text-muted-foreground text-xs">
+                Trusted by 10,000+ forward-thinking teams
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Dashboard Preview */}
+        {/* Product shot */}
         <div
-          className="relative mx-auto mt-16 w-full max-w-5xl"
+          className="relative mx-auto mt-20 w-full max-w-5xl"
           style={{
             marginBottom: "-40px",
             opacity: 0,
             animation: "word-appear 0.35s ease-out 0.3s forwards",
           }}
         >
-          {/* Neutral bloom above the image */}
           <div
-            className="pointer-events-none absolute left-1/2 -translate-x-1/2"
+            className="pointer-events-none absolute -inset-x-10 -top-10 bottom-10"
             style={{
-              top: "-60px",
-              width: "75%",
-              height: "220px",
-              zIndex: 1,
               background:
-                "radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.1) 45%, transparent 72%)",
-              filter: "blur(36px)",
+                "radial-gradient(50% 50% at 50% 40%, var(--hero-glow) 0%, transparent 75%)",
             }}
             aria-hidden
           />
-
-          {/* Frame */}
-          <div className="relative z-10 overflow-hidden rounded-xl border border-border shadow-[0_32px_80px_-12px_rgba(0,0,0,0.4)]">
+          <div className="border-border bg-card relative z-10 overflow-hidden rounded-2xl border shadow-2xl">
             <Image
               src="/_static/ui-ss/dashboard.png"
               alt="Dashboard preview"
               width={1349}
               height={632}
               priority
-              className="w-full object-cover object-top dark:opacity-90"
+              className="w-full object-cover object-top"
             />
           </div>
         </div>
       </div>
-
-      {/* Mouse-follow gradient */}
-      <div
-        ref={gradientRef}
-        className="pointer-events-none fixed h-96 w-96 rounded-full opacity-0 blur-3xl transition-all duration-500 ease-out"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(0,0,0,0.04) 0%, transparent 100%)",
-        }}
-      />
-    </div>
+    </section>
   );
 }

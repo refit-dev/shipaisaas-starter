@@ -10,14 +10,14 @@ import { marketingConfig } from "@/config/marketing";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useScroll } from "@/hooks/use-scroll";
+import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CtaButton } from "@/components/shared/cta-button";
 import { DocsSearch } from "@/components/docs/search";
 import { Icons } from "@/components/shared/icons";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
-import { SlidingButton } from "@/components/shared/sliding-button";
 
 import Logo from "./logo";
-import { ModeToggle } from "./mode-toggle";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -56,7 +56,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
       )}
     >
       <MaxWidthWrapper
-        className="flex h-14 items-center justify-between py-4"
+        className="flex h-16 items-center justify-between py-4"
         large={documentation}
       >
         <div className="flex gap-6 md:gap-10">
@@ -70,7 +70,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
                   href={item.disabled ? "#" : item.href}
                   prefetch={true}
                   className={cn(
-                    "group flex items-center gap-0.5 text-sm font-medium transition-colors",
+                    "group flex items-center gap-0.5 text-[15px] font-semibold transition-colors",
                     item.href.startsWith(`/${selectedLayout}`)
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground",
@@ -78,7 +78,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
                   )}
                 >
                   {item.title}
-                  <ArrowUpRight className="size-3 opacity-35 transition-all duration-200 group-hover:opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="size-3 opacity-35 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-70" />
                 </Link>
               ))}
             </nav>
@@ -99,26 +99,37 @@ export function NavBar({ scroll = false }: NavBarProps) {
           ) : null}
 
           {!mounted || isPending ? (
-            <Skeleton className="hidden h-9 w-28 rounded-full md:flex" />
+            <Skeleton className="hidden h-9 w-40 rounded-full md:flex" />
+          ) : user ? (
+            <CtaButton
+              href={
+                user.role === "admin" || user.role === "superadmin"
+                  ? "/admin"
+                  : "/dashboard"
+              }
+              label="Dashboard"
+              size="sm"
+              className="hidden md:inline-flex"
+            />
           ) : (
-            <div className="hidden md:block">
-              <SlidingButton
-                href={
-                  user
-                    ? user.role === "admin" || user.role === "superadmin"
-                      ? "/admin"
-                      : "/dashboard"
-                    : "/login"
-                }
-                label={user ? "Dashboard" : "Sign In"}
-                size="sm"
-              />
+            <div className="hidden items-center gap-2 md:flex">
+              <Link
+                href="/login"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  rounded: "full",
+                  className: "font-semibold",
+                })}
+              >
+                Log in
+              </Link>
+              <CtaButton href="/signup" label="Start for $0" size="sm" />
             </div>
           )}
 
-          <div className="hidden items-center gap-2 md:flex">
-            <ModeToggle />
-          </div>
+          {/* No theme toggle here: marketing is art-directed dark. The toggle
+              lives in the app sidebar, where light mode is fully supported. */}
         </div>
       </MaxWidthWrapper>
     </header>

@@ -1,43 +1,42 @@
-"use client";
-
-
-import { FallingPattern } from "@/components/ui/falling-pattern";
-import { SlidingButton } from "@/components/shared/sliding-button";
+import { CtaButton } from "@/components/shared/cta-button";
+import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight, Loop } from "@/components/shared/ornaments";
 
 export default function BottomCta() {
-
   return (
-    <section className="relative overflow-hidden" style={{ backgroundColor: "rgb(8, 8, 8)" }}>
-      {/* Static dot grid — mobile only */}
-      <div
-        className="absolute inset-0 md:hidden"
-        style={{
-          backgroundImage: "radial-gradient(circle, rgba(200,200,200,0.15) 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
-        }}
-      />
-      {/* Animated falling pattern — desktop only */}
-      <div className="absolute inset-0 hidden md:block">
-        <FallingPattern
-          color="rgba(200, 200, 200, 0.22)"
-          backgroundColor="rgb(8, 8, 8)"
-          duration={80}
-          blurIntensity="0.15rem"
-          density={2}
-          className="h-full w-full"
-        />
-      </div>
+    <section className="bg-background py-20 sm:py-28">
+      <MaxWidthWrapper>
+        <div className="bg-card relative isolate overflow-hidden rounded-[2rem] border px-6 py-20 text-center sm:px-16">
+          {/* Brand glow instead of a falling grid */}
+          <div
+            className="pointer-events-none absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(70% 90% at 50% 0%, var(--hero-glow) 0%, transparent 65%)",
+            }}
+            aria-hidden
+          />
+          <Loop className="text-primary/20 pointer-events-none absolute -top-2 -right-6 hidden w-40 -scale-x-100 sm:block" />
 
-      <div className="relative z-20 flex min-h-[440px] flex-col items-center justify-center px-6 py-24 text-center">
-        <div className="flex flex-col items-center gap-6 max-w-2xl">
-          <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-white/50">Get Started</p>
-          <h2 className="max-w-3xl font-display text-4xl tracking-tight text-white text-balance sm:text-5xl">Ready to ship your AI SaaS?</h2>
-          <p className="max-w-xl text-base font-light leading-relaxed text-white/60 text-balance">Clone the starter, add your keys, and have a working product with auth, billing and AI in an afternoon.</p>
-          <div className="mt-2">
-            <SlidingButton href="/signup" label={"Get started"} variant="light" />
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">
+            <h2 className="font-display text-foreground text-4xl font-extrabold tracking-[-0.03em] text-balance sm:text-6xl">
+              Ready to <Highlight>ship</Highlight> your AI SaaS?
+            </h2>
+
+            <p className="text-muted-foreground max-w-xl text-base leading-relaxed text-balance sm:text-lg">
+              Clone the starter, add your keys, and have a working product with
+              auth, billing and AI in an afternoon.
+            </p>
+
+            <CtaButton
+              href="/signup"
+              label="Start for $0"
+              size="lg"
+              className="mt-2"
+            />
           </div>
         </div>
-      </div>
+      </MaxWidthWrapper>
     </section>
   );
 }

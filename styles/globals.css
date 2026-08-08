@@ -3,123 +3,142 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Hero section */
-  --hero-bg-from: #f8f8f8;
-  --hero-grid-base: rgba(0, 0, 0, 0.06);
-  --hero-stroke: rgba(0, 0, 0, 0.12);
-  --hero-dot-fill: rgba(0, 0, 0, 0.20);
-  --hero-particle-bg: rgba(0, 0, 0, 0.05);
-  --background: rgb(255, 255, 255);
-  --foreground: rgb(10, 10, 10);
-  --card: rgb(255, 255, 255);
-  --card-foreground: rgb(10, 10, 10);
-  --popover: rgb(255, 255, 255);
-  --popover-foreground: rgb(10, 10, 10);
-  --primary: rgb(23, 23, 23);
-  --primary-foreground: rgb(250, 250, 250);
-  --secondary: rgb(245, 245, 245);
-  --secondary-foreground: rgb(23, 23, 23);
-  --muted: rgb(245, 245, 245);
-  --muted-foreground: rgb(115, 115, 115);
-  --accent: rgb(245, 245, 245);
-  --accent-foreground: rgb(23, 23, 23);
-  --destructive: rgb(231, 0, 11);
-  --destructive-foreground: rgb(255, 255, 255);
-  --border: rgb(229, 229, 229);
-  --input: rgb(229, 229, 229);
-  --ring: rgb(161, 161, 161);
-  --chart-1: rgb(145, 197, 255);
-  --chart-2: rgb(58, 129, 246);
-  --chart-3: rgb(37, 99, 239);
-  --chart-4: rgb(26, 78, 218);
-  --chart-5: rgb(31, 63, 173);
-  --sidebar: rgb(250, 250, 250);
-  --sidebar-foreground: rgb(10, 10, 10);
-  --sidebar-primary: rgb(23, 23, 23);
-  --sidebar-primary-foreground: rgb(250, 250, 250);
-  --sidebar-accent: rgb(245, 245, 245);
-  --sidebar-accent-foreground: rgb(23, 23, 23);
-  --sidebar-border: rgb(229, 229, 229);
-  --sidebar-ring: rgb(161, 161, 161);
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-display: ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.625rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: oklch(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  /* Hero */
+  --hero-bg-from: #ffffff;
+  --hero-glow: rgba(255, 46, 154, 0.10);
+
+  /* Surfaces */
+  --background: #ffffff;
+  --foreground: #0a0a0b;
+  --card: #ffffff;
+  --card-foreground: #0a0a0b;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0b;
+
+  /* Brand */
+  --primary: #ff2e9a;
+  --primary-foreground: #ffffff;
+  --primary-hover: #e81a85;
+  --primary-subtle: rgba(255, 46, 154, 0.10);
+
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: rgba(255, 46, 154, 0.10);
+  --accent-foreground: #c1006e;
+
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #ff2e9a;
+
+  /* Chart ramp derived from the brand hue */
+  --chart-1: #ff2e9a;
+  --chart-2: #c026d3;
+  --chart-3: #8b5cf6;
+  --chart-4: #6366f1;
+  --chart-5: #0ea5e9;
+
+  --sidebar: #fafafa;
+  --sidebar-foreground: #0a0a0b;
+  --sidebar-primary: #ff2e9a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #ff2e9a;
+
+
+  /* Rounder: cards are pills' cousins, not boxes */
+  --radius: 1rem;
+
+  /* A real elevation scale — each step is visibly deeper than the last */
+  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-xs: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+  --shadow-sm: 0 2px 6px -1px rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow: 0 4px 12px -2px rgb(0 0 0 / 0.10), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 8px 20px -4px rgb(0 0 0 / 0.12), 0 4px 8px -4px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 16px 32px -8px rgb(0 0 0 / 0.16), 0 6px 12px -6px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.20), 0 8px 16px -8px rgb(0 0 0 / 0.10);
+  --shadow-2xl: 0 40px 80px -20px rgb(0 0 0 / 0.28);
+  --shadow-glow: 0 0 40px -8px rgba(255, 46, 154, 0.45);
+
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
 
 .dark {
-  /* Hero section */
-  --hero-bg-from: #000000;
-  --hero-grid-base: rgba(255, 255, 255, 0.04);
-  --hero-stroke: rgba(255, 255, 255, 0.08);
-  --hero-dot-fill: rgba(255, 255, 255, 0.15);
-  --hero-particle-bg: rgba(255, 255, 255, 0.04);
-  --background: rgb(10, 10, 10);
-  --foreground: rgb(250, 250, 250);
-  --card: rgb(23, 23, 23);
-  --card-foreground: rgb(250, 250, 250);
-  --popover: rgb(38, 38, 38);
-  --popover-foreground: rgb(250, 250, 250);
-  --primary: rgb(229, 229, 229);
-  --primary-foreground: rgb(23, 23, 23);
-  --secondary: rgb(38, 38, 38);
-  --secondary-foreground: rgb(250, 250, 250);
-  --muted: rgb(38, 38, 38);
-  --muted-foreground: rgb(161, 161, 161);
-  --accent: rgb(64, 64, 64);
-  --accent-foreground: rgb(250, 250, 250);
-  --destructive: rgb(255, 100, 103);
-  --destructive-foreground: rgb(250, 250, 250);
-  --border: rgb(40, 40, 40);
-  --input: rgb(52, 52, 52);
-  --ring: rgb(115, 115, 115);
-  --chart-1: rgb(145, 197, 255);
-  --chart-2: rgb(58, 129, 246);
-  --chart-3: rgb(37, 99, 239);
-  --chart-4: rgb(26, 78, 218);
-  --chart-5: rgb(31, 63, 173);
-  --sidebar: rgb(23, 23, 23);
-  --sidebar-foreground: rgb(250, 250, 250);
-  --sidebar-primary: rgb(20, 71, 230);
-  --sidebar-primary-foreground: rgb(250, 250, 250);
-  --sidebar-accent: rgb(38, 38, 38);
-  --sidebar-accent-foreground: rgb(250, 250, 250);
-  --sidebar-border: rgb(40, 40, 40);
-  --sidebar-ring: rgb(82, 82, 82);
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-display: ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.625rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: oklch(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  /* Hero */
+  --hero-bg-from: #0a0a0b;
+  --hero-glow: rgba(255, 46, 154, 0.16);
+
+  /* Surfaces — near-black canvas, lifted cards */
+  --background: #0a0a0b;
+  --foreground: #fafafa;
+  --card: #141417;
+  --card-foreground: #fafafa;
+  --popover: #1a1a1e;
+  --popover-foreground: #fafafa;
+
+  /* Brand */
+  --primary: #ff2e9a;
+  --primary-foreground: #ffffff;
+  --primary-hover: #ff54ad;
+  --primary-subtle: rgba(255, 46, 154, 0.14);
+
+  --secondary: #1a1a1e;
+  --secondary-foreground: #fafafa;
+  --muted: #151518;
+  --muted-foreground: #a1a1aa;
+  --accent: rgba(255, 46, 154, 0.14);
+  --accent-foreground: #ff86c4;
+
+  --destructive: #ff5470;
+  --destructive-foreground: #ffffff;
+  --success: #34d399;
+  --success-foreground: #06281c;
+  --warning: #fbbf24;
+  --warning-foreground: #2a1d02;
+
+  --border: #232327;
+  --input: #2a2a30;
+  --ring: #ff2e9a;
+
+  --chart-1: #ff2e9a;
+  --chart-2: #d946ef;
+  --chart-3: #a78bfa;
+  --chart-4: #818cf8;
+  --chart-5: #38bdf8;
+
+  --sidebar: #101013;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #ff2e9a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a1e;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #232327;
+  --sidebar-ring: #ff2e9a;
+
+
+  --radius: 1rem;
+
+  /* On a dark canvas, shadow does less and glow does more */
+  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.30);
+  --shadow-xs: 0 1px 3px 0 rgb(0 0 0 / 0.40);
+  --shadow-sm: 0 2px 6px -1px rgb(0 0 0 / 0.50);
+  --shadow: 0 4px 12px -2px rgb(0 0 0 / 0.55);
+  --shadow-md: 0 8px 20px -4px rgb(0 0 0 / 0.60);
+  --shadow-lg: 0 16px 32px -8px rgb(0 0 0 / 0.65);
+  --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.70);
+  --shadow-2xl: 0 40px 80px -20px rgb(0 0 0 / 0.80);
+  --shadow-glow: 0 0 48px -6px rgba(255, 46, 154, 0.55);
 }
 
 @theme inline {
@@ -156,13 +175,23 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
-  --font-mono: var(--font-mono);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  /* Fallbacks apply only if the next/font variables are ever removed. */
+  --font-sans: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  --font-display: var(--font-display, ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 16px);
   --radius-xl: calc(var(--radius) + 4px);
 
   --shadow-2xs: var(--shadow-2xs);

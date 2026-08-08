@@ -39,10 +39,10 @@ export default function TimeSavings() {
           <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             Save 300+ Hours
           </p>
-          <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">
+          <h2 className="text-foreground font-display text-3xl font-extrabold tracking-[-0.03em] text-balance md:text-5xl lg:text-6xl">
             Focus on your AI logic.
           </h2>
-          <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">
+          <p className="text-muted-foreground mt-5 text-base leading-relaxed text-balance md:text-lg">
             Every row below is wired, tested, and connected to real data. Skip the plumbing and go straight to the part that makes you money.
           </p>
         </motion.div>

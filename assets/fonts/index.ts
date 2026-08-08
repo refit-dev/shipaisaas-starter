@@ -1,25 +1,24 @@
-import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
-import { GeistSans } from "geist/font/sans";
+import { DM_Sans, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
 /**
  * Three faces, each with one job:
  *
- * - `fontSans` (Geist) — everything: UI, body copy, buttons, dashboard.
- * - `fontDisplay` (Instrument Serif) — marketing headlines only. A light
- *   serif keeps the landing page from reading as purely geometric, which is
- *   what a grotesque plus dashed grids tends to do.
+ * - `fontSans` (DM Sans) — body copy, UI, buttons, the whole dashboard.
+ * - `fontDisplay` (Plus Jakarta Sans) — headlines. Heavy weights with tight
+ *   tracking are what make a landing page feel confident rather than quiet.
  * - `fontMono` (JetBrains Mono) — eyebrow labels, code and numeric detail.
- *
- * Use `font-display` sparingly. If a heading appears inside the product
- * rather than on a marketing page, it stays sans.
  */
 
-export const fontSans = GeistSans;
-
-export const fontDisplay = Instrument_Serif({
-  weight: "400",
-  style: ["normal", "italic"],
+export const fontSans = DM_Sans({
   subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+export const fontDisplay = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  // 300/400 carry the oversized stat numerals, 700/800 the headlines.
+  weight: ["300", "400", "600", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });

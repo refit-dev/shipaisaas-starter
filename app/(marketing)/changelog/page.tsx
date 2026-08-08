@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import { changelog, ChangelogTag } from "@/config/changelog";
 import { constructMetadata } from "@/lib/utils";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight } from "@/components/shared/ornaments";
 
 export const metadata = constructMetadata({
   title: "Changelog",
@@ -25,8 +26,8 @@ export default function ChangelogPage() {
           <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             Changelog
           </p>
-          <h1 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">
-            What&apos;s new.
+          <h1 className="text-foreground font-display text-3xl font-bold tracking-[-0.02em] text-balance md:text-4xl lg:text-5xl">
+            What&apos;s <Highlight>new</Highlight>.
           </h1>
           <p className="text-muted-foreground mt-4 max-w-lg text-sm leading-relaxed md:text-base">
             New features, improvements and fixes.

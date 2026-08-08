@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { duration, ease, staggerDelay, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight } from "@/components/shared/ornaments";
 
 export default function Faq() {
   const shouldReduceMotion = useReducedMotion();
@@ -34,7 +35,9 @@ export default function Faq() {
             transition={{ duration: duration.base, ease }}
           >
             <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">FAQ</p>
-            <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Common questions, straight answers.</h2>
+            <h2 className="text-foreground font-display text-3xl font-extrabold tracking-[-0.03em] text-balance md:text-5xl lg:text-6xl">
+              Common questions, <Highlight>straight</Highlight> answers.
+            </h2>
           </motion.div>
 
           <Accordion

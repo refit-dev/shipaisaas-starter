@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/popover";
 import { duration, ease, stagger, viewport } from "@/config/motion";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight } from "@/components/shared/ornaments";
 
 function renderCell(value: string | boolean | null) {
   if (value === null || value === false) {
@@ -121,7 +122,9 @@ export function ComparePlans() {
         transition={{ duration: duration.base, ease }}
       >
         <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">Plans</p>
-        <h2 className="text-foreground font-display text-2xl tracking-tight text-balance md:text-3xl lg:text-4xl">Compare Our Plans</h2>
+        <h2 className="text-foreground font-display text-3xl font-extrabold tracking-[-0.03em] text-balance md:text-5xl lg:text-6xl">
+          <Highlight>Compare</Highlight> our plans
+        </h2>
         <p className="text-muted-foreground mt-4 text-base font-light leading-relaxed text-balance">Find the perfect plan tailored for your business needs!</p>
       </motion.div>
 
