@@ -1,19 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { GridPattern, genRandomPattern } from "@/components/ui/grid-feature-cards";
 
 export default function HowItWorks() {
-  const t = useTranslations("marketing.howItWorks");
   const shouldReduceMotion = useReducedMotion();
 
   const steps = [
-    { number: "01", title: t("step1Title"), description: t("step1Desc") },
-    { number: "02", title: t("step2Title"), description: t("step2Desc") },
-    { number: "03", title: t("step3Title"), description: t("step3Desc") },
+    { number: "01", title: "Connect", description: "Point agents at your tools, docs, and data sources. One-time setup, zero ongoing maintenance." },
+    { number: "02", title: "Automate", description: "Agents research, execute, and iterate in the background — adapting to each task without hand-holding." },
+    { number: "03", title: "Ship", description: "Review results, approve decisions, and publish outputs. You stay in control of every critical step." },
   ];
 
   return (
@@ -29,12 +27,8 @@ export default function HowItWorks() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
-              {t("title")}
-            </p>
-            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
-              {t("subtitle")}
-            </h2>
+            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">How it works</p>
+            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">From idea to shipped in three steps.</h2>
           </motion.div>
 
           {/* Steps */}

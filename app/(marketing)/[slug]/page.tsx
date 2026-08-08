@@ -9,39 +9,19 @@ import { Metadata } from "next";
 
 import { constructMetadata, getBlurDataURL } from "@/lib/utils";
 
-async function getPageFromParams(params: Promise<{ locale: string; slug: string }>) {
-  const { locale, slug } = await params;
-
-  // 1. Try to find an exact locale match (e.g. terms.fr.mdx for locale=fr, slug=terms)
-  const localized = allPages.find(
-    (p) => (p as any).slugBase === slug && (p as any).locale === locale,
-  );
-  if (localized) return localized;
-
-  // 2. Fall back to the English version (terms.mdx)
-  const fallback = allPages.find(
-    (p) => (p as any).slugBase === slug && (p as any).locale === "en",
-  );
-  return fallback ?? null;
+async function getPageFromParams(params: Promise<{ slug: string }>) {
+  const { slug } = await params;
+  return allPages.find((p) => p.slugAsParams === slug) ?? null;
 }
 
 export async function generateStaticParams() {
-  // Return unique base slugs; [locale] is already covered by the parent layout's generateStaticParams
-  const seen = new Set<string>();
-  return allPages
-    .map((p) => (p as any).slugBase ?? p.slugAsParams)
-    .filter((slug: string) => {
-      if (seen.has(slug)) return false;
-      seen.add(slug);
-      return true;
-    })
-    .map((slug: string) => ({ slug }));
+  return allPages.map((page) => ({ slug: page.slugAsParams }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata | undefined> {
   const page = await getPageFromParams(params);
   if (!page) return;
@@ -51,7 +31,7 @@ export async function generateMetadata({
 export default async function PagePage({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
   const page = await getPageFromParams(params);
 

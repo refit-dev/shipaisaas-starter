@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
@@ -180,7 +179,6 @@ const logos = [
 ];
 
 export default function LogoCloud() {
-  const t = useTranslations("marketing.logoCloud");
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -194,9 +192,7 @@ export default function LogoCloud() {
           transition={{ duration: 0.8 }}
         >
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />
-          <h2 className="text-muted-foreground text-center text-[11px] font-semibold tracking-[0.2em] uppercase">
-            {t("title")}
-          </h2>
+          <h2 className="text-muted-foreground text-center text-[11px] font-semibold tracking-[0.2em] uppercase">Built on technology you trust</h2>
           <div className="bg-border/60 h-px w-8 sm:w-16 md:w-24" />
         </motion.div>
       </MaxWidthWrapper>

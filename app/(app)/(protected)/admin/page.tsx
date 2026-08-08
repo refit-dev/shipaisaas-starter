@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 
 import { constructMetadata } from "@/lib/utils";
 import { AdminDashboardClient } from "@/components/admin/admin-dashboard-client";
@@ -10,10 +9,9 @@ export const metadata = constructMetadata({
 });
 
 export default async function AdminPage() {
-  const t = await getTranslations("admin.overview");
   return (
     <>
-      <DashboardHeader heading={t("title")} text={t("subtitle")} />
+      <DashboardHeader heading={"Admin Overview"} text={"Platform health, global metrics, and recent activity."} />
       <div className="mt-6">
         <AdminDashboardClient />
       </div>

@@ -1,8 +1,7 @@
 import * as React from "react";
 import { ArrowUpRight } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { footerLinks, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/layout/mode-toggle";
@@ -12,7 +11,6 @@ import Logo from "./logo";
 export async function SiteFooter({
   className,
 }: React.HTMLAttributes<HTMLElement>) {
-  const t = await getTranslations("footer");
 
   return (
     <footer
@@ -82,7 +80,7 @@ export async function SiteFooter({
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-4 py-6 border-t border-dashed border-border md:flex-row">
           <span className="text-muted-foreground text-xs">
-            {t("copyright", { year: new Date().getFullYear() })}
+            {`Copyright © ${new Date().getFullYear()} Ship AI SaaS. All rights reserved.`}
           </span>
 
           <div className="flex items-center gap-4">

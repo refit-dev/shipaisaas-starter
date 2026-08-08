@@ -23,7 +23,6 @@ export type NavItem = {
   external?: boolean;
   appRoles?: string[];
   icon?: keyof typeof Icons;
-  translationKey?: string;
 };
 
 export type MainNavItem = NavItem;

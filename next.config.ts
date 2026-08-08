@@ -1,19 +1,15 @@
 import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
 
 const { withContentlayer } = require("next-contentlayer2");
-
-const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
-      // Locale-prefixed redirects (marketing/docs routes)
-      { source: "/:locale/docs", destination: "/:locale/help", permanent: true },
-      { source: "/:locale/docs/:path*", destination: "/:locale/help", permanent: true },
-      { source: "/:locale/guides", destination: "/:locale/help", permanent: true },
-      { source: "/:locale/guides/:path*", destination: "/:locale/help", permanent: true },
+      { source: "/docs", destination: "/help", permanent: true },
+      { source: "/docs/:path*", destination: "/help", permanent: true },
+      { source: "/guides", destination: "/help", permanent: true },
+      { source: "/guides/:path*", destination: "/help", permanent: true },
     ];
   },
   images: {
@@ -34,5 +30,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-// withNextIntl wraps withContentlayer wraps nextConfig
-module.exports = withNextIntl(withContentlayer(nextConfig));
+module.exports = withContentlayer(nextConfig);

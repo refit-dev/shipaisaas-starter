@@ -2,8 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 
-import NextLink from "next/link";
-import { Link as I18nLink } from "@/i18n/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const DARK_BUTTON_BG = "linear-gradient(135deg, #0a0a0a 0%, #2a2a2a 100%)";
@@ -20,7 +19,6 @@ interface SlidingButtonProps {
   size?: "sm" | "md";
   variant?: "dark" | "light";
   external?: boolean;
-  localized?: boolean;
   className?: string;
 }
 
@@ -30,7 +28,6 @@ export function SlidingButton({
   size = "md",
   variant = "dark",
   external,
-  localized = false,
   className,
 }: SlidingButtonProps) {
   const sm = size === "sm";
@@ -38,8 +35,6 @@ export function SlidingButton({
   const buttonBg = isLight ? LIGHT_BUTTON_BG : DARK_BUTTON_BG;
   const iconBg = isLight ? LIGHT_ICON_BG : DARK_ICON_BG;
   const textColor = isLight ? LIGHT_TEXT : DARK_TEXT;
-
-  const Link = localized ? I18nLink : NextLink;
 
   return (
     <Link

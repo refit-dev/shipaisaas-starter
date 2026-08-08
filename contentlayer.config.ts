@@ -91,28 +91,7 @@ export const Page = defineDocumentType(() => ({
       type: "string",
     },
   },
-  computedFields: {
-    ...defaultComputedFields,
-    // Base slug without locale suffix: "terms.fr" → "terms", "terms" → "terms"
-    slugBase: {
-      type: "string",
-      resolve: (doc) => {
-        const filename = doc._raw.sourceFileName.replace(/\.mdx$/, "");
-        // filename is like "terms" or "terms.fr"
-        const parts = filename.split(".");
-        return parts[0];
-      },
-    },
-    // Locale extracted from filename suffix; defaults to "en"
-    locale: {
-      type: "string",
-      resolve: (doc) => {
-        const filename = doc._raw.sourceFileName.replace(/\.mdx$/, "");
-        const parts = filename.split(".");
-        return parts.length >= 2 ? parts[1] : "en";
-      },
-    },
-  },
+  computedFields: defaultComputedFields,
 }));
 
 export const Help = defineDocumentType(() => ({

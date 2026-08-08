@@ -2,9 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 import { SlidingButton } from "@/components/shared/sliding-button";
 
@@ -17,7 +16,6 @@ const AVATARS = [
 ];
 
 export default function HeroLanding() {
-  const t = useTranslations("marketing.hero");
   const gradientRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -224,9 +222,7 @@ export default function HeroLanding() {
           className="mb-6 text-center"
           style={{ opacity: 0, animation: "word-appear 0.8s ease-out 0.2s forwards" }}
         >
-          <h2 className="text-muted-foreground font-mono text-xs font-light tracking-[0.2em] uppercase md:text-sm">
-            {t("label")}
-          </h2>
+          <h2 className="text-muted-foreground font-mono text-xs font-light tracking-[0.2em] uppercase md:text-sm">Your AI assistant for everyday work.</h2>
           <div className="via-foreground/20 mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent to-transparent" />
         </div>
 
@@ -236,15 +232,11 @@ export default function HeroLanding() {
             <div
               className="mb-3 md:mb-2"
               style={{ opacity: 0, animation: "word-appear 0.8s ease-out 0.6s forwards" }}
-            >
-              {t("headline")}
-            </div>
+            >Get work done faster.</div>
             <div
               className="text-muted-foreground text-xl leading-tight font-thin md:text-3xl lg:text-4xl"
               style={{ opacity: 0, animation: "word-appear 0.8s ease-out 1.0s forwards" }}
-            >
-              {t("subline")}
-            </div>
+            >Ask anything. Get results instantly.</div>
           </h1>
 
           {/* Description */}
@@ -254,9 +246,7 @@ export default function HeroLanding() {
               opacity: 0,
               animation: "word-appear 0.8s ease-out 1.4s forwards",
             }}
-          >
-            {t("subheadline")}
-          </p>
+          >Chat, document analysis, web research, and AI workflows included. Complete hours of work in minutes, not days.</p>
 
           {/* CTAs */}
           <div
@@ -266,14 +256,12 @@ export default function HeroLanding() {
               animation: "word-appear 0.8s ease-out 1.8s forwards",
             }}
           >
-            <SlidingButton href="/signup" label={t("ctaPrimary")} />
+            <SlidingButton href="/signup" label={"Start Free Trial"} />
             <Link
               href="/pricing"
               prefetch={true}
               className="hero-btn-secondary group text-foreground inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold tracking-wide"
-            >
-              {t("ctaSecondary")}
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            >Pricing<ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
@@ -316,7 +304,7 @@ export default function HeroLanding() {
                   </svg>
                 ))}
               </div>
-              <p className="text-muted-foreground text-xs">{t("trust")}</p>
+              <p className="text-muted-foreground text-xs">Trusted by 10,000+ forward-thinking teams</p>
             </div>
           </div>
         </div>

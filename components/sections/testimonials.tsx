@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import { testimonials as rawTestimonials } from "@/config/landing";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
@@ -20,7 +19,6 @@ const col2   = mapped.filter((_, i) => i % 3 === 1);
 const col3   = mapped.filter((_, i) => i % 3 === 2);
 
 export default function Testimonials() {
-  const t = useTranslations("marketing.testimonials");
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -33,15 +31,9 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
-            {t("label")}
-          </p>
-          <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
-            {t("title")}
-          </h2>
-          <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">
-            {t("subtitle")}
-          </p>
+          <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Testimonials</p>
+          <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Teams that ship faster with AI agents.</h2>
+          <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">See how operators and founders are automating their workflows and reclaiming time for the work that actually moves the needle.</p>
         </motion.div>
       </MaxWidthWrapper>
 

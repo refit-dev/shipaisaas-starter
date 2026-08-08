@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import {
   Accordion,
@@ -12,15 +11,14 @@ import {
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 export default function Faq() {
-  const t = useTranslations("marketing.faq");
   const shouldReduceMotion = useReducedMotion();
 
   const faqItems = [
-    { id: "security", question: t("securityQuestion"), answer: t("securityAnswer") },
-    { id: "onboarding", question: t("onboardingQuestion"), answer: t("onboardingAnswer") },
-    { id: "integrations", question: t("integrationsQuestion"), answer: t("integrationsAnswer") },
-    { id: "cancel", question: t("cancelQuestion"), answer: t("cancelAnswer") },
-    { id: "trial", question: t("trialQuestion"), answer: t("trialAnswer") },
+    { id: "security", question: "Is my data secure?", answer: "All data is encrypted at rest and in transit using AES-256 and TLS 1.3. We do not train on your data. Our infrastructure is hosted on SOC 2 Type II-compliant cloud providers, and we are currently pursuing our own SOC 2 certification." },
+    { id: "onboarding", question: "How long does onboarding take?", answer: "Most teams are fully up and running in under 30 minutes. Our guided setup walks you through connecting your first data source, configuring your initial agents, and running your first automated workflow — no engineering resources required." },
+    { id: "integrations", question: "What tools and integrations do you support?", answer: "We support REST API and webhook-based integrations out of the box, which means we connect to virtually any modern SaaS tool. Native connectors are available for the most popular platforms, with new integrations added regularly based on customer demand." },
+    { id: "cancel", question: "Can I cancel anytime?", answer: "Yes, there is no lock-in. You can cancel your subscription at any time from your billing settings. Your data remains accessible and exportable for 30 days after cancellation, giving you full control of your information." },
+    { id: "trial", question: "Do you offer a free trial?", answer: "Yes — every account starts with a 14-day free trial with full access to all features, no credit card required. At the end of your trial, you can choose the plan that fits your team's needs or continue on the free tier." },
   ];
 
   return (
@@ -34,12 +32,8 @@ export default function Faq() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
-              {t("label")}
-            </p>
-            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
-              {t("title")}
-            </h2>
+            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">FAQ</p>
+            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Common questions, straight answers.</h2>
           </motion.div>
 
           <Accordion

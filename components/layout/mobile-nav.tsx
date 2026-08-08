@@ -13,12 +13,9 @@ import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
 import { SlidingButton } from "@/components/shared/sliding-button";
 
 import Logo from "./logo";
-import { LocaleSwitcherApp } from "./locale-switcher-app";
-import { LocaleSwitcherMarketing } from "./locale-switcher-marketing";
 import { ModeToggle } from "./mode-toggle";
 
 interface NavMobileProps {
-  localeSwitcherVariant?: "marketing" | "app";
 }
 
 const ARROW_CLASS =
@@ -56,7 +53,7 @@ function NavItem({
   );
 }
 
-export function NavMobile({ localeSwitcherVariant = "marketing" }: NavMobileProps) {
+export function NavMobile({}: NavMobileProps) {
   const { data: session } = authClient.useSession();
   const user = session?.user;
   const [open, setOpen] = useState(false);
@@ -84,12 +81,6 @@ export function NavMobile({ localeSwitcherVariant = "marketing" }: NavMobileProp
       {/* Fixed top-right controls */}
       <div className="fixed top-3 right-3 z-[60] flex items-center gap-1 md:hidden">
         <ModeToggle />
-        <div className="h-4 w-px mx-1 bg-foreground/20" />
-        {localeSwitcherVariant === "app" ? (
-          <LocaleSwitcherApp />
-        ) : (
-          <LocaleSwitcherMarketing />
-        )}
         <div className="h-4 w-px mx-1 bg-foreground/20" />
         <button
           onClick={() => setOpen(!open)}

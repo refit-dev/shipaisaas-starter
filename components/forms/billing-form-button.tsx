@@ -3,7 +3,6 @@
 import { useTransition } from "react";
 import { generateUserStripe } from "@/actions/generate-user-stripe";
 import { SubscriptionPlan, UserSubscriptionPlan } from "@/types";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/shared/icons";
@@ -19,7 +18,6 @@ export function BillingFormButton({
   offer,
   subscriptionPlan,
 }: BillingFormButtonProps) {
-  const t = useTranslations("marketing.pricing");
   let [isPending, startTransition] = useTransition();
   const generateUserStripeSession = generateUserStripe.bind(
     null,
@@ -45,10 +43,9 @@ export function BillingFormButton({
     >
       {isPending ? (
         <>
-          <Icons.spinner className="mr-2 size-4 animate-spin" /> {t("loading")}
-        </>
+          <Icons.spinner className="mr-2 size-4 animate-spin" />Loading...</>
       ) : (
-        <>{userOffer ? t("manageSubscription") : t("upgrade")}</>
+        <>{userOffer ? "Manage Subscription" : "Upgrade"}</>
       )}
     </Button>
   );

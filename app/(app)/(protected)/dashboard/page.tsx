@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 
 import { constructMetadata } from "@/lib/utils";
 import { DashboardClient } from "@/components/dashboard/dashboard-client";
@@ -10,10 +9,9 @@ export const metadata = constructMetadata({
 });
 
 export default async function DashboardPage() {
-  const t = await getTranslations("dashboard");
   return (
     <>
-      <DashboardHeader heading={t("title")} text={t("subtitle")} />
+      <DashboardHeader heading={"Dashboard"} text={"Your AI workforce at a glance."} />
       <div className="mt-6">
         <DashboardClient />
       </div>

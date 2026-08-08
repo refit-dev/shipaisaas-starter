@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Building2, Database, Loader2, Users, Zap } from "lucide-react";
 
-import { useTranslations } from "next-intl";
 
 import { formatCompactNumber } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,8 +28,6 @@ export type AdminDashboardData = {
 };
 
 export function AdminDashboardClient() {
-  const t = useTranslations("admin.kpi");
-  const tAdmin = useTranslations("admin");
   const [data, setData] = useState<AdminDashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -50,7 +47,7 @@ export function AdminDashboardClient() {
   if (!data) {
     return (
       <div className="border-border bg-card flex h-64 items-center justify-center rounded-xl border">
-        <p className="text-muted-foreground">{tAdmin("errorLoad")}</p>
+        <p className="text-muted-foreground">Failed to load admin data.</p>
       </div>
     );
   }
@@ -60,28 +57,28 @@ export function AdminDashboardClient() {
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title={t("totalUsers")}
+          title={"Total Users"}
           value={data.kpis.totalUsers.toLocaleString()}
           icon={Users}
-          description={t("totalUsersSubtitle")}
+          description={"Registered accounts"}
         />
         <StatCard
-          title={t("organizations")}
+          title={"Organizations"}
           value={data.kpis.totalOrganizations.toLocaleString()}
           icon={Building2}
-          description={t("organizationsSubtitle")}
+          description={"Active workspaces"}
         />
         <StatCard
-          title={t("tokenUsage")}
+          title={"Token Usage"}
           value={formatCompactNumber(data.kpis.totalTokensUsed)}
           icon={Database}
-          description={t("tokenUsageSubtitle")}
+          description={"Total tokens processed"}
         />
         <StatCard
-          title={t("paidPlans")}
+          title={"Paid Plans"}
           value={data.kpis.activeSubscriptions.toLocaleString()}
           icon={Zap}
-          description={t("paidPlansSubtitle")}
+          description={"Teams on a paid plan"}
         />
       </div>
 

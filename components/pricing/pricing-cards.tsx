@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import { UserSubscriptionPlan } from "@/types";
 import { SubscriptionPlan } from "@/types/index";
@@ -25,8 +24,6 @@ function PricingCard({
   isYearly,
   userId,
   subscriptionPlan,
-  t,
-  tPlans,
   shouldReduceMotion,
 }: {
   offer: SubscriptionPlan;
@@ -34,20 +31,10 @@ function PricingCard({
   isYearly: boolean;
   userId?: string;
   subscriptionPlan?: UserSubscriptionPlan;
-  t: ReturnType<typeof useTranslations>;
-  tPlans: ReturnType<typeof useTranslations>;
   shouldReduceMotion: boolean | null;
 }) {
-  const planKey = offer.title.toLowerCase() as "free" | "pro" | "business";
-  let benefits: string[];
-  let limitations: string[];
-  try {
-    benefits = tPlans.raw(`${planKey}.benefits`) as string[];
-    limitations = tPlans.raw(`${planKey}.limitations`) as string[];
-  } catch {
-    benefits = offer.benefits;
-    limitations = offer.limitations;
-  }
+  const benefits = offer.benefits;
+  const limitations = offer.limitations;
 
   const isPro = offer.title.toLowerCase() === "pro";
   const monthlyPrice =
@@ -86,9 +73,7 @@ function PricingCard({
             {offer.title}
           </p>
           {isPro && (
-            <p className="text-primary text-[10px] font-semibold uppercase tracking-[0.15em]">
-              {t("mostPopular")}
-            </p>
+            <p className="text-primary text-[10px] font-semibold uppercase tracking-[0.15em]">Most popular</p>
           )}
         </div>
 
@@ -102,16 +87,14 @@ function PricingCard({
           <span className="text-foreground text-4xl font-bold tracking-tight">
             ${monthlyPrice}
           </span>
-          <span className="text-muted-foreground text-sm">
-            {t("perMonth")}
-          </span>
+          <span className="text-muted-foreground text-sm">/mo</span>
         </div>
 
         <p className="text-muted-foreground h-4 text-xs">
           {isYearly && offer.prices.monthly > 0
-            ? `$${offer.prices.yearly} ${t("billedAnnually")}`
+            ? `$${offer.prices.yearly} ${"billed annually"}`
             : offer.prices.monthly > 0
-              ? t("billedMonthly")
+              ? "billed monthly"
               : null}
         </p>
 
@@ -150,9 +133,7 @@ function PricingCard({
               <Link
                 href="/dashboard"
                 className="inline-flex w-full items-center justify-center rounded-full border border-dashed border-border px-4 py-2.5 text-sm text-foreground/70 transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground"
-              >
-                {t("goToDashboard")}
-              </Link>
+              >Go to dashboard</Link>
             ) : (
               <BillingFormButton
                 year={isYearly}
@@ -169,9 +150,7 @@ function PricingCard({
                   ? "bg-foreground text-background hover:bg-foreground/90"
                   : "border border-dashed border-border text-foreground/70 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground",
               )}
-            >
-              {t("getStarted")}
-            </Link>
+            >Get started</Link>
           )}
         </div>
       </div>
@@ -180,8 +159,6 @@ function PricingCard({
 }
 
 export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
-  const t = useTranslations("marketing.pricing");
-  const tPlans = useTranslations("plans");
   const shouldReduceMotion = useReducedMotion();
 
   const isYearlyDefault =
@@ -198,12 +175,8 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
-          {t("label")}
-        </p>
-        <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
-          {t("title")}
-        </h2>
+        <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Pricing</p>
+        <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Start at full speed!</h2>
       </motion.div>
 
       {/* Toggle */}
@@ -219,18 +192,12 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
           <ToggleGroupItem
             value="yearly"
             className="data-[state=on]:bg-background data-[state=on]:text-foreground h-7 rounded-full px-4 text-sm"
-          >
-            {t("yearly")}
-            <span className="text-primary ml-1 text-xs font-semibold">
-              {t("yearlyDiscount")}
-            </span>
+          >Yearly<span className="text-primary ml-1 text-xs font-semibold">−20%</span>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="monthly"
             className="data-[state=on]:bg-background data-[state=on]:text-foreground h-7 rounded-full px-4 text-sm"
-          >
-            {t("monthly")}
-          </ToggleGroupItem>
+          >Monthly</ToggleGroupItem>
         </ToggleGroup>
       </div>
 
@@ -244,23 +211,17 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
             isYearly={isYearly}
             userId={userId}
             subscriptionPlan={subscriptionPlan}
-            t={t}
-            tPlans={tPlans}
             shouldReduceMotion={shouldReduceMotion}
           />
         ))}
       </div>
 
       <p className="text-muted-foreground mt-6 text-center text-sm text-balance">
-        {t("questions")}{" "}
+        {"Questions?"}{" "}
         <a
           className="text-foreground underline underline-offset-4 hover:no-underline"
-          href={`mailto:${t("contactEmail")}`}
-        >
-          {t("contactEmail")}
-        </a>
-        {" · "}
-        <span className="text-foreground font-medium">{t("testCards")}</span>
+          href={`mailto:${"support@shipaisaas.com"}`}
+        >support@shipaisaas.com</a> · <span className="text-foreground font-medium">{"Test cards won't be charged."}</span>
       </p>
     </MaxWidthWrapper>
   );

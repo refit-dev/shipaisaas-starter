@@ -2,7 +2,6 @@
 
 import { Check, Info } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import { PlansRow } from "@/types";
 import { comparePlans, plansColumns } from "@/config/subscriptions";
@@ -24,7 +23,6 @@ function renderCell(value: string | boolean | null) {
 }
 
 export function ComparePlans() {
-  const t = useTranslations("comparePlans");
   const shouldReduceMotion = useReducedMotion();
 
   type TranslatedFeature = {
@@ -35,7 +33,67 @@ export function ComparePlans() {
     business?: string;
     enterprise?: string;
   };
-  const translatedFeatures = t.raw("features") as TranslatedFeature[];
+  const translatedFeatures = [
+  {
+    "name": "Access to Analytics",
+    "tooltip": "All plans include basic analytics for tracking performance.",
+    "enterprise": "Custom"
+  },
+  {
+    "name": "Custom Branding",
+    "tooltip": "Custom branding is available from the Pro plan onwards.",
+    "pro": "500/mo",
+    "business": "1,500/mo",
+    "enterprise": "Unlimited"
+  },
+  {
+    "name": "Priority Support",
+    "pro": "Email",
+    "business": "Email & Chat",
+    "enterprise": "24/7 Support"
+  },
+  {
+    "name": "Advanced Reporting",
+    "tooltip": "Advanced reporting is available in Business and Enterprise plans.",
+    "enterprise": "Custom"
+  },
+  {
+    "name": "Dedicated Manager",
+    "tooltip": "Enterprise plan includes a dedicated account manager."
+  },
+  {
+    "name": "API Access",
+    "free": "Limited",
+    "pro": "Standard",
+    "business": "Enhanced",
+    "enterprise": "Full"
+  },
+  {
+    "name": "Monthly Webinars",
+    "tooltip": "Pro and higher plans include access to monthly webinars.",
+    "enterprise": "Custom"
+  },
+  {
+    "name": "Custom Integrations",
+    "tooltip": "Custom integrations are available in Business and Enterprise plans.",
+    "business": "Available",
+    "enterprise": "Available"
+  },
+  {
+    "name": "Roles and Permissions",
+    "tooltip": "User roles and permissions management improves with higher plans.",
+    "pro": "Basic",
+    "business": "Advanced",
+    "enterprise": "Advanced"
+  },
+  {
+    "name": "Onboarding Assistance",
+    "tooltip": "Higher plans include more comprehensive onboarding assistance.",
+    "pro": "Self-service",
+    "business": "Assisted",
+    "enterprise": "Full Service"
+  }
+] as TranslatedFeature[];
 
   const translatedRows = comparePlans.map((row, i) => {
     const tf = translatedFeatures[i];
@@ -61,15 +119,9 @@ export function ComparePlans() {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
-          {t("label")}
-        </p>
-        <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
-          {t("title")}
-        </h2>
-        <p className="text-muted-foreground mt-4 text-base font-light leading-relaxed text-balance">
-          {t("subtitle")}
-        </p>
+        <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Plans</p>
+        <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Compare Our Plans</h2>
+        <p className="text-muted-foreground mt-4 text-base font-light leading-relaxed text-balance">Find the perfect plan tailored for your business needs!</p>
       </motion.div>
 
       {/* Table */}

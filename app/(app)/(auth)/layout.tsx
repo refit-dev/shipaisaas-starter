@@ -9,8 +9,8 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <NavMobile localeSwitcherVariant="app" />
-      <NavBar scroll={true} localeSwitcherVariant="app" />
+      <NavMobile />
+      <NavBar scroll={true} />
       <main className="flex flex-1 flex-col items-center justify-center bg-muted px-4 py-12">{children}</main>
       <SiteFooter />
     </div>

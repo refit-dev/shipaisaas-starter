@@ -2,7 +2,6 @@
 
 import { Bot, Cpu, FolderLock, ShieldCheck } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
@@ -13,14 +12,13 @@ import {
 } from "@/components/ui/grid-feature-cards";
 
 export default function BentoFeatures() {
-  const t = useTranslations("marketing.bentoFeatures");
   const shouldReduceMotion = useReducedMotion();
 
   const features = [
-    { icon: Cpu,        title: t("backgroundWorkflows"), description: t("backgroundWorkflowsDesc"), wide: true  },
-    { icon: ShieldCheck, title: t("humanInLoop"),        description: t("humanInLoopDesc"),         wide: false },
-    { icon: FolderLock, title: t("secureStorage"),       description: t("secureStorageDesc"),        wide: false },
-    { icon: Bot,        title: t("customPersonas"),      description: t("customPersonasDesc"),       wide: true  },
+    { icon: Cpu,        title: "Background Workflows", description: "Agents run autonomously in the background — researching, drafting, and executing multi-step tasks while your team sleeps.", wide: true  },
+    { icon: ShieldCheck, title: "Human-in-the-Loop",        description: "Set approval gates on any workflow step. Every critical decision surfaces to your team before the agent proceeds.",         wide: false },
+    { icon: FolderLock, title: "Secure Asset Storage",       description: "Every output — documents, images, structured data — is automatically saved and versioned in your secure storage layer.",        wide: false },
+    { icon: Bot,        title: "Custom AI Personas",      description: "Spin up specialized agents for each function: legal review, competitor analysis, content production, and more.",       wide: true  },
   ];
 
   return (
@@ -36,12 +34,8 @@ export default function BentoFeatures() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
-              {t("label")}
-            </p>
-            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
-              {t("title")}
-            </h2>
+            <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Features</p>
+            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Everything your team needs to run on autopilot.</h2>
           </motion.div>
 
           {/* Cards */}

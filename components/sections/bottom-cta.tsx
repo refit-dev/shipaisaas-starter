@@ -1,12 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import { SlidingButton } from "@/components/shared/sliding-button";
 
 export default function BottomCta() {
-  const t = useTranslations("marketing.cta");
 
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: "rgb(8, 8, 8)" }}>
@@ -32,17 +30,11 @@ export default function BottomCta() {
 
       <div className="relative z-20 flex min-h-[440px] flex-col items-center justify-center px-6 py-24 text-center">
         <div className="flex flex-col items-center gap-6 max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-            {t("label")}
-          </p>
-          <h2 className="max-w-3xl text-4xl font-extralight tracking-tight text-white text-balance sm:text-5xl">
-            {t("title")}
-          </h2>
-          <p className="max-w-xl text-base font-light leading-relaxed text-white/60 text-balance">
-            {t("subtitle")}
-          </p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">Get Started</p>
+          <h2 className="max-w-3xl text-4xl font-extralight tracking-tight text-white text-balance sm:text-5xl">Ready to put your workflows on autopilot?</h2>
+          <p className="max-w-xl text-base font-light leading-relaxed text-white/60 text-balance">Join thousands of teams already saving hours every week with autonomous AI agents working in the background.</p>
           <div className="mt-2">
-            <SlidingButton href="/signup" label={t("button")} variant="light" />
+            <SlidingButton href="/signup" label={"Start Free Trial"} variant="light" />
           </div>
         </div>
       </div>

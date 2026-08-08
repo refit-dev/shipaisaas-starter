@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { usePathname, useSelectedLayoutSegment } from "next/navigation";
-import { useTranslations } from "next-intl";
 
 import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
@@ -18,18 +17,14 @@ import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { SlidingButton } from "@/components/shared/sliding-button";
 
 import Logo from "./logo";
-import { LocaleSwitcherApp } from "./locale-switcher-app";
-import { LocaleSwitcherMarketing } from "./locale-switcher-marketing";
 import { ModeToggle } from "./mode-toggle";
 
 interface NavBarProps {
   scroll?: boolean;
   large?: boolean;
-  localeSwitcherVariant?: "marketing" | "app";
 }
 
-export function NavBar({ scroll = false, localeSwitcherVariant = "marketing" }: NavBarProps) {
-  const t = useTranslations("nav");
+export function NavBar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
@@ -82,7 +77,7 @@ export function NavBar({ scroll = false, localeSwitcherVariant = "marketing" }: 
                     item.disabled && "cursor-not-allowed opacity-50",
                   )}
                 >
-                  {item.translationKey ? t(item.translationKey as any) : item.title}
+                  {item.title}
                   <ArrowUpRight className="size-3 opacity-35 transition-all duration-200 group-hover:opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               ))}
@@ -115,18 +110,13 @@ export function NavBar({ scroll = false, localeSwitcherVariant = "marketing" }: 
                       : "/dashboard"
                     : "/login"
                 }
-                label={user ? t("dashboard") : t("signIn")}
+                label={user ? "Dashboard" : "Sign In"}
                 size="sm"
               />
             </div>
           )}
 
           <div className="hidden items-center gap-2 md:flex">
-            {localeSwitcherVariant === "app" ? (
-              <LocaleSwitcherApp />
-            ) : (
-              <LocaleSwitcherMarketing />
-            )}
             <ModeToggle />
           </div>
         </div>

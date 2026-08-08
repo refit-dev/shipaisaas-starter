@@ -26,9 +26,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import { useLocale, useTranslations } from "next-intl";
 
-import { localeFlags, localeLabels, locales, type Locale } from "@/i18n/config";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -56,7 +54,6 @@ import { Icons } from "@/components/shared/icons";
 import { UserAvatar } from "@/components/shared/user-avatar";
 
 import Logo from "./logo";
-import { LocaleSwitcherApp } from "./locale-switcher-app";
 
 interface DashboardSidebarProps {
   links: SidebarNavItem[];
@@ -97,16 +94,7 @@ function OrganizationSwitcher({ expanded }: { expanded: boolean }) {
 }
 
 function SidebarFooter({ expanded }: { expanded: boolean }) {
-  const t = useTranslations("sidebar.user");
-  const tTheme = useTranslations("theme");
-  const currentLocale = useLocale() as Locale;
   const { data: session } = authClient.useSession();
-
-  function handleLocaleChange(newLocale: Locale) {
-    if (newLocale === currentLocale) return;
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
-    window.location.reload();
-  }
   const user = session?.user;
   const { userSubscriptionPlan, resetUserStore } = useUserStore();
   const { resetAssistantStore } = useAssistantStore();
@@ -149,7 +137,6 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
   if (!expanded) {
     return (
       <div className="flex flex-col items-center gap-1 border-t px-2 py-3">
-        <LocaleSwitcherApp />
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenu>
@@ -161,14 +148,11 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
-                  <Sun className="mr-2 size-4" /> {tTheme("light")}
-                </DropdownMenuItem>
+                  <Sun className="mr-2 size-4" />Light</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  <Moon className="mr-2 size-4" /> {tTheme("dark")}
-                </DropdownMenuItem>
+                  <Moon className="mr-2 size-4" />Dark</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <SunMoon className="mr-2 size-4" /> {tTheme("system")}
-                </DropdownMenuItem>
+                  <SunMoon className="mr-2 size-4" />System</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </TooltipTrigger>
@@ -247,10 +231,8 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
         >
           <Crown className="text-muted-foreground size-4 shrink-0" />
           <div className="min-w-0 flex-1">
-            <p className="text-sm leading-none font-medium">{t("upgradeTitle")}</p>
-            <p className="text-muted-foreground mt-0.5 truncate text-xs">
-              {t("upgradeSubtitle")}
-            </p>
+            <p className="text-sm leading-none font-medium">Upgrade to Pro</p>
+            <p className="text-muted-foreground mt-0.5 truncate text-xs">Unlock all features</p>
           </div>
         </Link>
       )}
@@ -263,12 +245,12 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
         >
           <Crown className="size-4 shrink-0" />
           <div className="min-w-0 flex-1">
-            <p className="text-sm leading-none font-medium">{t("planTitle", { title: planTitle ?? "" })}</p>
+            <p className="text-sm leading-none font-medium">{`${planTitle ?? ""} Plan`}</p>
             {formattedDate && (
               <p className="text-muted-foreground mt-0.5 truncate text-xs">
                 {isCanceled
-                  ? t("cancelsOn", { date: formattedDate })
-                  : t("renewsOn", { date: formattedDate })}
+                  ? `Cancels ${formattedDate}`
+                  : `Renews ${formattedDate}`}
               </p>
             )}
           </div>
@@ -331,28 +313,6 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
             </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="flex items-center gap-2">
-              <Globe className="size-4" />
-              <span>{localeLabels[currentLocale]}</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              {locales.map((loc) => (
-                <DropdownMenuItem
-                  key={loc}
-                  onClick={() => handleLocaleChange(loc)}
-                  className="flex items-center gap-2"
-                >
-                  <span>{localeFlags[loc]}</span>
-                  <span>{localeLabels[loc]}</span>
-                  {loc === currentLocale && (
-                    <Check className="ml-auto size-4" />
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-
           <DropdownMenuSeparator />
 
           <div className="flex items-center justify-around px-1 py-1">
@@ -414,8 +374,6 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
 }
 
 export function DashboardSidebar({ links, role }: DashboardSidebarProps) {
-  const tSections = useTranslations("sidebar.sections");
-  const tLinks = useTranslations("sidebar.links");
   const path = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -488,14 +446,14 @@ export function DashboardSidebar({ links, role }: DashboardSidebarProps) {
                   >
                     {isSidebarExpanded ? (
                       <p className="text-sidebar-foreground text-xs">
-                        {tSections(section.title as any)}
+                        {section.title}
                       </p>
                     ) : (
                       <div className="h-4" />
                     )}
                     {section.items.map((item) => {
                       const Icon = Icons[item.icon || "arrowRight"];
-                      const label = tLinks(item.title as any);
+                      const label = item.title;
                       return (
                         item.href && (
                           <Fragment key={`link-fragment-${item.title}`}>
@@ -564,8 +522,6 @@ export function DashboardSidebar({ links, role }: DashboardSidebarProps) {
 }
 
 export function MobileSheetSidebar({ links, role }: DashboardSidebarProps) {
-  const tSections = useTranslations("sidebar.sections");
-  const tLinks = useTranslations("sidebar.links");
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const { isSm, isMobile } = useMediaQuery();
@@ -607,11 +563,11 @@ export function MobileSheetSidebar({ links, role }: DashboardSidebarProps) {
                     className="flex flex-col gap-0.5"
                   >
                     <p className="text-muted-foreground text-xs">
-                      {tSections(section.title as any)}
+                      {section.title}
                     </p>
                     {section.items.map((item) => {
                       const Icon = Icons[item.icon || "arrowRight"];
-                      const label = tLinks(item.title as any);
+                      const label = item.title;
                       return (
                         item.href && (
                           <Fragment key={`link-fragment-${item.title}`}>

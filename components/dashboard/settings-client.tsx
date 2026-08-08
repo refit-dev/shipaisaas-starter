@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Camera, Loader2, Lock, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -79,8 +78,6 @@ function Avatar({
 // ---------------------------------------------------------------------------
 
 export function SettingsClient({ user }: { user: UserData }) {
-  const t = useTranslations("dashboard.settings");
-  const tCommon = useTranslations("common");
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -118,9 +115,9 @@ export function SettingsClient({ user }: { user: UserData }) {
 
       const { url } = await res.json();
       setAvatarUrl(url);
-      toast.success(t("toastPhotoUpdated"));
+      toast.success("Profile photo updated.");
     } catch (err) {
-      toast.error((err as Error).message ?? t("toastPhotoFailed"));
+      toast.error((err as Error).message ?? "Failed to upload photo.");
     } finally {
       setAvatarUploading(false);
       // Reset input so same file can be re-selected
@@ -142,10 +139,10 @@ export function SettingsClient({ user }: { user: UserData }) {
         body: JSON.stringify({ name: name.trim() }),
       });
       if (!res.ok) throw new Error("Update failed");
-      toast.success(t("toastNameUpdated"));
+      toast.success("Display name updated.");
       router.refresh();
     } catch {
-      toast.error(t("toastNameFailed"));
+      toast.error("Failed to update name.");
     } finally {
       setNameSaving(false);
     }
@@ -161,10 +158,10 @@ export function SettingsClient({ user }: { user: UserData }) {
     try {
       const res = await fetch("/api/user", { method: "DELETE" });
       if (!res.ok) throw new Error("Deletion failed");
-      toast.success(t("toastAccountDeleted"));
+      toast.success("Account deleted.");
       router.push("/login");
     } catch {
-      toast.error(t("toastDeleteFailed"));
+      toast.error("Failed to delete account. Please try again.");
       setDeleting(false);
     }
   }
@@ -177,15 +174,15 @@ export function SettingsClient({ user }: { user: UserData }) {
     <div className="space-y-6 p-8 pt-6">
       {/* Page header */}
       <div className="space-y-1">
-        <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
-        <p className="text-muted-foreground text-sm">{t("subtitle")}</p>
+        <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
+        <p className="text-muted-foreground text-sm">Configure your account settings.</p>
       </div>
 
       {/* Profile card */}
       <Card>
         <CardHeader>
-          <CardTitle>{t("profileSection")}</CardTitle>
-          <CardDescription>{t("profileSubtitle")}</CardDescription>
+          <CardTitle>Profile</CardTitle>
+          <CardDescription>Update your display name and profile photo.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Avatar uploader */}
@@ -216,34 +213,34 @@ export function SettingsClient({ user }: { user: UserData }) {
               onChange={handleAvatarChange}
             />
             <div className="space-y-0.5">
-              <p className="text-sm font-medium">{t("photoLabel")}</p>
-              <p className="text-muted-foreground text-xs">{t("photoHint")}</p>
+              <p className="text-sm font-medium">Profile photo</p>
+              <p className="text-muted-foreground text-xs">JPG, PNG, or WebP · max 5 MB</p>
             </div>
           </div>
 
           {/* Name */}
           <div className="space-y-2">
-            <Label htmlFor="name">{t("displayNameLabel")}</Label>
+            <Label htmlFor="name">Display name</Label>
             <div className="flex gap-2">
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 maxLength={32}
-                placeholder={t("displayNamePlaceholder")}
+                placeholder={"Your name"}
                 className="max-w-sm"
               />
               <Button onClick={handleSaveName} disabled={!nameChanged || nameSaving}>
                 {nameSaving && <Loader2 className="mr-2 size-4 animate-spin" />}
-                {t("saveButton")}
+                {"Save"}
               </Button>
             </div>
-            <p className="text-muted-foreground text-xs">{t("displayNameHint")}</p>
+            <p className="text-muted-foreground text-xs">Max 32 characters.</p>
           </div>
 
           {/* Email — readonly */}
           <div className="space-y-2">
-            <Label htmlFor="email">{t("emailLabel")}</Label>
+            <Label htmlFor="email">Email address</Label>
             <div className="relative max-w-sm">
               <Input
                 id="email"
@@ -253,7 +250,7 @@ export function SettingsClient({ user }: { user: UserData }) {
               />
               <Lock className="text-muted-foreground absolute top-1/2 right-3 size-3.5 -translate-y-1/2" />
             </div>
-            <p className="text-muted-foreground text-xs">{t("emailHint")}</p>
+            <p className="text-muted-foreground text-xs">Email address cannot be changed.</p>
           </div>
         </CardContent>
       </Card>
@@ -261,27 +258,21 @@ export function SettingsClient({ user }: { user: UserData }) {
       {/* Danger zone card */}
       <Card className="border-destructive">
         <CardHeader>
-          <CardTitle className="text-destructive">{t("dangerZone")}</CardTitle>
-          <CardDescription className="text-destructive/70">
-            {t("dangerZoneSubtitle")}
-          </CardDescription>
+          <CardTitle className="text-destructive">Danger Zone</CardTitle>
+          <CardDescription className="text-destructive/70">Irreversible actions — please proceed carefully.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-1">
-              <p className="text-sm font-medium">{t("deleteAccountTitle")}</p>
-              <p className="text-muted-foreground text-xs leading-relaxed">
-                {t("deleteAccountDescription")}
-              </p>
+              <p className="text-sm font-medium">Delete account</p>
+              <p className="text-muted-foreground text-xs leading-relaxed">Permanently removes your account, all your teams, conversations, assets, and associated data. This cannot be undone.</p>
             </div>
             <Button
               variant="destructive"
               className="shrink-0"
               onClick={() => setDeleteOpen(true)}
             >
-              <Trash2 className="mr-2 size-4" />
-              {t("deleteAccountButton")}
-            </Button>
+              <Trash2 className="mr-2 size-4" />Delete Account</Button>
           </div>
         </CardContent>
       </Card>
@@ -298,18 +289,14 @@ export function SettingsClient({ user }: { user: UserData }) {
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-destructive">
-              {t("deleteConfirmTitle")}
-            </DialogTitle>
-            <DialogDescription>
-              {t("deleteConfirmDescription")}
-            </DialogDescription>
+            <DialogTitle className="text-destructive">Delete your account?</DialogTitle>
+            <DialogDescription>This will permanently delete your account and all associated data including teams, conversations, and assets. This action cannot be undone.</DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 pt-2">
             <div className="space-y-2">
               <Label htmlFor="delete-confirm">
-                {t("deleteConfirmPrompt", { email: user.email })}
+                {`Type ${user.email} to confirm`}
               </Label>
               <Input
                 id="delete-confirm"
@@ -327,16 +314,14 @@ export function SettingsClient({ user }: { user: UserData }) {
                   setDeleteConfirm("");
                 }}
                 disabled={deleting}
-              >
-                {tCommon("cancel")}
-              </Button>
+              >Cancel</Button>
               <Button
                 variant="destructive"
                 disabled={deleteConfirm !== user.email || deleting}
                 onClick={handleDeleteAccount}
               >
                 {deleting && <Loader2 className="mr-2 size-4 animate-spin" />}
-                {t("deleteConfirmButton")}
+                {"Delete Account"}
               </Button>
             </div>
           </div>

@@ -1,19 +1,9 @@
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { betterFetch } from "@better-fetch/fetch";
-import createMiddleware from "next-intl/middleware";
 
 import { auth } from "@/lib/auth";
-import { defaultLocale, locales } from "@/i18n/config";
 
-// Locale routing middleware for public marketing + docs routes
-const intlMiddleware = createMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix: "always",
-});
-
-// Known auth routes handled by (app)/(auth) — no locale prefix
+// Auth pages — signed-in users are bounced away from these
 const AUTH_ROUTES = new Set([
   "/login",
   "/signup",
@@ -21,7 +11,7 @@ const AUTH_ROUTES = new Set([
   "/forgot-password",
 ]);
 
-// Known protected route prefixes handled by (app)/(protected) — no locale prefix
+// Everything below these prefixes requires a session
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/admin",
@@ -29,15 +19,7 @@ const PROTECTED_PREFIXES = [
   "/onboarding",
 ];
 
-// Returns true if the path should be handled by the auth/protected logic (no locale routing).
-// Everything else is treated as a public/marketing path and locale-prefixed.
-function isAppRoute(pathname: string): boolean {
-  if (AUTH_ROUTES.has(pathname)) return true;
-  if (PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/")))
-    return true;
-  return false;
-}
-
+// Extra per-route role requirements — the most specific path wins
 const routeRules = [
   {
     path: "/admin",
@@ -66,15 +48,21 @@ const routeRules = [
   // Add other role protected routes here...
 ];
 
+function isAppRoute(pathname: string): boolean {
+  if (AUTH_ROUTES.has(pathname)) return true;
+  return PROTECTED_PREFIXES.some(
+    (p) => pathname === p || pathname.startsWith(p + "/"),
+  );
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Public marketing/docs paths → locale routing (handles /terms, /privacy, /blog/*, etc.)
+  // Public marketing, blog and help pages need no session check
   if (!isAppRoute(pathname)) {
-    return intlMiddleware(request);
+    return NextResponse.next();
   }
 
-  // Auth + protected routes → existing session-based auth logic
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -94,13 +82,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  const sortedRouteRules = [...routeRules].sort(
-    (a, b) => b.path.length - a.path.length,
-  );
-
-  const rule = sortedRouteRules.find(
-    (r) => pathname === r.path || pathname.startsWith(r.path + "/"),
-  );
+  const rule = [...routeRules]
+    .sort((a, b) => b.path.length - a.path.length)
+    .find((r) => pathname === r.path || pathname.startsWith(r.path + "/"));
 
   if (rule) {
     if (!session || !session.user) {
@@ -121,9 +105,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Broad matcher: runs on all paths except Next.js internals, static files, and API routes.
-  // The proxy function itself decides whether to apply locale routing or auth logic.
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon\\.ico|.*\\..*$).*)",
-  ],
+  // Runs on all paths except Next.js internals, static files and API routes.
+  matcher: ["/((?!api|_next/static|_next/image|favicon\\.ico|.*\\..*$).*)"],
 };
