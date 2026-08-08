@@ -13,7 +13,7 @@ export function HeaderSection({ label, title, subtitle }: HeaderSectionProps) {
         </p>
       ) : null}
 
-      <h2 className="text-3xl font-extralight tracking-tight text-balance sm:text-4xl">
+      <h2 className="font-display text-3xl tracking-tight text-balance sm:text-4xl">
         {title}
       </h2>
 

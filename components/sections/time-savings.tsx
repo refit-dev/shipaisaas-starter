@@ -39,7 +39,7 @@ export default function TimeSavings() {
           <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
             Save 300+ Hours
           </p>
-          <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
+          <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">
             Focus on your AI logic.
           </h2>
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">

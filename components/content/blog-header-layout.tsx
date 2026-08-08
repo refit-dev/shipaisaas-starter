@@ -25,7 +25,7 @@ export function BlogHeaderLayout() {
           <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">
             Blog
           </p>
-          <h1 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">
+          <h1 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">
             {data?.title ?? "Latest news & updates."}
           </h1>
           <p className="text-muted-foreground mt-4 max-w-lg text-sm leading-relaxed md:text-base">

@@ -121,7 +121,7 @@ export function ComparePlans() {
         transition={{ duration: duration.base, ease }}
       >
         <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Plans</p>
-        <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Compare Our Plans</h2>
+        <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">Compare Our Plans</h2>
         <p className="text-muted-foreground mt-4 text-base font-light leading-relaxed text-balance">Find the perfect plan tailored for your business needs!</p>
       </motion.div>
 

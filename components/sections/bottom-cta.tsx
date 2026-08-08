@@ -31,7 +31,7 @@ export default function BottomCta() {
       <div className="relative z-20 flex min-h-[440px] flex-col items-center justify-center px-6 py-24 text-center">
         <div className="flex flex-col items-center gap-6 max-w-2xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">Get Started</p>
-          <h2 className="max-w-3xl text-4xl font-extralight tracking-tight text-white text-balance sm:text-5xl">Ready to ship your AI SaaS?</h2>
+          <h2 className="max-w-3xl font-display text-4xl tracking-tight text-white text-balance sm:text-5xl">Ready to ship your AI SaaS?</h2>
           <p className="max-w-xl text-base font-light leading-relaxed text-white/60 text-balance">Clone the starter, add your keys, and have a working product with auth, billing and AI in an afternoon.</p>
           <div className="mt-2">
             <SlidingButton href="/signup" label={"Get started"} variant="light" />

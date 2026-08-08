@@ -228,13 +228,13 @@ export default function HeroLanding() {
 
         {/* Headline + subtext + CTAs + social proof */}
         <div className="mx-auto mb-4 w-full max-w-5xl text-center">
-          <h1 className="text-foreground text-4xl leading-tight font-extralight tracking-tight md:text-6xl lg:text-7xl">
+          <h1 className="text-foreground font-display text-4xl leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
             <div
               className="mb-3 md:mb-2"
               style={{ opacity: 0, animation: "word-appear 0.35s ease-out 0.05s forwards" }}
             >Ship your AI SaaS.</div>
             <div
-              className="text-muted-foreground text-xl leading-tight font-thin md:text-3xl lg:text-4xl"
+              className="text-muted-foreground font-display text-xl leading-tight italic md:text-3xl lg:text-4xl"
               style={{ opacity: 0, animation: "word-appear 0.35s ease-out 0.1s forwards" }}
             >Auth, billing and AI, already wired together.</div>
           </h1>

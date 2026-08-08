@@ -108,7 +108,7 @@ export default async function PostPage({
               {formatDate(post.date)}
             </time>
           </div>
-          <h1 className="font-heading text-foreground text-3xl sm:text-4xl">
+          <h1 className="text-foreground text-3xl sm:text-4xl">
             {post.title}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg">
@@ -152,7 +152,7 @@ export default async function PostPage({
       <MaxWidthWrapper>
         {relatedArticles.length > 0 && (
           <div className="flex flex-col space-y-4 pb-16">
-            <p className="font-heading text-foreground text-2xl">
+            <p className="text-foreground text-2xl">
               More Articles
             </p>
 
@@ -163,7 +163,7 @@ export default async function PostPage({
                   href={post.slug}
                   className="hover:bg-muted/80 flex flex-col space-y-2 rounded-xl border p-5 transition-colors duration-300"
                 >
-                  <h3 className="font-heading text-foreground text-xl">
+                  <h3 className="text-foreground text-xl">
                     {post.title}
                   </h3>
                   <p className="text-muted-foreground line-clamp-2 text-[15px]">

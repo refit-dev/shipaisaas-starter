@@ -24,7 +24,7 @@ export function DocsPageHeader({
       </div>
 
       <div className={cn("space-y-2", className)} {...props}>
-        <h1 className="font-heading inline-block scroll-m-20 text-4xl">
+        <h1 className="inline-block scroll-m-20 text-4xl">
           {heading}
         </h1>
         {text && (

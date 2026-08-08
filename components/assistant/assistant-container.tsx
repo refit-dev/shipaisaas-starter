@@ -151,7 +151,7 @@ function AssistantHeader({
           <MessageSquareText size={16} />
         </Button>
 
-        <span className="font-urban text-muted-foreground truncate text-xs font-medium">
+        <span className="text-muted-foreground truncate text-xs font-medium">
           {activeConversation?.title || "New Chat"}
         </span>
       </div>

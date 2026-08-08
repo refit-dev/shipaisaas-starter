@@ -29,7 +29,7 @@ export default function HowItWorks() {
             transition={{ duration: duration.base, ease }}
           >
             <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">How it works</p>
-            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">From clone to deployed in three steps.</h2>
+            <h2 className="text-foreground font-display text-3xl tracking-tight text-balance md:text-4xl lg:text-5xl">From clone to deployed in three steps.</h2>
           </motion.div>
 
           {/* Steps */}
