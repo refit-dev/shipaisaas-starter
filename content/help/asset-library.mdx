@@ -1,0 +1,57 @@
+---
+title: Your Asset Library
+description: How outputs are automatically captured, how to search, preview, and download your assets.
+date: "2026-05-10"
+published: true
+---
+
+The Asset Library is a permanent, searchable vault of everything your agents have ever produced. You never need to manually save outputs — the platform captures them automatically the moment they're generated.
+
+## How Assets Are Captured
+
+Every time an agent successfully executes a content-producing tool, the output is intercepted and written to your asset library before the result is returned to the chat. This happens silently in the background — the agent doesn't need to be instructed to save anything.
+
+The following tool outputs are captured automatically:
+
+| Tool | Asset type |
+|---|---|
+| `format_post` | Social post (copy, platform, hashtags) |
+| `generate_image` | Image (URL, prompt, dimensions) |
+| `generate_outline` | Post outline (structured sections) |
+| `generate_report` | Report (full Markdown content) |
+
+This means that even if you close the browser mid-conversation, the outputs from that session are safely stored and retrievable later.
+
+## Browsing Your Assets
+
+Go to **Assets** in the sidebar to open the library. Assets are displayed in a card grid. Each card shows:
+
+- The asset type (Social Post, Image, Outline, Report)
+- A preview of the content or a thumbnail
+- The date it was created
+
+Use the **type filter pills** at the top to narrow the view to a specific category. Use the **search bar** to find assets by title or content keywords.
+
+## Previewing and Downloading
+
+Click any asset card to open a full preview. From the preview panel you can:
+
+- Read the full content
+- Copy the text to clipboard
+- Download the asset (image files as PNG/JPG, text assets as Markdown)
+
+Assets remain in your library indefinitely. There is no expiry.
+
+## Assets Across Workflows and Chat
+
+Assets are captured from both chat conversations and background workflow runs. The library gives you a single place to find everything, regardless of where it was generated.
+
+If you run the same workflow multiple times, each run produces its own set of assets. The library deduplicates content by hash — identical outputs from retry attempts are not saved twice.
+
+## Tips
+
+**Search before regenerating.** Before asking an agent to re-generate something, check the library — the output from a previous session may already be there.
+
+**Use the type filter for focused work.** If you're assembling a content batch, filter to "Social Post" to see all your recent copy in one view.
+
+**Download in bulk for handoff.** If you're handing off a batch of assets to a designer or editor, download them individually from the preview panel and share from your local folder.

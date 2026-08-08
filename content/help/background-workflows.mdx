@@ -1,0 +1,65 @@
+---
+title: Background Workflows
+description: Create goal-driven workflows, schedule recurring runs, and approve steps before they publish.
+date: "2026-05-10"
+published: true
+---
+
+Workflows let you define a multi-step AI operation once and run it repeatedly — on demand or on a schedule. Instead of manually executing each step in chat, the workflow planner converts your goal into a deterministic plan and the executor runs each step automatically, pausing for your approval before any publishable content goes out.
+
+## How Workflows Work
+
+When you create a workflow, the system does two things:
+
+1. **Planning** — An AI planner reads your goal and generates a step-by-step execution plan. Each step maps to a single tool call (`web_search`, `generate_report`, `format_post`, `generate_image`, etc.). The plan is static: all inputs are resolved upfront, so every run follows the same structure against fresh data.
+
+2. **Execution** — A background executor runs each step in sequence. Steps that produce publishable content (posts, images, emails) are flagged for human approval before the workflow continues.
+
+This split ensures you get consistent, auditable runs without surprises.
+
+## Creating a Workflow
+
+1. Go to **Workflows** in the sidebar and click **New Workflow**.
+2. Enter a goal in natural language — describe what you want to produce and from where.
+   > Example: "Search for the top 5 AI marketing stories this week and format them into a newsletter digest."
+3. The planner generates a step-by-step plan. Review the steps before proceeding.
+4. Click **Create** to save the workflow.
+
+## Running a Workflow
+
+From the workflow detail page, click **Run** to start an execution. The workflow runs in the background — you can navigate away and return to check progress.
+
+Each run creates a new execution log with the status of every step. Steps move through: `pending` → `running` → `awaiting_approval` (if required) → `completed`.
+
+## Approval Gates
+
+Steps that produce content intended for publishing are paused at an approval gate. When a step requires approval:
+
+1. The run status changes to **Awaiting Approval**.
+2. You receive an email notification with a preview of what the agent produced.
+3. You review the output and choose to **Approve** or **Reject**.
+4. If approved, the workflow continues from the next step. If rejected, the run is cancelled and you can review the output before retrying.
+
+Approval gates protect you from publishing incorrect facts, off-brand copy, or outputs that don't match your standards — without requiring you to monitor every run in real time.
+
+## Scheduling
+
+Workflows can run on a recurring schedule using cron syntax. Common patterns:
+
+| Schedule | When it runs |
+|---|---|
+| Every Monday at 08:00 | Weekly content digest |
+| Every day at 07:00 | Daily social caption ideas |
+| 1st of every month | Monthly industry report |
+
+To set a schedule, open the workflow settings and enter a cron expression or pick from the preset options.
+
+Scheduled runs produce drafts that appear in your approval queue automatically. By the time you open the dashboard in the morning, this week's newsletter draft may already be waiting for your review.
+
+## Tips for Good Workflows
+
+**Write specific goals.** "Research AI news and write a post" is vague. "Search for the top 3 AI product launches this week and write a 200-word LinkedIn update summarizing them" gives the planner enough to build a reliable, repeatable plan.
+
+**Expect the first run to be a calibration.** Review the generated plan before running. If the steps don't look right, delete the workflow and try a more specific goal description.
+
+**Use approval gates for anything public.** Research and summarization steps are safe to run automatically. Anything that represents your brand or goes to an audience should require approval.

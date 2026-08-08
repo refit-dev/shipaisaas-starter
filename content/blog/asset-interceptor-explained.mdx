@@ -1,0 +1,86 @@
+---
+title: "Inside the Asset Interceptor: How Agent Outputs Become Your Library"
+description: When an AI agent generates an image or writes a post, where does it go? The asset interceptor pattern ensures nothing gets lost in the chat.
+image: /_static/blog/blog.jpg
+date: "2026-04-10"
+authors:
+  - james_okafor
+categories:
+  - education
+related:
+  - building-ai-agent-workflows
+  - scaling-content-with-workflows
+published: true
+---
+
+Every AI agent that generates content has the same problem: outputs live in the chat. A beautiful LinkedIn carousel, a generated hero image, a competitive analysis report — all buried in a conversation thread, inaccessible to anyone who didn't witness the run.
+
+The asset interceptor pattern solves this by treating tool outputs as first-class artifacts, not chat messages.
+
+## The Problem with Chat-as-Storage
+
+Chat history is optimized for conversation flow, not retrieval. After a dozen workflow runs, finding a specific generated image means scrolling through tool calls, error messages, and user approvals.
+
+Worse, chat is ephemeral in many AI frameworks. Context windows have limits; older messages get truncated. An output from three runs ago might simply be gone.
+
+Assets need a separate home.
+
+## How the Interceptor Works
+
+The interceptor sits between the tool execution layer and the message saving layer. Every time an agent completes a tool call, the interceptor checks:
+
+1. Is this tool in the asset registry? (e.g., `generate_image`, `format_post`, `generate_report`)
+2. Did the call succeed with a non-empty output?
+3. Has this exact output already been saved? (deduplication by content hash)
+
+If all three pass, the interceptor extracts the relevant fields from the tool output and writes a row to the `assets` table — without any instruction from the LLM.
+
+```typescript
+// Simplified interceptor logic
+for (const result of toolResults) {
+  const extractor = ASSET_EXTRACTORS[result.toolName];
+  if (!extractor) continue;
+
+  const asset = extractor(result.output);
+  if (!asset) continue;
+
+  await db.insert(assets).values({
+    teamId,
+    type: asset.type,
+    title: asset.title,
+    content: asset.content,
+    metadata: asset.metadata,
+  });
+}
+```
+
+The LLM never knows this happened. It doesn't need to.
+
+## The Asset Registry
+
+Each tool that produces a saveable output registers an extractor function — a pure transform from tool output to asset row.
+
+| Tool | Asset type | What's saved |
+|---|---|---|
+| `format_post` | `social_post` | The post copy, platform, hashtags |
+| `generate_image` | `image` | The image URL |
+| `generate_outline` | `post_outline` | The structured outline |
+| `generate_report` | `report` | The full markdown report |
+
+Adding a new asset type means writing a new extractor and registering it. Nothing else changes.
+
+## Deduplication
+
+Workflows often retry steps. Without deduplication, the same image or post gets saved multiple times. The interceptor uses a content hash — a short SHA of the asset content — to skip duplicates.
+
+This also handles approval retries gracefully. If an agent re-generates a post because the user rejected the first draft, the second version gets its own hash and saves cleanly.
+
+## Searching Your Library
+
+Once assets are rows in a database, the full power of SQL is available:
+
+- Filter by type, date range, or workflow
+- Full-text search across titles and content
+- Download any asset at any time, even if the original run is long gone
+
+This is the payoff of the interceptor pattern: you get a searchable, permanent library of everything your agents have ever produced, with zero effort from the agent itself.

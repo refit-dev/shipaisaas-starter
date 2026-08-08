@@ -1,0 +1,76 @@
+---
+title: How to Build Your First AI Agent Workflow
+description: A practical guide to breaking down a high-level goal into a deterministic, step-by-step execution plan your agents can run reliably.
+image: /_static/blog/blog.jpg
+date: "2026-02-15"
+authors:
+  - james_okafor
+categories:
+  - education
+related:
+  - human-in-the-loop-ai
+  - scaling-content-with-workflows
+published: true
+---
+
+Building an AI agent that reliably executes a multi-step task is harder than it looks. The naive approach — give the model a goal and hope it figures out the steps — breaks down quickly the moment you need consistency, auditability, or human oversight.
+
+The better approach is a **planner-executor split**: one model call generates a deterministic plan, and a separate executor runs each step in isolation. This article walks through how that works in practice.
+
+## The Planner-Executor Pattern
+
+The core insight is that planning and execution have different requirements:
+
+- **Planning** needs creativity and context — you want a capable model reasoning about the best sequence of steps.
+- **Execution** needs reliability and focus — each step should call exactly one tool, use the plan as its spec, and not improvise.
+
+Mixing the two into a single ReAct-style loop sounds appealing but creates a fragile system. Any single step failure or hallucination can derail everything that follows.
+
+### Designing the Plan
+
+A well-formed plan has three properties:
+
+1. **Ordered steps** — each step has an index, a human-readable description, and a single tool name.
+2. **Static inputs** — no runtime variables. The planner derives concrete values (search query, platform, topic) from the user's goal.
+3. **Approval gates** — steps that produce publishable content are flagged `requiresApproval: true` so a human can review before execution continues.
+
+Here's an example plan for the goal *"Research AI trends and write a LinkedIn carousel"*:
+
+```json
+{
+  "title": "LinkedIn AI Trends Carousel",
+  "steps": [
+    { "stepIndex": 0, "toolName": "web_search", "description": "Search for top 5 AI marketing trends in 2026", "requiresApproval": false },
+    { "stepIndex": 1, "toolName": "generate_outline", "description": "Structure a 6-slide carousel outline from search results", "requiresApproval": false },
+    { "stepIndex": 2, "toolName": "format_post", "description": "Write the final carousel copy for LinkedIn", "requiresApproval": true },
+    { "stepIndex": 3, "toolName": "generate_image", "description": "Generate a hero image matching the carousel theme", "requiresApproval": true }
+  ]
+}
+```
+
+## Running Steps in Isolation
+
+Each step runs as a fresh `ToolLoopAgent` constrained to exactly one tool call (`stopWhen: stepCountIs(1)`). The agent sees the full conversation history so it can infer inputs from prior outputs — no explicit data passing required.
+
+This isolation has two key benefits:
+
+- **Fault containment** — a failed step marks the run as failed without corrupting the conversation state.
+- **Resume capability** — after a human approves a paused step, the executor can safely re-enqueue the next step with full context.
+
+## Durable Execution with a Queue
+
+Long-running workflows can't live inside a serverless function. A typical workflow of 5 steps — web search, extraction, outline, post, image — can easily run for 3–5 minutes. Most serverless platforms cut you off at 60 seconds.
+
+The solution is a durable queue (we use QStash). Each step completion enqueues the next step as a separate job. The queue handles retries, and each job has its own execution budget.
+
+> The workflow doesn't "run" continuously — it advances one step at a time, each step an independent HTTP call.
+
+## What to Do Next
+
+Once you have the planner-executor pattern working, the natural next questions are:
+
+- How do you pass context between steps reliably? (Hint: the conversation history is your state.)
+- How do you handle approval gates without blocking the queue?
+- How do you surface run status to users in real time?
+
+These are exactly the problems the workflow system in this kit is designed to solve out of the box.
