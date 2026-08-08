@@ -18,12 +18,12 @@ export function AdminUsageCards({
 }: AdminUsageCardsProps) {
   const monthlyPercent =
     !isGlobal && limits.monthlyRequests > 0
-      ? Math.min((monthlyData.credits / limits.monthlyRequests) * 100, 100)
+      ? Math.min((monthlyData.requests / limits.monthlyRequests) * 100, 100)
       : 0;
 
   const dailyPercent =
     !isGlobal && limits.dailyRequests > 0
-      ? Math.min((todayData.credits / limits.dailyRequests) * 100, 100)
+      ? Math.min((todayData.requests / limits.dailyRequests) * 100, 100)
       : 0;
 
   return (
@@ -38,7 +38,7 @@ export function AdminUsageCards({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {monthlyData.credits.toLocaleString()}{" "}
+            {monthlyData.requests.toLocaleString()}{" "}
             {!isGlobal && limits.monthlyRequests > 0 && (
               <span className="text-muted-foreground text-sm font-normal">
                 / {limits.monthlyRequests.toLocaleString()}
@@ -70,7 +70,7 @@ export function AdminUsageCards({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {todayData.credits.toLocaleString()}{" "}
+            {todayData.requests.toLocaleString()}{" "}
             {!isGlobal && limits.dailyRequests > 0 && (
               <span className="text-muted-foreground text-sm font-normal">
                 / {limits.dailyRequests.toLocaleString()}

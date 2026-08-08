@@ -70,9 +70,9 @@ export const POST = withAdminAuth(async ({ req }) => {
         inputTokens: acc.inputTokens + (curr.inputTokens || 0),
         outputTokens: acc.outputTokens + (curr.outputTokens || 0),
         totalTokens: acc.totalTokens + (curr.totalTokens || 0),
-        credits: acc.credits + (curr.credits || 0),
+        requests: acc.requests + (curr.requests || 0),
       }),
-      { inputTokens: 0, outputTokens: 0, totalTokens: 0, credits: 0 },
+      { inputTokens: 0, outputTokens: 0, totalTokens: 0, requests: 0 },
     );
 
     // 5. Aggregate and Format Daily Data
@@ -92,16 +92,16 @@ export const POST = withAdminAuth(async ({ req }) => {
         (acc, curr) => ({
           inputTokens: acc.inputTokens + (curr.inputTokens || 0),
           outputTokens: acc.outputTokens + (curr.outputTokens || 0),
-          credits: acc.credits + (curr.credits || 0),
+          requests: acc.requests + (curr.requests || 0),
         }),
-        { inputTokens: 0, outputTokens: 0, credits: 0 },
+        { inputTokens: 0, outputTokens: 0, requests: 0 },
       );
 
       formattedDailyData.push({
         date: dateString,
         inputTokens: dayTotal.inputTokens,
         outputTokens: dayTotal.outputTokens,
-        credits: dayTotal.credits,
+        requests: dayTotal.requests,
       });
     }
 

@@ -87,7 +87,7 @@ export const GET = withAuth(async ({ team }) => {
       totalConversations: totalConversations[0]?.value ?? 0,
       conversationsThisWeek: conversationsThisWeek[0]?.value ?? 0,
       totalMessages: totalMessages[0]?.value ?? 0,
-      requestsThisMonth: monthlyUsage?.credits ?? 0,
+      requestsThisMonth: monthlyUsage?.requests ?? 0,
     },
     recentConversations,
     activityChartData,

@@ -14,11 +14,11 @@ export default function Faq() {
   const shouldReduceMotion = useReducedMotion();
 
   const faqItems = [
-    { id: "security", question: "Is my data secure?", answer: "All data is encrypted at rest and in transit using AES-256 and TLS 1.3. We do not train on your data. Our infrastructure is hosted on SOC 2 Type II-compliant cloud providers, and we are currently pursuing our own SOC 2 certification." },
-    { id: "onboarding", question: "How long does onboarding take?", answer: "Most teams are fully up and running in under 30 minutes. Our guided setup walks you through connecting your first data source, configuring your initial agents, and running your first automated workflow — no engineering resources required." },
-    { id: "integrations", question: "What tools and integrations do you support?", answer: "We support REST API and webhook-based integrations out of the box, which means we connect to virtually any modern SaaS tool. Native connectors are available for the most popular platforms, with new integrations added regularly based on customer demand." },
-    { id: "cancel", question: "Can I cancel anytime?", answer: "Yes, there is no lock-in. You can cancel your subscription at any time from your billing settings. Your data remains accessible and exportable for 30 days after cancellation, giving you full control of your information." },
-    { id: "trial", question: "Do you offer a free trial?", answer: "Yes — every account starts with a 14-day free trial with full access to all features, no credit card required. At the end of your trial, you can choose the plan that fits your team's needs or continue on the free tier." },
+    { id: "license", question: "What can I build with this?", answer: "Anything. The starter is MIT licensed, so you can fork it, change it, and sell the product you build on top of it. There is no attribution requirement and no revenue share." },
+    { id: "included", question: "What is actually included?", answer: "Next.js 16 with the App Router, Better-Auth (email/password plus Google), Drizzle ORM on Postgres, three Stripe subscription tiers with webhooks, Resend transactional email, a streaming chat layer on the Vercel AI SDK, structured-output task templates, per-plan usage limits, an admin area, and an MDX blog and help centre." },
+    { id: "models", question: "Which AI models does it support?", answer: "OpenAI and Anthropic models are configured out of the box in lib/ai/models.ts, and the model picker in the chat input switches between them. Adding another provider supported by the Vercel AI SDK is a few lines in that same file." },
+    { id: "setup", question: "How long does setup take?", answer: "Clone the repo, copy .env.example to .env, add your Postgres URL and API keys, run the migrations, and start the dev server. Most people are signed in to their own instance in about fifteen minutes." },
+    { id: "premium", question: "How is this different from Ship AI SaaS Pro?", answer: "This starter covers the foundation: auth, database, billing, email and a direct AI layer. Pro adds the hard parts of agentic products — real-time tool-call state in the UI, human-in-the-loop approvals, background execution through a queue, token-level credit metering with pay-as-you-go top-ups, multi-tenant teams and RBAC, i18n, and a scaffolding CLI." },
   ];
 
   return (

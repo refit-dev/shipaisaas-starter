@@ -1,0 +1,43 @@
+---
+title: Ship an AI SaaS in an Afternoon
+description: A walkthrough of what the starter gives you out of the box, and the handful of decisions left for you to make.
+image: /_static/blog/blog.jpg
+date: "2026-06-02"
+authors:
+  - james_okafor
+categories:
+  - education
+related:
+  - structured-output-with-the-ai-sdk
+  - metering-ai-usage-without-a-credit-system
+published: true
+---
+
+Most of the work in launching an AI product has nothing to do with AI. It is sign-up flows, password resets, a billing integration that survives a failed webhook, and a database schema you will not regret in three months. The starter exists so you can skip that part.
+
+## What you get
+
+Clone the repo and you have a Next.js 16 app with:
+
+- **Better-Auth** for email/password and Google sign-in, with email verification and password reset already wired to Resend.
+- **Drizzle ORM** on Postgres, with typed schemas and a CLI migration workflow.
+- **Stripe subscriptions** across three tiers, including Checkout, the customer portal, and a webhook handler that keeps plan state in your own database.
+- **A streaming chat layer** on the Vercel AI SDK, with persisted conversations and a model picker.
+- **Task templates** for one-shot generation, including one that returns validated JSON.
+- **Usage limits** enforced per plan before a request reaches the model.
+
+## The parts you actually change
+
+Three files carry most of your product's personality:
+
+`config/ai.ts` holds the system prompt, the history window, and the sampling temperature. This is where your assistant stops sounding generic.
+
+`config/tasks.ts` defines the task templates. Each one is a slug, a few form inputs, and a system prompt — add an entry and a new page appears under `/dashboard/tasks`.
+
+`config/subscriptions.ts` defines your tiers, prices, and per-plan request limits. The limits here are enforced server-side by `checkRateLimits()`, so raising a number in this file raises the real cap.
+
+## Deploying
+
+The app runs on Vercel with no special configuration. Point `DATABASE_URL` at a hosted Postgres instance, add your API keys, run `npm run db:migrate`, and deploy. The Stripe webhook needs one endpoint pointing at `/api/webhooks/stripe` — everything else is environment variables.
+
+The interesting work starts after that: what your product does that nobody else's does.

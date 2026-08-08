@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, Cpu, FolderLock, ShieldCheck } from "lucide-react";
+import { Bot, Braces, CreditCard, Gauge } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -15,10 +15,10 @@ export default function BentoFeatures() {
   const shouldReduceMotion = useReducedMotion();
 
   const features = [
-    { icon: Cpu,        title: "Background Workflows", description: "Agents run autonomously in the background — researching, drafting, and executing multi-step tasks while your team sleeps.", wide: true  },
-    { icon: ShieldCheck, title: "Human-in-the-Loop",        description: "Set approval gates on any workflow step. Every critical decision surfaces to your team before the agent proceeds.",         wide: false },
-    { icon: FolderLock, title: "Secure Asset Storage",       description: "Every output — documents, images, structured data — is automatically saved and versioned in your secure storage layer.",        wide: false },
-    { icon: Bot,        title: "Custom AI Personas",      description: "Spin up specialized agents for each function: legal review, competitor analysis, content production, and more.",       wide: true  },
+    { icon: Bot,        title: "Streaming Chat",     description: "A chat UI on the Vercel AI SDK with persisted conversations, file attachments and a model picker across OpenAI and Anthropic.", wide: true  },
+    { icon: Braces,     title: "Structured Output",   description: "Task templates that force the model to return JSON matching a Zod schema — validated before it ever reaches your UI.",           wide: false },
+    { icon: CreditCard, title: "Subscriptions",       description: "Three Stripe tiers with Checkout, the customer portal and webhooks that keep plan state in your own database.",                  wide: false },
+    { icon: Gauge,      title: "Usage Limits",        description: "Daily and monthly request caps per plan, enforced server-side before a single token is spent, with token counts recorded per team.", wide: true  },
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function BentoFeatures() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Features</p>
-            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Everything your team needs to run on autopilot.</h2>
+            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Everything a working AI product needs.</h2>
           </motion.div>
 
           {/* Cards */}

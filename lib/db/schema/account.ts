@@ -190,7 +190,7 @@ export const monthlyUsages = pgTable("monthly_usages", {
   inputTokens: integer("input_tokens").notNull().default(0),
   outputTokens: integer("output_tokens").notNull().default(0),
   totalTokens: integer("total_tokens").notNull().default(0),
-  credits: integer("credits").notNull().default(0),
+  requests: integer("requests").notNull().default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -204,7 +204,7 @@ export const dailyUsages = pgTable("daily_usages", {
   inputTokens: integer("input_tokens").notNull().default(0),
   outputTokens: integer("output_tokens").notNull().default(0),
   totalTokens: integer("total_tokens").notNull().default(0),
-  credits: integer("credits").notNull().default(0),
+  requests: integer("requests").notNull().default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

@@ -4,14 +4,14 @@ import { env } from "@/env.mjs";
 const site_url = env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
-  name: "Ship AI SaaS - Demo",
+  name: "Ship AI SaaS Starter",
   description:
-    "Launch your AI SaaS today with Ship AI SaaS Kit! Harness the power of Next.js 16, Drizzle, Supabase, betterAuth, Resend, React Email, Shadcn/ui and Stripe to build your next big thing.",
+    "The open source AI SaaS starter. Next.js 16, Drizzle, Postgres, Better-Auth, Stripe, Resend, shadcn/ui and the Vercel AI SDK, wired together and ready to ship.",
   url: site_url,
   ogImage: `${site_url}/_static/og.png`,
   links: {
     twitter: "https://twitter.com/JeanChrinot",
-    github: "https://github.com/jeanchrinot/shipaisaas",
+    github: "https://github.com/jeanchrinot/shipaisaas-starter",
   },
   mailSupport: "support@shipaisaas.com",
 };
@@ -29,19 +29,18 @@ export const footerLinks: SidebarNavItem[] = [
   {
     title: "Product",
     items: [
-      { title: "Security", href: "#" },
-      { title: "Customization", href: "#" },
-      { title: "Customers", href: "#" },
-      { title: "Changelog", href: "#" },
+      { title: "Getting started", href: "/help/getting-started" },
+      { title: "Chat", href: "/help/using-the-chat" },
+      { title: "Upgrade to Pro", href: "https://shipaisaas.com" },
     ],
   },
   {
-    title: "Docs",
+    title: "Resources",
     items: [
-      { title: "Introduction", href: "#" },
-      { title: "Installation", href: "#" },
-      { title: "Components", href: "#" },
-      { title: "Code Blocks", href: "#" },
+      { title: "Help centre", href: "/help" },
+      { title: "Blog", href: "/blog" },
+      { title: "Pricing", href: "/pricing" },
+      { title: "GitHub", href: "https://github.com/jeanchrinot/shipaisaas-starter" },
     ],
   },
 ];

@@ -2,16 +2,16 @@
 
 import {
   BookOpenText,
+  Bot,
+  Braces,
   CreditCard,
   Database,
   Fingerprint,
-  Globe,
   Lock,
   Mail,
   MoonStar,
   Receipt,
   ShieldHalf,
-  Users,
   Zap,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
@@ -48,18 +48,18 @@ function AnimatedContainer({ className, delay = 0.1, children }: AnimatedContain
 export default function CoreFeatures() {
 
   const coreFeatures = [
-    { title: "Authentication", description: "Secure login, registration, and magic links powered by Auth.js.", icon: Fingerprint },
-    { title: "Stripe Billing", description: "Flexible subscription plans with automatic webhook syncing.", icon: CreditCard },
-    { title: "Customer Portal", description: "Self-serve billing management, plan upgrades, and invoices.", icon: Receipt },
-    { title: "Team Workspaces", description: "Invite members, manage roles, and share resources seamlessly.", icon: Users },
-    { title: "Admin Dashboard", description: "High-level overview of users, revenue, and system health.", icon: ShieldHalf },
-    { title: "Dark Mode", description: "Native light, dark, and system theme support out of the box.", icon: MoonStar },
-    { title: "MDX Blog", description: "SEO-optimized, markdown-powered blog to drive organic traffic.", icon: BookOpenText },
-    { title: "Email Templates", description: "Beautifully styled, responsive transactional emails via Resend.", icon: Mail },
-    { title: "Database ORM", description: "Type-safe database interactions configured with Prisma or Drizzle.", icon: Database },
-    { title: "Rate Limiting", description: "Built-in endpoint protection to prevent abuse and manage load.", icon: Lock },
-    { title: "Edge Ready", description: "Optimized for Vercel Edge functions for lightning-fast responses.", icon: Zap },
-    { title: "i18n Support", description: "Full locale support with EN, FR, DE, and ES out of the box. Add more languages with a single JSON file.", icon: Globe },
+    { title: "Authentication", description: "Email/password and Google OAuth with sessions, verification and password reset, powered by Better-Auth.", icon: Fingerprint },
+    { title: "Stripe Billing", description: "Three subscription tiers wired to Checkout and webhooks, with plan state stored in your database.", icon: CreditCard },
+    { title: "Customer Portal", description: "Self-serve billing management, plan upgrades and invoices, straight from Stripe.", icon: Receipt },
+    { title: "AI Chat", description: "Streaming chat on the Vercel AI SDK with persisted history and a model picker.", icon: Bot },
+    { title: "Structured Output", description: "One-shot task templates that return validated JSON against a Zod schema.", icon: Braces },
+    { title: "Usage Limits", description: "Per-plan daily and monthly request caps enforced server-side before a token is spent.", icon: Lock },
+    { title: "Admin Dashboard", description: "Overview of users, workspaces and usage across your whole app.", icon: ShieldHalf },
+    { title: "Database ORM", description: "Drizzle ORM on Postgres with typed schemas and a CLI migration workflow.", icon: Database },
+    { title: "Email", description: "Transactional email through Resend for verification and account flows.", icon: Mail },
+    { title: "MDX Blog & Docs", description: "Contentlayer-powered blog and help centre so your marketing site ships with the app.", icon: BookOpenText },
+    { title: "Dark Mode", description: "Light, dark and system themes built on CSS variables and shadcn/ui.", icon: MoonStar },
+    { title: "MIT Licensed", description: "Fork it, sell what you build with it, no strings attached.", icon: Zap },
   ];
 
   const COLS = 4;
@@ -70,7 +70,7 @@ export default function CoreFeatures() {
         <AnimatedContainer className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
           <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">Everything included</p>
           <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">Everything you need to ship.</h2>
-          <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">The foundational features of every great SaaS are already built-in, so you can spend your time focusing on your unique agent logic.</p>
+          <p className="text-muted-foreground mt-4 text-sm leading-relaxed text-balance md:text-base">Auth, billing, database and a working AI layer are already wired together, so you start on your product instead of the plumbing.</p>
         </AnimatedContainer>
 
         <div className="overflow-hidden border border-dashed border-border">

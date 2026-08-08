@@ -2,24 +2,31 @@ import { PlansRow, SubscriptionPlan } from "@/types";
 
 import { env } from "@/env.mjs";
 
+/**
+ * Your pricing tiers.
+ *
+ * `usageLimits` is enforced server-side by `checkRateLimits()` in
+ * lib/utils/usage.ts — one AI request (chat message or task run) counts as one
+ * request against the daily and monthly caps.
+ */
 export const pricingData: SubscriptionPlan[] = [
   {
     title: "Free",
-    description: "For Beginners",
+    description: "Kick the tires",
     benefits: [
-      "Up to 100 monthly posts",
-      "Basic analytics and reporting",
-      "Access to standard templates",
+      "50 AI requests per month",
+      "Chat with history",
+      "All task templates",
+      "Basic usage analytics",
     ],
     limitations: [
-      "No priority access to new features.",
-      "Limited customer support",
+      "No priority support",
+      "Shorter context per request",
       "No custom branding",
-      "Limited access to business resources.",
     ],
     usageLimits: {
-      monthlyRequests: 150,
-      dailyRequests: 6,
+      monthlyRequests: 50,
+      dailyRequests: 10,
       maxTokensPerRequest: 12000,
       maxImageSizeMB: 1,
       maxResolution: 1500,
@@ -35,21 +42,18 @@ export const pricingData: SubscriptionPlan[] = [
   },
   {
     title: "Pro",
-    description: "Unlock Advanced Features",
+    description: "For solo builders shipping real work",
     benefits: [
-      "Up to 500 monthly posts",
-      "Advanced analytics and reporting",
-      "Access to business templates",
-      "Priority customer support",
-      "Exclusive webinars and training.",
+      "1,000 AI requests per month",
+      "Larger context per request",
+      "All task templates",
+      "Full usage analytics",
+      "Email support",
     ],
-    limitations: [
-      "No custom branding",
-      "Limited access to business resources.",
-    ],
+    limitations: ["No custom branding"],
     usageLimits: {
-      monthlyRequests: 150,
-      dailyRequests: 6,
+      monthlyRequests: 1000,
+      dailyRequests: 100,
       maxTokensPerRequest: 25000,
       maxImageSizeMB: 2,
       maxResolution: 2000,
@@ -65,25 +69,25 @@ export const pricingData: SubscriptionPlan[] = [
   },
   {
     title: "Business",
-    description: "For Power Users",
+    description: "For teams with heavier usage",
     benefits: [
-      "Unlimited posts",
-      "Real-time analytics and reporting",
-      "Access to all templates, including custom branding",
-      "24/7 business customer support",
-      "Personalized onboarding and account management.",
+      "5,000 AI requests per month",
+      "Largest context per request",
+      "All task templates",
+      "Full usage analytics",
+      "Priority support",
     ],
     limitations: [],
     usageLimits: {
-      monthlyRequests: 150,
-      dailyRequests: 6,
+      monthlyRequests: 5000,
+      dailyRequests: 500,
       maxTokensPerRequest: 40000,
       maxImageSizeMB: 4,
       maxResolution: 2500,
     },
     prices: {
-      monthly: 35,
-      yearly: 336,
+      monthly: 49,
+      yearly: 468,
     },
     stripeIds: {
       monthly: env.NEXT_PUBLIC_STRIPE_BUSINESS_MONTHLY_PLAN_ID,
@@ -96,85 +100,62 @@ export const plansColumns = ["free", "pro", "business", "enterprise"] as const;
 
 export const comparePlans: PlansRow[] = [
   {
-    feature: "Access to Analytics",
+    feature: "Monthly AI requests",
+    free: "50",
+    pro: "1,000",
+    business: "5,000",
+    enterprise: "Custom",
+    tooltip: "One chat message or task run counts as one request.",
+  },
+  {
+    feature: "Daily AI requests",
+    free: "10",
+    pro: "100",
+    business: "500",
+    enterprise: "Custom",
+    tooltip: "A daily cap keeps a runaway script from burning a whole month.",
+  },
+  {
+    feature: "Context per request",
+    free: "12k tokens",
+    pro: "25k tokens",
+    business: "40k tokens",
+    enterprise: "Custom",
+  },
+  {
+    feature: "Model choice",
     free: true,
     pro: true,
     business: true,
-    enterprise: "Custom",
-    tooltip: "All plans include basic analytics for tracking performance.",
-  },
-  {
-    feature: "Custom Branding",
-    free: null,
-    pro: "500/mo",
-    business: "1,500/mo",
-    enterprise: "Unlimited",
-    tooltip: "Custom branding is available from the Pro plan onwards.",
-  },
-  {
-    feature: "Priority Support",
-    free: null,
-    pro: "Email",
-    business: "Email & Chat",
-    enterprise: "24/7 Support",
-  },
-  {
-    feature: "Advanced Reporting",
-    free: null,
-    pro: null,
-    business: true,
-    enterprise: "Custom",
-    tooltip:
-      "Advanced reporting is available in Business and Enterprise plans.",
-  },
-  {
-    feature: "Dedicated Manager",
-    free: null,
-    pro: null,
-    business: null,
     enterprise: true,
-    tooltip: "Enterprise plan includes a dedicated account manager.",
+    tooltip: "Switch between the models configured in lib/ai/models.ts.",
   },
   {
-    feature: "API Access",
-    free: "Limited",
-    pro: "Standard",
-    business: "Enhanced",
+    feature: "Task templates",
+    free: true,
+    pro: true,
+    business: true,
+    enterprise: true,
+  },
+  {
+    feature: "Usage analytics",
+    free: "Basic",
+    pro: "Full",
+    business: "Full",
     enterprise: "Full",
   },
   {
-    feature: "Monthly Webinars",
-    free: false,
-    pro: true,
-    business: true,
+    feature: "File uploads",
+    free: "1 MB",
+    pro: "2 MB",
+    business: "4 MB",
     enterprise: "Custom",
-    tooltip: "Pro and higher plans include access to monthly webinars.",
   },
   {
-    feature: "Custom Integrations",
-    free: false,
-    pro: false,
-    business: "Available",
-    enterprise: "Available",
-    tooltip:
-      "Custom integrations are available in Business and Enterprise plans.",
-  },
-  {
-    feature: "Roles and Permissions",
+    feature: "Support",
     free: null,
-    pro: "Basic",
-    business: "Advanced",
-    enterprise: "Advanced",
-    tooltip:
-      "User roles and permissions management improves with higher plans.",
+    pro: "Email",
+    business: "Priority email",
+    enterprise: "Dedicated",
   },
-  {
-    feature: "Onboarding Assistance",
-    free: false,
-    pro: "Self-service",
-    business: "Assisted",
-    enterprise: "Full Service",
-    tooltip: "Higher plans include more comprehensive onboarding assistance.",
-  },
-  // Add more rows as needed
 ];

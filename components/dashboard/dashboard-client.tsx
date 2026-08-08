@@ -51,7 +51,7 @@ type DashboardData = {
     totalTokens: number;
     inputTokens: number;
     outputTokens: number;
-    credits: number;
+    requests: number;
   } | null;
 };
 
@@ -82,7 +82,7 @@ export function DashboardClient() {
   const { kpis, recentConversations, activityChartData, usage } = data;
   const usagePct = usage
     ? Math.min(
-        (usage.credits /
+        (usage.requests /
           (userSubscriptionPlan?.usageLimits?.monthlyRequests || 1)) *
           100,
         100,
@@ -299,7 +299,7 @@ function UsageGlance({
       </CardHeader>
       <CardContent className="space-y-2">
         <p className="text-2xl font-bold">
-          {(usage?.credits ?? 0).toLocaleString()}
+          {(usage?.requests ?? 0).toLocaleString()}
           <span className="text-muted-foreground ml-1 text-sm font-normal">
             /{" "}
             {subscriptionPlan?.usageLimits?.monthlyRequests?.toLocaleString() ??

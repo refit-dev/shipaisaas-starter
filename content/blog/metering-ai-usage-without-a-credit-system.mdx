@@ -1,0 +1,57 @@
+---
+title: Metering AI Usage Without Building a Credit System
+description: Request caps are cruder than token accounting, and for most products they are the right first version. Here is how the starter enforces them.
+image: /_static/blog/blog.jpg
+date: "2026-06-27"
+authors:
+  - sara_chen
+categories:
+  - education
+related:
+  - ship-an-ai-saas-in-an-afternoon
+  - structured-output-with-the-ai-sdk
+published: true
+---
+
+Every AI product eventually has to answer the same question: what stops one user from costing you a thousand dollars in a weekend?
+
+The sophisticated answer is a credit ledger — price each model per input and output token, deduct from a balance, block at zero. It is the right answer eventually. It is rarely the right answer on day one, because it forces you to price your product before you know what it costs to run.
+
+## Request caps first
+
+The starter takes the cruder path. Every plan in `config/subscriptions.ts` declares a daily and a monthly request cap:
+
+```ts
+usageLimits: {
+  monthlyRequests: 1000,
+  dailyRequests: 100,
+  maxTokensPerRequest: 25000,
+}
+```
+
+One chat message or one task run counts as one request. `checkRateLimits()` runs at the top of both API routes, before any model call:
+
+```ts
+try {
+  await checkRateLimits({ teamId: team.id, plan: team.planName || "free" });
+} catch (error) {
+  return new Response((error as Error).message, { status: 429 });
+}
+```
+
+Because the check happens first, a user who is over their cap costs you nothing at all — not a single token.
+
+## Count tokens anyway
+
+The cap is what you enforce; tokens are what you learn from. After the stream finishes, the route records the real usage without blocking the response:
+
+```ts
+const { inputTokens, outputTokens, totalTokens } = await result.totalUsage;
+await updateUsage({ teamId: team.id, inputTokens, outputTokens, totalTokens });
+```
+
+Those numbers accumulate per team, per day and per month. After a few weeks of real traffic you know what an average request actually costs — which is exactly the input you needed to design a credit system, if you still want one.
+
+## The daily cap matters more than you think
+
+A monthly cap alone lets someone burn an entire month of budget in an hour with a loop. The daily cap is the one that saves you from a bad script, an enthusiastic user, or an abusive one. Keep it roughly a tenth of the monthly number and it will never bother a normal user.

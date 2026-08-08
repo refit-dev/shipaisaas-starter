@@ -66,7 +66,7 @@ export const POST = withAuth(async ({ req, team }) => {
         date: dateString,
         inputTokens: existingDay?.inputTokens || 0,
         outputTokens: existingDay?.outputTokens || 0,
-        credits: existingDay?.credits || 0, // Mapping credits to 'Requests'
+        requests: existingDay?.requests || 0, 
       });
     }
 
@@ -79,7 +79,7 @@ export const POST = withAuth(async ({ req, team }) => {
           inputTokens: 0,
           outputTokens: 0,
           totalTokens: 0,
-          credits: 0,
+          requests: 0,
         },
         today: todayUsage,
         daily: formattedDailyData,

@@ -222,7 +222,7 @@ export default function HeroLanding() {
           className="mb-6 text-center"
           style={{ opacity: 0, animation: "word-appear 0.8s ease-out 0.2s forwards" }}
         >
-          <h2 className="text-muted-foreground font-mono text-xs font-light tracking-[0.2em] uppercase md:text-sm">Your AI assistant for everyday work.</h2>
+          <h2 className="text-muted-foreground font-mono text-xs font-light tracking-[0.2em] uppercase md:text-sm">The open source AI SaaS starter.</h2>
           <div className="via-foreground/20 mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent to-transparent" />
         </div>
 
@@ -232,11 +232,11 @@ export default function HeroLanding() {
             <div
               className="mb-3 md:mb-2"
               style={{ opacity: 0, animation: "word-appear 0.8s ease-out 0.6s forwards" }}
-            >Get work done faster.</div>
+            >Ship your AI SaaS.</div>
             <div
               className="text-muted-foreground text-xl leading-tight font-thin md:text-3xl lg:text-4xl"
               style={{ opacity: 0, animation: "word-appear 0.8s ease-out 1.0s forwards" }}
-            >Ask anything. Get results instantly.</div>
+            >Auth, billing and AI, already wired together.</div>
           </h1>
 
           {/* Description */}
@@ -246,7 +246,7 @@ export default function HeroLanding() {
               opacity: 0,
               animation: "word-appear 0.8s ease-out 1.4s forwards",
             }}
-          >Chat, document analysis, web research, and AI workflows included. Complete hours of work in minutes, not days.</p>
+          >A production-ready Next.js starter with Better-Auth, Drizzle, Stripe subscriptions, Resend and a streaming Vercel AI SDK chat layer. MIT licensed.</p>
 
           {/* CTAs */}
           <div
@@ -256,7 +256,7 @@ export default function HeroLanding() {
               animation: "word-appear 0.8s ease-out 1.8s forwards",
             }}
           >
-            <SlidingButton href="/signup" label={"Start Free Trial"} />
+            <SlidingButton href="/signup" label={"Get started"} />
             <Link
               href="/pricing"
               prefetch={true}

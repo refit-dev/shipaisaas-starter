@@ -9,7 +9,7 @@ type UsageUpdatePayload = {
   inputTokens?: number;
   outputTokens?: number;
   totalTokens?: number;
-  credits?: number;
+  requests?: number;
 };
 
 /**
@@ -21,7 +21,7 @@ export async function updateUsage({
   inputTokens = 0,
   outputTokens = 0,
   totalTokens = 0,
-  credits = 1,
+  requests = 1,
 }: UsageUpdatePayload) {
   try {
     const now = new Date();
@@ -71,7 +71,7 @@ export async function updateUsage({
         inputTokens: sql`${dailyUsages.inputTokens} + ${inputTokens}`,
         outputTokens: sql`${dailyUsages.outputTokens} + ${outputTokens}`,
         totalTokens: sql`${dailyUsages.totalTokens} + ${totalTokens}`,
-        credits: sql`${dailyUsages.credits} + ${credits}`,
+        requests: sql`${dailyUsages.requests} + ${requests}`,
         updatedAt: new Date(),
       })
       .where(
@@ -85,7 +85,7 @@ export async function updateUsage({
         inputTokens: sql`${monthlyUsages.inputTokens} + ${inputTokens}`,
         outputTokens: sql`${monthlyUsages.outputTokens} + ${outputTokens}`,
         totalTokens: sql`${monthlyUsages.totalTokens} + ${totalTokens}`,
-        credits: sql`${monthlyUsages.credits} + ${credits}`,
+        requests: sql`${monthlyUsages.requests} + ${requests}`,
         updatedAt: new Date(),
       })
       .where(
@@ -148,8 +148,8 @@ export async function checkRateLimits({
     ),
   });
 
-  const dailyCount = daily?.credits ?? 0;
-  const monthlyCount = monthly?.credits ?? 0;
+  const dailyCount = daily?.requests ?? 0;
+  const monthlyCount = monthly?.requests ?? 0;
 
   //
   // ---- 5. Check daily limit

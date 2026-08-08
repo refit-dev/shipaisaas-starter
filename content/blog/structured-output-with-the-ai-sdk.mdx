@@ -1,0 +1,61 @@
+---
+title: Structured Output With the Vercel AI SDK
+description: How to make a model return JSON your code can trust, and why the starter uses generateText with Output.object instead of generateObject.
+image: /_static/blog/blog.jpg
+date: "2026-06-14"
+authors:
+  - priya_nair
+categories:
+  - education
+related:
+  - ship-an-ai-saas-in-an-afternoon
+  - metering-ai-usage-without-a-credit-system
+published: true
+---
+
+Free-form text is fine when a human reads the answer. The moment your code reads it, you need a shape you can rely on — and "please reply in JSON" in a system prompt is not a shape, it is a hope.
+
+## The pattern
+
+The starter wraps this in `lib/ai/structured.ts`:
+
+```ts
+const result = await generateText({
+  model: resolveModel(modelId),
+  system,
+  prompt,
+  output: Output.object({ schema }),
+});
+
+return { object: result.output as T, usage: result.totalUsage };
+```
+
+The schema is a Zod object. The SDK turns it into a provider-native structured-output constraint, so the model is not free to invent a different shape, and the response is parsed and validated before you ever touch it.
+
+## Describe your fields
+
+The single highest-leverage thing you can do is use `.describe()` on every field:
+
+```ts
+z.object({
+  title: z.string().describe("A short title for the meeting"),
+  actionItems: z.array(
+    z.object({
+      task: z.string().describe("What needs to be done"),
+      owner: z.string().nullable().describe("Who owns it, or null"),
+    }),
+  ),
+});
+```
+
+Those descriptions reach the model. A field called `owner` with no description invites the model to guess a name; the same field described as "who owns it, or null" gets you a null when nobody was named.
+
+## Prefer nullable over optional
+
+An optional field lets the model silently drop information. A nullable field forces it to make a decision you can see. In practice, `z.string().nullable()` produces far fewer surprises downstream than `z.string().optional()`.
+
+## Why not generateObject
+
+`generateText` with `Output.object` keeps one code path for both text and JSON responses: the same model resolution, the same usage accounting, the same error handling. The task runner in `app/api/tasks/generate/route.ts` branches on one field of the template and calls the same layer either way.
+
+You can see the whole thing working in the "Meeting Notes Extractor" template — paste messy notes, get back decisions and action items you can insert straight into a database.

@@ -17,12 +17,12 @@ export function UsageCards({
   // Calculate percentages safely (avoiding divide by zero)
   const monthlyPercent =
     limits.monthlyRequests > 0
-      ? Math.min((monthlyData.credits / limits.monthlyRequests) * 100, 100)
+      ? Math.min((monthlyData.requests / limits.monthlyRequests) * 100, 100)
       : 0;
 
   const dailyPercent =
     limits.dailyRequests > 0
-      ? Math.min((todayData.credits / limits.dailyRequests) * 100, 100)
+      ? Math.min((todayData.requests / limits.dailyRequests) * 100, 100)
       : 0;
 
   return (
@@ -37,7 +37,7 @@ export function UsageCards({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {monthlyData.credits.toLocaleString()}{" "}
+            {monthlyData.requests.toLocaleString()}{" "}
             <span className="text-muted-foreground text-sm font-normal">
               / {limits.monthlyRequests.toLocaleString()}
             </span>
@@ -59,7 +59,7 @@ export function UsageCards({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {todayData.credits.toLocaleString()}{" "}
+            {todayData.requests.toLocaleString()}{" "}
             <span className="text-muted-foreground text-sm font-normal">
               / {limits.dailyRequests.toLocaleString()}
             </span>

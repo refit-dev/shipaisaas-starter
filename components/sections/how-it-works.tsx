@@ -9,9 +9,9 @@ export default function HowItWorks() {
   const shouldReduceMotion = useReducedMotion();
 
   const steps = [
-    { number: "01", title: "Connect", description: "Point agents at your tools, docs, and data sources. One-time setup, zero ongoing maintenance." },
-    { number: "02", title: "Automate", description: "Agents research, execute, and iterate in the background — adapting to each task without hand-holding." },
-    { number: "03", title: "Ship", description: "Review results, approve decisions, and publish outputs. You stay in control of every critical step." },
+    { number: "01", title: "Clone", description: "Clone the repo, run npm install, and copy .env.example to .env." },
+    { number: "02", title: "Configure", description: "Drop in your Postgres URL and your OpenAI, Resend and Stripe keys, then run the migrations." },
+    { number: "03", title: "Ship", description: "Edit the system prompt, add your own task templates, and deploy to Vercel." },
   ];
 
   return (
@@ -28,7 +28,7 @@ export default function HowItWorks() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-primary mb-3 text-[11px] font-semibold uppercase tracking-[0.2em]">How it works</p>
-            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">From idea to shipped in three steps.</h2>
+            <h2 className="text-foreground text-3xl font-extralight tracking-tight text-balance md:text-4xl lg:text-5xl">From clone to deployed in three steps.</h2>
           </motion.div>
 
           {/* Steps */}

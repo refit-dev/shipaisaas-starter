@@ -1,88 +1,48 @@
 ---
-title: Running Quick Tasks
-description: Use pre-built task templates for social posts, image generation, receipt scanning, and contract analysis.
+title: Running Tasks
+description: Use the built-in task templates for social posts, cold emails, document summaries and structured extraction.
 date: "2026-05-10"
 published: true
 ---
 
-Tasks are structured, one-shot templates that wrap a specific AI operation in a simple form. Instead of writing a free-form prompt, you fill in a few fields and get a consistent, high-quality output every time.
+Tasks are one-shot templates. Instead of writing a prompt from scratch, you fill in a short form and get a consistent result every time. Find them under **Tasks** in the sidebar.
 
-## When to Use Tasks vs. Agents
+## The built-in templates
 
-Use **Tasks** when:
-- You need a specific, repeatable output (e.g., a social post for a product)
-- You want to reduce variability — same form, same quality, every time
-- You're running a quick one-off operation without a broader research or multi-step workflow
+**Social Media Promo** — a product name, a key highlight, and a brand tone produce a ready-to-post update with three relevant hashtags.
 
-Use **Agents** (chat) when:
-- You need back-and-forth iteration
-- The task involves research, multiple steps, or depends on previous outputs
-- You want the agent to make judgment calls along the way
+**Cold Email Outreach** — a target audience and your value proposition produce a short, pointed email that ends with a low-friction call to action.
 
-## Available Task Templates
+**Document Summarizer** — paste a contract, report or long email thread, choose whether you want a general summary, a risk review, or key dates and deliverables, and get back structured Markdown.
 
-### Social Media Promo
-Generates an engaging Instagram or LinkedIn post for a product or service.
+**Meeting Notes Extractor** — paste rough notes or a transcript and get structured JSON: a summary, the decisions that were made, and action items with owners and due dates where they were stated. Fields nobody mentioned come back as `null` rather than invented.
 
-**Inputs:**
-- Product Name
-- Key Highlight or Feature
-- Brand Tone (Professional / Warm & Artisanal / Funny & Irreverent / Urgent/Salesy)
+## Reading the output
 
-**Output:** A formatted post with copy and hashtags, ready to publish.
+Text templates render as formatted Markdown, ready to copy with the button in the result header. The Meeting Notes template returns JSON, shown in a code block so you can copy it straight into another tool.
 
----
+## Adding your own
 
-### Cold Email Outreach
-Drafts a concise, high-converting cold email for a target audience.
+Templates live in one file, `config/tasks.ts`. Each entry is a slug, a title, a list of form inputs, and a system prompt:
 
-**Inputs:**
-- Target Audience (e.g., "Local gym owners")
-- Your Value Proposition
+```ts
+{
+  slug: "release-notes",
+  title: "Release Notes",
+  description: "Turn a list of merged changes into customer-facing notes.",
+  icon: "post",
+  outputType: "text",
+  inputs: [
+    { name: "changes", label: "Merged changes", type: "textarea" },
+    { name: "audience", label: "Audience", type: "select",
+      options: ["Developers", "End users"] },
+  ],
+  systemPrompt: "You write concise release notes...",
+}
+```
 
-**Output:** A 4-sentence cold email with a low-friction call to action.
+Add the entry and a new page appears at `/dashboard/tasks/release-notes` — no other wiring required. To get JSON instead of text, set `outputType: "json"` and add a Zod `schema`; the model is then constrained to that shape.
 
----
+## Usage
 
-### AI Image Generator
-Creates a high-quality AI image for use as a blog cover, social graphic, or visual asset.
-
-**Inputs:**
-- Visual Subject (describe what you want to see)
-- Art Style (Photorealistic / 3D Render / Minimalist Vector / Watercolor / Cyberpunk)
-- Orientation (Square 1:1 / Landscape 16:9 / Portrait 9:16)
-
-**Output:** A generated image, automatically saved to your Asset Library.
-
----
-
-### Expense Receipt Scanner
-Extracts structured accounting data from a receipt photo.
-
-**Inputs:**
-- Receipt image (photo upload)
-
-**Output:** A structured JSON object with merchant name, date, line items, tax, and total. Useful for feeding into expense reports or accounting tools.
-
----
-
-### Legal Contract Analyzer
-Analyzes a contract or legal document and produces a structured report.
-
-**Inputs:**
-- Contract (PDF upload or pasted text)
-- Analysis Focus (General Summary / Identify Risks & Liabilities / Extract Key Dates & Deliverables)
-
-**Output:** A Markdown report formatted with headings and bullet points, focusing on the selected analysis type.
-
-## Running a Task
-
-1. Go to **Tasks** in the sidebar.
-2. Select the template that matches your goal.
-3. Fill in all the required fields.
-4. Click **Run** — the task executes immediately and streams the result.
-5. The output is displayed inline. For image tasks, the image appears directly. For JSON tasks (receipt scanner), the structured data is rendered in a readable format.
-
-## Outputs and the Asset Library
-
-Generated images are automatically saved to your Asset Library. Text outputs are displayed in the task result view — copy them directly or use them as a starting point for further editing in the chat agents.
+Each task run counts as one request against your plan, the same as a chat message. The Usage page shows both together.
