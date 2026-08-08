@@ -44,27 +44,9 @@ export const sidebarLinks: SidebarNavItem[] = [
         appRoles: ["user"],
       },
       {
-        href: "/dashboard/agents",
-        icon: "agent",
-        title: "Agents",
-        appRoles: ["user"],
-      },
-      {
         href: "/dashboard/tasks",
         icon: "task",
         title: "Tasks",
-        appRoles: ["user"],
-      },
-      {
-        href: "/dashboard/assets",
-        icon: "archive",
-        title: "Assets",
-        appRoles: ["user"],
-      },
-      {
-        href: "/dashboard/workflows",
-        icon: "workflow",
-        title: "Workflows",
         appRoles: ["user"],
       },
       {

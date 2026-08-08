@@ -3,10 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAssistantStore } from "@/stores/assistantStore";
 import { useChat } from "@ai-sdk/react";
-import {
-  DefaultChatTransport,
-  lastAssistantMessageIsCompleteWithApprovalResponses,
-} from "ai";
+import { DefaultChatTransport } from "ai";
 import { Loader2, Sparkles } from "lucide-react";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -14,133 +11,76 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatInput, ChatInputHandle, UploadedFile } from "./chat-input";
 import { MessageItem } from "./message-item";
 
-const mutationTools = [
-  "generate_content",
-  "update_social_profile",
-  "delete_draft",
-];
-
-export const TOOL_STATUS_MESSAGES: Record<string, string> = {
-  web_search: "Searching the web for the latest info...",
-  generate_image: "Designing a custom image... hang on...",
-  format_social_post: "Formatting your engaging post...",
-  generate_reel_script: "Structuring your reel script...",
-  format_reel: "Packaging your reel content...",
-  generate_script_outline: "Outlining your script acts...",
-  format_script: "Writing the full script narration...",
-  generate_thumbnail_concept: "Generating thumbnail design concepts...",
-  extract_receipt_data: "Reading receipt image...",
-  read_document: "Fetching and parsing document...",
-  analyze_legal_document: "Analyzing legal document...",
-  send_analysis_email: "Sending analysis to client...",
-};
-
 export function ChatInterface() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldRefresh, setShouldRefresh] = useState(false);
   const [currentFiles, setCurrentFiles] = useState<UploadedFile[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const chatInputRef = useRef<ChatInputHandle>(null);
-  // const activeConversationId = useAssistantStore(
-  //   (state) => state.activeConversationId,
-  // );
-  const { mode, activeConversationId, activeConversation } =
-    useAssistantStore();
-  // const selectedAgentId = useAssistantStore((state) => state.selectedAgentId);
+  const { mode, activeConversationId } = useAssistantStore();
   const [isFetchingHistory, setIsFetchingHistory] = useState(false);
 
   const chatTransport = useMemo(() => {
     return new DefaultChatTransport({
-      api: "/api/assistant/router",
+      api: "/api/chat",
       fetch: async (url, init) => {
-        // .getState() bypasses React closures, guaranteeing we always have the latest ID
-        // const currentId = useAssistantStore.getState().activeConversationId;
-        const { activeConversationId, selectedAgent, selectedModelId } =
-          useAssistantStore.getState(); // ✅ always fresh
-        // --- A. INJECT THE DYNAMIC BODY ---
-        // We intercept the SDK's outgoing payload to attach the ID
+        // .getState() bypasses React closures, guaranteeing the latest values
+        const { activeConversationId, selectedModelId } =
+          useAssistantStore.getState();
+
+        // Attach the conversation and model to the SDK's outgoing payload
         const parsedBody = JSON.parse((init?.body as string) || "{}");
         parsedBody.conversationId = activeConversationId;
-        parsedBody.agentId = selectedAgent?.id;
         parsedBody.modelId = selectedModelId;
 
-        // --- B. MAKE THE REQUEST ---
         const response = await fetch(url, {
           ...init,
           body: JSON.stringify(parsedBody),
         });
 
-        // --- C. INTERCEPT THE HEADERS (The old onResponse logic) ---
+        // The server returns the conversation id it created on the first message
         const newChatId = response.headers.get("x-conversation-id");
-
         if (newChatId && !activeConversationId) {
-          // Instantly write the new ID directly to the Zustand store and localStorage
           useAssistantStore.getState().setActiveConversationId(newChatId);
         }
 
-        // You must return the raw response so the SDK can process the stream!
         return response;
       },
     });
   }, []);
 
-  const {
-    messages,
-    sendMessage,
-    setMessages,
-    status,
-    error,
-    addToolApprovalResponse,
-  } = useChat({
+  const { messages, sendMessage, setMessages, status, error } = useChat({
     transport: chatTransport,
-    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-    onFinish: (options) => {
-      setIsLoading(false);
-      if (shouldRefresh) {
-        // Trigger global data fetchers here
-        setShouldRefresh(false);
-      }
-    },
-    onToolCall: ({ toolCall }) => {
-      if (mutationTools.includes(toolCall.toolName)) {
-        setShouldRefresh(true);
-      }
-    },
+    onFinish: () => setIsLoading(false),
   });
 
-  // 2. Fetch history when the active conversation changes
+  // Load history whenever the active conversation changes
   useEffect(() => {
     let isMounted = true;
 
     async function loadHistory() {
-      // 1. No Active Conversation -> Show Welcome Message
-      const welcomeMessage = {
-        id: "welcome-1",
-        role: "assistant",
-        parts: [
-          {
-            type: "text",
-            text: "👋 Hi! I'm your Content Engine. How can I help you grow your brand today?",
-          },
-        ],
-      };
-
       if (!activeConversationId) {
-        setMessages([welcomeMessage as any]);
+        setMessages([
+          {
+            id: "welcome-1",
+            role: "assistant",
+            parts: [
+              {
+                type: "text",
+                text: "👋 Hi! I'm your AI assistant. What can I help you with today?",
+              },
+            ],
+          } as any,
+        ]);
         return;
       }
 
-      // 2. Active Conversation Exists -> Fetch History
       setIsFetchingHistory(true);
       try {
-        const res = await fetch(
-          `/api/assistant/history?id=${activeConversationId}`,
-        );
+        const res = await fetch(`/api/chat/history?id=${activeConversationId}`);
         if (res.ok) {
           const historyData = await res.json();
-          // Prevent setting state if the component unmounted while fetching
           if (isMounted) {
             setMessages(historyData.messages);
             useAssistantStore
@@ -157,65 +97,12 @@ export function ChatInterface() {
 
     loadHistory();
 
-    // Cleanup function to prevent race conditions if the user clicks around quickly
     return () => {
       isMounted = false;
     };
-
-    // 👇 FIX: ONLY depend on activeConversationId. Remove setMessages to break the loop!
   }, [activeConversationId]);
 
-  // Poll for new messages while a workflow run is active
-  useEffect(() => {
-    const run = activeConversation?.workflowRun;
-    if (!run) return;
-    if (run.status === "completed" || run.status === "failed") return;
-    if (!activeConversationId) return;
-
-    const poll = async () => {
-      try {
-        const res = await fetch(
-          `/api/assistant/history?id=${activeConversationId}`,
-        );
-        if (!res.ok) return;
-        const data = await res.json();
-        setMessages(data.messages);
-        useAssistantStore.getState().setActiveConversation(data.conversation);
-      } catch (err) {
-        console.error("Workflow poll failed:", err);
-      }
-    };
-
-    // Update tool approval status based on the workflow run status
-    if (run.status === "awaiting_approval") {
-      useAssistantStore.getState().setToolApprovalStatus("pending");
-    } else if (run.status === "approved") {
-      useAssistantStore.getState().setToolApprovalStatus("approved");
-    }
-
-    const intervalId = setInterval(poll, 3000);
-    return () => clearInterval(intervalId);
-  }, [activeConversationId, activeConversation?.workflowRun?.status]);
-
-  // 👇 FIX: Derive the active tool using the new 'tool-' prefix and flattened state
-  const lastMessage = messages[messages.length - 1];
-  const activeToolPart =
-    lastMessage?.role === "assistant"
-      ? lastMessage.parts?.find((part) => {
-          // 1. Must be a tool part
-          if (!part.type.startsWith("tool-")) return false;
-
-          // 2. Must be actively streaming or gathering input (not finished/error)
-          const state = (part as any).state;
-          return state === "input-streaming" || state === "input-available";
-        })
-      : null;
-
-  // Extract the tool name by removing the 'tool-' prefix
-  const activeTool = activeToolPart
-    ? activeToolPart.type.replace("tool-", "")
-    : null;
-
+  // Keep the view pinned to the newest message
   useEffect(() => {
     if (isFetchingHistory) return;
     const container = containerRef.current;
@@ -257,41 +144,6 @@ export function ChatInterface() {
     chatInputRef.current?.clearFiles();
   };
 
-  const handleWorkflowToolApproval = ({
-    id,
-    approved,
-  }: {
-    id: string;
-    approved: boolean;
-  }) => {
-    // Set local approval status to "processing" to disable buttons and show a spinner
-    useAssistantStore.getState().setToolApprovalStatus("processing");
-    // Call workflow tool approval endpoint
-    fetch("/api/workflows/tool-approval", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        workflowId: activeConversation?.workflowRun?.workflowId,
-        runId: activeConversation?.workflowRun?.id,
-        conversationId: activeConversation?.id,
-        stepIndex: activeConversation?.workflowRun?.currentStepIndex,
-        action: approved ? "approve" : "reject",
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to send tool approval response");
-        }
-      })
-      .catch((err) => {
-        console.error("Error sending tool approval response:", err);
-      })
-      .finally(() => {
-        // Reset approval status to "idle" after the response is sent
-        useAssistantStore.getState().setToolApprovalStatus("idle");
-      });
-  };
-
   return (
     <div className="mx-auto flex w-full flex-1 flex-col overflow-hidden">
       {isFetchingHistory ? (
@@ -310,22 +162,11 @@ export function ChatInterface() {
                 message={message}
                 isLastMessage={index === messages.length - 1}
                 status={status}
-                addToolApprovalResponse={
-                  activeConversation?.workflowRun &&
-                  activeConversation.workflowRun.status !== "completed"
-                    ? handleWorkflowToolApproval
-                    : addToolApprovalResponse
-                }
               />
             ))}
 
-            {/* Pass the derived activeTool down */}
             {(isLoading || status === "streaming") && status !== "error" && (
-              <ThinkingState
-                activeTool={activeTool}
-                isLoading={isLoading}
-                status={status}
-              />
+              <ThinkingState isLoading={isLoading} status={status} />
             )}
 
             {status === "error" && error && (
@@ -352,11 +193,9 @@ export function ChatInterface() {
 }
 
 function ThinkingState({
-  activeTool,
   isLoading,
   status,
 }: {
-  activeTool: string | null;
   isLoading: boolean;
   status: string;
 }) {
@@ -364,17 +203,13 @@ function ThinkingState({
 
   if (isLoading && status !== "streaming") {
     displayMessage = "Sending your message...";
-  } else if (activeTool && TOOL_STATUS_MESSAGES[activeTool]) {
-    displayMessage = TOOL_STATUS_MESSAGES[activeTool];
-  } else if (activeTool) {
-    displayMessage = `Using tool: ${activeTool}...`;
   } else if (status === "streaming") {
     displayMessage = "Generating response...";
   }
 
   return (
     <div className="text-muted-foreground flex animate-pulse items-center gap-2 px-12 text-xs italic transition-all duration-300">
-      <Sparkles className="size-3 animate-spin text-indigo-500" />
+      <Sparkles className="text-primary size-3 animate-spin" />
       {displayMessage}
     </div>
   );

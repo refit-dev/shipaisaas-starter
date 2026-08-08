@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 import { auth } from "@/lib/auth";
@@ -13,14 +13,6 @@ import {
   teams,
   users,
 } from "@/lib/db/schema/account";
-import {
-  assets,
-  memories,
-  workflowRuns,
-  workflows,
-  workflowSteps,
-} from "@/lib/db/schema/agent";
-import { conversations } from "@/lib/db/schema/chat";
 import { getUser } from "@/lib/db/queries";
 import { getTeamSubscriptionPlan } from "@/lib/subscription";
 
@@ -68,33 +60,7 @@ export async function DELETE() {
   const ownedTeamIds = ownedMemberships.map((m) => m.teamId);
 
   for (const teamId of ownedTeamIds) {
-    // Get all workflow IDs for this team
-    const teamWorkflows = await db
-      .select({ id: workflows.id })
-      .from(workflows)
-      .where(eq(workflows.teamId, teamId));
-    const workflowIds = teamWorkflows.map((w) => w.id);
-
-    // 1. Unlink conversations from workflows (FK: conversations.workflowId → workflows.id, no cascade)
-    await db
-      .update(conversations)
-      .set({ workflowId: null })
-      .where(eq(conversations.teamId, teamId));
-
-    // 2. Delete assets first (assets.runId → workflowRuns.id; assets.conversationId → conversations.id)
-    await db.delete(assets).where(eq(assets.teamId, teamId));
-
-    // 3. Delete workflowRuns (references workflowId + conversationId)
-    if (workflowIds.length > 0) {
-      await db.delete(workflowRuns).where(inArray(workflowRuns.workflowId, workflowIds));
-      await db.delete(workflowSteps).where(inArray(workflowSteps.workflowId, workflowIds));
-    }
-
-    // 4. Delete workflows
-    await db.delete(workflows).where(eq(workflows.teamId, teamId));
-
-    // 5. Delete other team-scoped data
-    await db.delete(memories).where(eq(memories.teamId, teamId));
+    // Delete team-scoped data that has no cascade from teams
     await db.delete(dailyUsages).where(eq(dailyUsages.teamId, teamId));
     await db.delete(monthlyUsages).where(eq(monthlyUsages.teamId, teamId));
     await db.delete(activityLogs).where(eq(activityLogs.teamId, teamId));

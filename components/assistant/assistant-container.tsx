@@ -2,14 +2,11 @@
 
 import { AssistantMode, useAssistantStore } from "@/stores/assistantStore";
 import {
-  Archive,
   Expand,
   MessageSquareText,
   PanelRight,
-  PenTool,
   Shrink,
   Sparkles,
-  Terminal,
   X,
 } from "lucide-react";
 
@@ -17,21 +14,12 @@ import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 
-import { AssetsPanel } from "./assets-panel";
 import { ChatInterface } from "./chat-interface";
 import { ChatList } from "./chat-list";
 
 export function AssistantContainer() {
-  const {
-    isOpen,
-    mode,
-    setIsOpen,
-    toggle,
-    setMode,
-    isChatListOpen,
-    isAssetsOpen,
-    setIsAssetsOpen,
-  } = useAssistantStore();
+  const { isOpen, mode, setIsOpen, toggle, setMode, isChatListOpen } =
+    useAssistantStore();
 
   const onSetMode = (mode: AssistantMode) => {
     setMode(mode);
@@ -47,29 +35,12 @@ export function AssistantContainer() {
         mode={mode}
         onClose={() => setIsOpen(false)}
         onSetMode={onSetMode}
-        isAssetsOpen={isAssetsOpen}
-        onToggleAssets={() => setIsAssetsOpen(!isAssetsOpen)}
       />
 
       <div className="relative flex flex-1 flex-col overflow-hidden">
-        {/* Main chat — hidden (not unmounted) when assets panel is open */}
-        <div
-          className={cn(
-            "flex flex-1 flex-col overflow-hidden transition-opacity duration-150",
-            isAssetsOpen
-              ? "pointer-events-none absolute inset-0 opacity-0"
-              : "opacity-100",
-          )}
-        >
+        <div className="flex flex-1 flex-col overflow-hidden">
           <ChatInterface />
         </div>
-
-        {/* Assets panel */}
-        {isAssetsOpen && (
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <AssetsPanelWrapper />
-          </div>
-        )}
 
         {/* Chat list overlay */}
         <div
@@ -143,47 +114,19 @@ export function AssistantContainer() {
 }
 
 // ---------------------------------------------------------------------------
-// AssetsPanelWrapper — reads conversationId from the store
-// ---------------------------------------------------------------------------
-
-function AssetsPanelWrapper() {
-  const { activeConversationId } = useAssistantStore();
-
-  if (!activeConversationId) {
-    return (
-      <div className="text-muted-foreground flex flex-1 items-center justify-center text-xs">
-        Open a conversation to view its assets.
-      </div>
-    );
-  }
-
-  return <AssetsPanel conversationId={activeConversationId} />;
-}
-
-// ---------------------------------------------------------------------------
 // AssistantHeader
 // ---------------------------------------------------------------------------
-
-const iconMap: Record<string, React.ElementType> = {
-  Sparkles,
-  PenTool,
-  Terminal,
-};
 
 function AssistantHeader({
   showClose,
   onClose,
   onSetMode,
   mode,
-  isAssetsOpen,
-  onToggleAssets,
 }: {
   showClose?: boolean;
   onClose?: () => void;
   onSetMode: (mode: AssistantMode) => void;
   mode: AssistantMode;
-  isAssetsOpen: boolean;
-  onToggleAssets: () => void;
 }) {
   const { activeConversation, toggleChatList, isChatListOpen } =
     useAssistantStore();
@@ -209,25 +152,12 @@ function AssistantHeader({
         </Button>
 
         <span className="font-urban text-muted-foreground truncate text-xs font-medium">
-          {isAssetsOpen ? "Assets" : activeConversation?.title || "New Chat"}
+          {activeConversation?.title || "New Chat"}
         </span>
       </div>
 
       {/* Right side */}
       <div className="flex shrink-0 items-center gap-1">
-        {/* Assets toggle — only shown when a conversation is active */}
-        {activeConversation && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn("size-8", isAssetsOpen && "bg-muted")}
-            onClick={onToggleAssets}
-            title={isAssetsOpen ? "Back to chat" : "View assets"}
-          >
-            <Archive size={16} />
-          </Button>
-        )}
-
         {/* Only show mode switchers on desktop */}
         {isDesktop && (
           <>

@@ -44,7 +44,6 @@ export function ChatList() {
     setActiveConversationId,
     setActiveConversation,
     setIsChatListOpen,
-    setIsAssetsOpen,
   } = useAssistantStore();
 
   useEffect(() => {
@@ -53,7 +52,7 @@ export function ChatList() {
 
   async function fetchConversations() {
     try {
-      const res = await fetch("/api/assistant/conversations");
+      const res = await fetch("/api/chat/conversations");
       if (res.ok) {
         const data = await res.json();
         setConversations(data);
@@ -75,7 +74,6 @@ export function ChatList() {
     setActiveConversationId(null);
     setActiveConversation(null);
     setIsChatListOpen(false);
-    setIsAssetsOpen(false);
   };
 
   const confirmDelete = async () => {
@@ -84,7 +82,7 @@ export function ChatList() {
 
     try {
       const res = await fetch(
-        `/api/assistant/conversations?id=${chatToDelete.id}`,
+        `/api/chat/conversations?id=${chatToDelete.id}`,
         {
           method: "DELETE",
         },

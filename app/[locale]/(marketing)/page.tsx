@@ -5,7 +5,6 @@ import BentoFeatures from "@/components/sections/bento-features";
 import BottomCta from "@/components/sections/bottom-cta";
 import CoreFeatures from "@/components/sections/core-features";
 import Faq from "@/components/sections/faq";
-import FeatureDeepDive from "@/components/sections/feature-deep-dive";
 import HeroLanding from "@/components/sections/hero-landing";
 import HowItWorks from "@/components/sections/how-it-works";
 import LogoCloud from "@/components/sections/logo-cloud";
@@ -26,7 +25,6 @@ export default async function IndexPage() {
       <LogoCloud />
       <BentoFeatures />
       <CoreFeatures />
-      <FeatureDeepDive />
       <HowItWorks />
       <Testimonials />
       <section className="bg-background py-24 sm:py-32">

@@ -11,8 +11,7 @@ import TaskResult from "./task-result";
 export function TaskClient({ template }: { template: TaskTemplate }) {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [resultText, setResultText] = useState<string | null>(null);
-  const [resultImage, setResultImage] = useState<string | null>(null);
+  const [result, setResult] = useState<string | null>(null);
 
   const handleInputChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -21,30 +20,28 @@ export function TaskClient({ template }: { template: TaskTemplate }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setResultText(null);
-    setResultImage(null);
+    setResult(null);
 
     try {
       const res = await fetch("/api/tasks/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Important: Next.js API routes limit payload size (usually 4MB default).
-        // Since we are sending base64 images, ensure your images aren't massive.
         body: JSON.stringify({ slug: template.slug, inputs: formData }),
       });
 
-      if (!res.ok) throw new Error("Failed to generate");
+      if (!res.ok) throw new Error(await res.text());
 
       const data = await res.json();
-      setResultText(data.output);
-
-      if (data.assets && Array.isArray(data.assets)) {
-        const imgAsset = data.assets.find((a: any) => a.type === "image");
-        if (imgAsset) setResultImage(imgAsset.url);
-      }
+      setResult(
+        data.outputType === "json"
+          ? "```json\n" + JSON.stringify(data.output, null, 2) + "\n```"
+          : data.output,
+      );
     } catch (error) {
       toast.error(
-        "Something went wrong. Please try again or check file sizes.",
+        error instanceof Error && error.message
+          ? error.message
+          : "Something went wrong. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -60,12 +57,7 @@ export function TaskClient({ template }: { template: TaskTemplate }) {
         handleSubmit={handleSubmit}
         isLoading={isLoading}
       />
-      <TaskResult
-        template={template}
-        resultText={resultText}
-        resultImage={resultImage}
-        isLoading={isLoading}
-      />
+      <TaskResult result={result} isLoading={isLoading} />
     </div>
   );
 }

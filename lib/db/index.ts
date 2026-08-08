@@ -4,7 +4,6 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
 import * as accountSchema from "@/lib/db/schema/account";
-import * as agentSchema from "@/lib/db/schema/agent";
 import * as chatSchema from "@/lib/db/schema/chat";
 
 declare global {
@@ -26,7 +25,6 @@ const pool =
 const schema = {
   ...accountSchema,
   ...chatSchema,
-  ...agentSchema,
 };
 
 export const db = drizzle(pool, { schema });

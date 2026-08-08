@@ -13,7 +13,6 @@ import {
 import { nanoid } from "nanoid";
 
 import { teams, users } from "./account";
-import { workflowRuns, workflows } from "./agent";
 
 export const pgTable = pgTableCreator((name) => name);
 
@@ -32,8 +31,6 @@ export const conversations = pgTable("conversations", {
     .references(() => teams.id, { onDelete: "cascade" }),
 
   niche: varchar("niche", { length: 50 }).notNull().default("general"),
-
-  workflowId: text("workflow_id").references(() => workflows.id), // null for regular chats
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -84,10 +81,6 @@ export const conversationsRelations = relations(
       references: [teams.id],
     }),
     messages: many(messages),
-    workflowRun: one(workflowRuns, {
-      fields: [conversations.id],
-      references: [workflowRuns.conversationId],
-    }),
   }),
 );
 
