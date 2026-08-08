@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build
+        env:
+          # Placeholders: the build only validates that these exist.
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          BASE_URL: http://localhost:3000
+          APP_NAME: Ship AI SaaS Starter
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+          BETTER_AUTH_SECRET: ci-placeholder-secret-value-000000000000
+          BETTER_AUTH_URL: http://localhost:3000
+          GOOGLE_CLIENT_ID: ci-placeholder
+          GOOGLE_CLIENT_SECRET: ci-placeholder
+          OPENAI_API_KEY: sk-ci-placeholder
+          RESEND_API_KEY: re_ci_placeholder
+          EMAIL_FROM: Ship AI SaaS Starter <noreply@example.com>
+          STRIPE_SECRET_KEY: sk_test_ci_placeholder
+          STRIPE_WEBHOOK_SECRET: whsec_ci_placeholder
+          NEXT_PUBLIC_STRIPE_PRO_MONTHLY_PLAN_ID: price_ci_pro_monthly
+          NEXT_PUBLIC_STRIPE_PRO_YEARLY_PLAN_ID: price_ci_pro_yearly
+          NEXT_PUBLIC_STRIPE_BUSINESS_MONTHLY_PLAN_ID: price_ci_business_monthly
+          NEXT_PUBLIC_STRIPE_BUSINESS_YEARLY_PLAN_ID: price_ci_business_yearly
