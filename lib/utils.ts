@@ -10,37 +10,61 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Search terms this starter should actually rank for. Keep these honest —
+ * listing something the starter doesn't ship (React Email, agent workflows)
+ * earns a bounce, not a conversion.
+ */
+const defaultKeywords = [
+  "Next.js boilerplate",
+  "AI SaaS boilerplate",
+  "SaaS starter kit",
+  "open source SaaS template",
+  "free Next.js template",
+  "Next.js 16",
+  "React 19",
+  "Vercel AI SDK",
+  "Drizzle ORM",
+  "Better-Auth",
+  "Stripe subscriptions",
+  "Postgres",
+  "Resend",
+  "shadcn/ui",
+  "Tailwind CSS",
+  "AI chat app template",
+  "MIT licensed",
+  "Ship AI SaaS",
+];
+
 export function constructMetadata({
   title,
+  absoluteTitle,
   description = siteConfig.description,
   image = siteConfig.ogImage,
   icons = "/favicon.ico",
+  keywords = defaultKeywords,
+  canonical,
   noIndex = false,
 }: {
   title?: string;
+  /** Skips the "| Ship AI SaaS Starter" suffix — for titles already carrying the brand. */
+  absoluteTitle?: string;
   description?: string;
   image?: string;
   icons?: string;
+  keywords?: string[];
+  /** Path relative to metadataBase, e.g. "/" or "/pricing". */
+  canonical?: string;
   noIndex?: boolean;
 } = {}): Metadata {
+  const resolvedTitle =
+    absoluteTitle ??
+    (title ? `${title} | ${siteConfig.name}` : siteConfig.name);
+
   return {
-    title: title ? `${title} | ${siteConfig.name}` : siteConfig.name,
+    title: resolvedTitle,
     description,
-    keywords: [
-      "Next.js",
-      "React",
-      "Drizzle",
-      "Supabase",
-      "Auth.js",
-      "shadcn ui",
-      "Resend",
-      "React Email",
-      "Stripe",
-      "OpenAI",
-      "AI Agents",
-      "Ship AI SaaS",
-      "AI SaaS Starter",
-    ],
+    keywords,
     authors: [
       {
         name: siteConfig.name,
@@ -51,13 +75,18 @@ export function constructMetadata({
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title,
+      // These took the raw `title` argument, which is undefined on any page
+      // that doesn't pass one — every social card was going out untitled.
+      title: resolvedTitle,
       description,
-      siteName: title,
+      // openGraph carried no images at all, so the only thing feeding
+      // og:image was the app/opengraph-image.png file convention.
+      images: [image],
+      siteName: siteConfig.name,
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: resolvedTitle,
       description,
       images: [image],
       creator: "@JeanChrinot",
@@ -65,6 +94,7 @@ export function constructMetadata({
     icons,
     metadataBase: new URL(siteConfig.url),
     manifest: `${siteConfig.url}/site.webmanifest`,
+    ...(canonical && { alternates: { canonical } }),
     ...(noIndex && {
       robots: {
         index: false,
