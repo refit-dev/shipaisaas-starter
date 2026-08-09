@@ -5,7 +5,7 @@ import { BlogPosts } from "@/components/content/blog-posts";
 
 export const metadata = constructMetadata({
   title: "Blog",
-  description: "Latest news and updates from Next SaaS Starter.",
+  description: "Tutorials, release notes, and deep-dives from the Ship AI SaaS team.",
 });
 
 export default async function BlogPage() {

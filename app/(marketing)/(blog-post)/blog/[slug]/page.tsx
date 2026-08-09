@@ -21,6 +21,7 @@ import { buttonVariants } from "@/components/ui/button";
 import Author from "@/components/content/author";
 import BlurImage from "@/components/shared/blur-image";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight } from "@/components/shared/ornaments";
 import { DashboardTableOfContents } from "@/components/shared/toc";
 
 export async function generateStaticParams() {
@@ -94,7 +95,7 @@ export default async function PostPage({
                 buttonVariants({
                   variant: "outline",
                   size: "sm",
-                  rounded: "lg",
+                  rounded: "full",
                 }),
                 "h-8",
               )}
@@ -108,7 +109,7 @@ export default async function PostPage({
               {formatDate(post.date)}
             </time>
           </div>
-          <h1 className="text-foreground text-3xl sm:text-4xl">
+          <h1 className="text-foreground font-display text-3xl font-extrabold tracking-[-0.03em] text-balance sm:text-4xl lg:text-5xl">
             {post.title}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg">
@@ -126,11 +127,11 @@ export default async function PostPage({
         <div className="absolute top-52 w-full border-t" />
 
         <MaxWidthWrapper className="grid grid-cols-4 gap-10 pt-8 max-md:px-0">
-          <div className="bg-background relative col-span-4 mb-10 flex flex-col space-y-8 border-y md:rounded-xl md:border lg:col-span-3">
+          <div className="bg-card relative col-span-4 mb-10 flex flex-col space-y-8 border-y md:rounded-2xl md:border lg:col-span-3">
             <BlurImage
               alt={post.title}
               blurDataURL={thumbnailBlurhash ?? placeholderBlurhash}
-              className="aspect-[1200/630] border-b object-cover md:rounded-t-xl"
+              className="aspect-[1200/630] border-b object-cover md:rounded-t-2xl"
               width={1200}
               height={630}
               priority
@@ -152,18 +153,18 @@ export default async function PostPage({
       <MaxWidthWrapper>
         {relatedArticles.length > 0 && (
           <div className="flex flex-col space-y-4 pb-16">
-            <p className="text-foreground text-2xl">
-              More Articles
-            </p>
+            <h2 className="text-foreground font-display text-2xl font-extrabold tracking-[-0.02em]">
+              More <Highlight>articles</Highlight>
+            </h2>
 
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-6">
               {relatedArticles.map((post) => (
                 <Link
                   key={post.slug}
                   href={post.slug}
-                  className="hover:bg-muted/80 flex flex-col space-y-2 rounded-xl border p-5 transition-colors duration-300"
+                  className="bg-card hover:border-primary/40 flex flex-col space-y-2 rounded-2xl border p-5 transition-colors duration-200"
                 >
-                  <h3 className="text-foreground text-xl">
+                  <h3 className="text-foreground text-lg font-semibold leading-snug">
                     {post.title}
                   </h3>
                   <p className="text-muted-foreground line-clamp-2 text-[15px]">

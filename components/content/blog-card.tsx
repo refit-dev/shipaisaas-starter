@@ -17,7 +17,7 @@ export function BlogCard({
   return (
     <article
       className={cn(
-        "group relative flex flex-col overflow-hidden border border-border bg-card transition-colors duration-300 hover:bg-accent/50",
+        "group border-border bg-card hover:border-primary/40 relative flex flex-col overflow-hidden rounded-2xl border transition-colors duration-200",
         horizontale ? "md:flex-row md:items-stretch" : "",
       )}
     >
@@ -54,7 +54,7 @@ export function BlogCard({
       >
         {/* Date */}
         {data.date && (
-          <p className="text-muted-foreground mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]">
+          <p className="text-muted-foreground mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             {formatDate(data.date)}
           </p>
         )}
@@ -62,10 +62,10 @@ export function BlogCard({
         {/* Title */}
         <h2
           className={cn(
-            "text-foreground mb-2.5 font-medium tracking-tight",
+            "text-foreground mb-2.5 tracking-tight",
             horizontale
-              ? "text-2xl font-semibold leading-snug sm:text-3xl"
-              : "line-clamp-2 text-base leading-snug",
+              ? "font-display text-2xl leading-snug font-extrabold tracking-[-0.02em] sm:text-3xl"
+              : "line-clamp-2 text-base leading-snug font-semibold",
           )}
         >
           {data.title}

@@ -9,6 +9,7 @@ import { Drawer } from "vaul";
 import { BLOG_CATEGORIES } from "@/config/blog";
 import { cn } from "@/lib/utils";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Highlight } from "@/components/shared/ornaments";
 
 export function BlogHeaderLayout() {
   const [open, setOpen] = useState(false);
@@ -25,8 +26,14 @@ export function BlogHeaderLayout() {
           <p className="text-primary mb-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             Blog
           </p>
-          <h1 className="text-foreground font-display text-3xl font-bold tracking-[-0.02em] text-balance md:text-4xl lg:text-5xl">
-            {data?.title ?? "Latest news & updates."}
+          <h1 className="text-foreground font-display text-3xl font-extrabold tracking-[-0.03em] text-balance md:text-4xl lg:text-5xl">
+            {data ? (
+              <Highlight>{data.title}</Highlight>
+            ) : (
+              <>
+                Latest news &amp; <Highlight>updates</Highlight>.
+              </>
+            )}
           </h1>
           <p className="text-muted-foreground mt-4 max-w-lg text-sm leading-relaxed md:text-base">
             {data?.description ?? "Tutorials, release notes, and deep-dives from the Ship AI SaaS team."}
