@@ -31,7 +31,7 @@ Routes: `app/api/chat/` (stream, history, conversations) and
 
 ## Data model
 
-Eleven tables. `users`, `sessions`, `accounts`, `verifications` come from
+Twelve tables. `users`, `sessions`, `accounts`, `verifications` come from
 Better-Auth; `teams` and `team_members` hold the workspace and its Stripe state;
 `daily_usages` and `monthly_usages` hold request and token counters;
 `conversations` and `messages` hold chat history; `activity_logs` is available
@@ -39,8 +39,15 @@ for auditing.
 
 **Single workspace.** Each user gets one team, created by the user-create hook
 in `lib/auth.ts`, and the session's `activeOrganizationId` is set on session
-creation. There are no invitations, member management or org roles — those are
-premium features. Every tenant-scoped query filters by `teamId`.
+creation. There is no member management or org roles — those are premium
+features. Every tenant-scoped query filters by `teamId`.
+
+`invitations` is the twelfth table and is intentionally empty. Better-Auth's
+organization plugin owns it, and `getFullOrganization` — which runs on every
+dashboard load — reads it, so the table has to exist for the Drizzle adapter to
+resolve the model. The starter ships no invite UI, accept route or
+`sendInvitationEmail` hook, so nothing writes to it. The plugin's invitation
+API is live if you want to build on it.
 
 ## Coding conventions
 

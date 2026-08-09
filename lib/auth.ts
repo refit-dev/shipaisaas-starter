@@ -122,6 +122,16 @@ export const auth = betterAuth({
             organizationId: "teamId", // Maps Better-Auth's internal 'organizationId' to your Drizzle 'teamId' property
           },
         },
+        // The plugin reads invitations as part of getFullOrganization, which
+        // runs on every dashboard load, so this model has to resolve even
+        // though the starter ships no invitation flow. See the table comment
+        // in lib/db/schema/account.ts.
+        invitation: {
+          modelName: "invitation",
+          fields: {
+            organizationId: "teamId",
+          },
+        },
       },
     }),
 

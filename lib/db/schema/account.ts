@@ -167,6 +167,39 @@ export const teamMembers = pgTable(
   ],
 );
 
+/**
+ * Better-Auth's organization plugin owns three models: organization, member
+ * and invitation. They are not independently optional — `getFullOrganization`
+ * returns invitations as part of the org payload, so the Drizzle adapter
+ * throws if this table is missing.
+ *
+ * This starter ships the table but no invitation flow: there is no invite UI,
+ * no accept-invite route and no `sendInvitationEmail` hook, so nothing writes
+ * to it. It stays empty until you build on it — the plugin's invitation API is
+ * already wired, so adding invites is UI work, not schema work.
+ */
+export const invitations = pgTable(
+  "invitations",
+  {
+    id: text("id").primaryKey(),
+    teamId: text("team_id")
+      .notNull()
+      .references(() => teams.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    role: text("role"),
+    status: text("status").default("pending").notNull(),
+    expiresAt: timestamp("expires_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    inviterId: text("inviter_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    index("invitations_teamId_idx").on(table.teamId),
+    index("invitations_email_idx").on(table.email),
+  ],
+);
+
 /* ======================
    USAGE & LOGS
 ====================== */
@@ -249,6 +282,17 @@ export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
   }),
 }));
 
+export const invitationsRelations = relations(invitations, ({ one }) => ({
+  team: one(teams, {
+    fields: [invitations.teamId],
+    references: [teams.id],
+  }),
+  user: one(users, {
+    fields: [invitations.inviterId],
+    references: [users.id],
+  }),
+}));
+
 export const activityLogsRelations = relations(activityLogs, ({ one }) => ({
   team: one(teams, {
     fields: [activityLogs.teamId],
@@ -280,6 +324,8 @@ export type TeamMember = typeof teamMembers.$inferSelect;
 export type NewTeamMember = typeof teamMembers.$inferInsert;
 export type ActivityLog = typeof activityLogs.$inferSelect;
 export type NewActivityLog = typeof activityLogs.$inferInsert;
+export type Invitation = typeof invitations.$inferSelect;
+export type NewInvitation = typeof invitations.$inferInsert;
 export type TeamDataWithMembers = Team & {
   teamMembers: (TeamMember & {
     user: Pick<User, "id" | "name" | "email">;
