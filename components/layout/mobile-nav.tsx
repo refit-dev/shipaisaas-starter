@@ -14,6 +14,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { CtaButton } from "@/components/shared/cta-button";
 
 import Logo from "./logo";
+import { ModeToggle } from "./mode-toggle";
 
 interface NavMobileProps {
 }
@@ -80,6 +81,7 @@ export function NavMobile({}: NavMobileProps) {
     <>
       {/* Fixed top-right controls */}
       <div className="fixed top-3 right-3 z-[60] flex items-center gap-1 md:hidden">
+        <ModeToggle />
         <button
           onClick={() => setOpen(!open)}
           className="rounded-full p-2 text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground focus:outline-none"

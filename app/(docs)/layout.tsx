@@ -9,7 +9,7 @@ interface DocsLayoutProps {
 
 export default function DocsLayout({ children }: DocsLayoutProps) {
   return (
-    <div className="dark bg-background flex flex-col">
+    <div className="bg-background flex flex-col">
       <NavMobile />
       <NavBar />
       <MaxWidthWrapper className="min-h-screen" large>

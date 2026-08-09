@@ -22,7 +22,6 @@ import {
   Plus,
   Settings,
   Sun,
-  SunMoon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -132,7 +131,7 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
       }).format(new Date(periodEnd))
     : null;
 
-  const ThemeIcon = theme === "dark" ? Moon : theme === "light" ? Sun : SunMoon;
+  const ThemeIcon = theme === "light" ? Sun : Moon;
 
   if (!expanded) {
     return (
@@ -151,8 +150,6 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
                   <Sun className="mr-2 size-4" />Light</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                   <Moon className="mr-2 size-4" />Dark</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <SunMoon className="mr-2 size-4" />System</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </TooltipTrigger>
@@ -346,20 +343,6 @@ function SidebarFooter({ expanded }: { expanded: boolean }) {
               <TooltipContent>Dark</TooltipContent>
             </Tooltip>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={theme === "system" ? "secondary" : "ghost"}
-                  size="icon"
-                  className="size-8"
-                  onClick={() => setTheme("system")}
-                >
-                  <SunMoon className="size-4" />
-                  <span className="sr-only">System</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>System</TooltipContent>
-            </Tooltip>
           </div>
 
           <DropdownMenuSeparator />

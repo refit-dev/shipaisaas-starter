@@ -74,7 +74,7 @@ function Aurora({ color, className }: { color: string; className?: string }) {
     <div
       className={cn("pointer-events-none absolute inset-0", className)}
       style={{
-        background: `radial-gradient(120% 90% at 0% 0%, color-mix(in oklab, ${color} 26%, transparent) 0%, transparent 62%)`,
+        background: `radial-gradient(120% 90% at 0% 0%, color-mix(in oklab, ${color} var(--aurora-strength), transparent) 0%, transparent 62%)`,
       }}
       aria-hidden
     />

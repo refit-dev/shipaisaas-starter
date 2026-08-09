@@ -59,7 +59,7 @@ export function TestimonialsColumn({
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                   style={{
                     background:
-                      "radial-gradient(110% 80% at 0% 0%, color-mix(in oklab, var(--chart-1) 18%, transparent) 0%, transparent 60%)",
+                      "radial-gradient(110% 80% at 0% 0%, color-mix(in oklab, var(--chart-1) var(--aurora-strength), transparent) 0%, transparent 60%)",
                   }}
                   aria-hidden
                 />

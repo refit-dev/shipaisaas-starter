@@ -4,11 +4,18 @@
 
 :root {
   /* Hero */
-  --hero-bg-from: #ffffff;
+  --hero-bg-from: #fbfbfc;
   --hero-glow: rgba(255, 46, 154, 0.10);
 
-  /* Surfaces */
-  --background: #ffffff;
+  /* Strength of the coloured corner wash on feature cards. A tint reads much
+     stronger on white than the same tint does on near-black, so light mode
+     gets roughly half. */
+  --aurora-strength: 12%;
+
+  /* Surfaces — the page sits a shade below the cards, so a card reads as a
+     lifted surface rather than dissolving into the page. Mirrors dark mode,
+     where the canvas is #0a0a0b and cards lift to #141417. */
+  --background: #fbfbfc;
   --foreground: #0a0a0b;
   --card: #ffffff;
   --card-foreground: #0a0a0b;
@@ -78,6 +85,8 @@
   /* Hero */
   --hero-bg-from: #0a0a0b;
   --hero-glow: rgba(255, 46, 154, 0.16);
+
+  --aurora-strength: 26%;
 
   /* Surfaces — near-black canvas, lifted cards */
   --background: #0a0a0b;

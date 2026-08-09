@@ -18,6 +18,7 @@ import { Icons } from "@/components/shared/icons";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 import Logo from "./logo";
+import { ModeToggle } from "./mode-toggle";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -85,7 +86,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
           ) : null}
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center gap-2">
           {/* right header for docs */}
           {documentation ? (
             <div className="hidden flex-1 items-center space-x-4 sm:justify-end lg:flex">
@@ -97,6 +98,11 @@ export function NavBar({ scroll = false }: NavBarProps) {
               </div>
             </div>
           ) : null}
+
+          {/* Below md the toggle lives in the mobile nav's fixed control
+              cluster, beside the menu button — rendering it here too would
+              stack it under that button. */}
+          <ModeToggle className="hidden md:flex" />
 
           {!mounted || isPending ? (
             <Skeleton className="hidden h-9 w-40 rounded-full md:flex" />
@@ -127,9 +133,6 @@ export function NavBar({ scroll = false }: NavBarProps) {
               <CtaButton href="/signup" label="Start for $0" size="sm" />
             </div>
           )}
-
-          {/* No theme toggle here: marketing is art-directed dark. The toggle
-              lives in the app sidebar, where light mode is fully supported. */}
         </div>
       </MaxWidthWrapper>
     </header>
