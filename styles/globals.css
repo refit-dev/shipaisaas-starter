@@ -77,6 +77,29 @@
   --shadow-2xl: 0 40px 80px -20px rgb(0 0 0 / 0.28);
   --shadow-glow: 0 0 40px -8px rgba(255, 46, 154, 0.45);
 
+  /* Product screenshot. Five black layers on a roughly doubling blur/offset
+     ramp with gently falling alpha — a real penumbra fades continuously, and
+     one or two big shadows always read as a hard double edge instead. The
+     brand halo is split into a tight bloom plus a wide one so it dissolves
+     rather than stopping, and stays far softer than --shadow-glow: pink
+     blooming on a near-white canvas turns garish fast.
+
+     Spreads stay small on purpose. A shadow layer's corner radius is
+     `border-radius + spread`, so against the frame's rounded-2xl (32px) any
+     spread at or beyond -32px renders square corners under a round image.
+     Keep every spread well inside that and the shadow tracks the frame. */
+  --shadow-screenshot:
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 6px 12px -2px rgba(0, 0, 0, 0.055),
+    0 14px 28px -4px rgba(0, 0, 0, 0.05),
+    0 28px 52px -6px rgba(0, 0, 0, 0.045),
+    0 52px 92px -8px rgba(0, 0, 0, 0.04),
+    0 0 60px -8px rgba(255, 46, 154, 0.10),
+    0 0 140px -12px rgba(255, 46, 154, 0.16);
+  /* Light catching the top bezel. Drawn as an overlay, not an inset on the
+     frame — inset shadows paint beneath child content, so the image hides it. */
+  --screenshot-highlight: rgba(255, 255, 255, 0.55);
+
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
@@ -148,6 +171,18 @@
   --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.70);
   --shadow-2xl: 0 40px 80px -20px rgb(0 0 0 / 0.80);
   --shadow-glow: 0 0 48px -6px rgba(255, 46, 154, 0.55);
+
+  /* Same ramp as light. Black shadow does almost nothing against a near-black
+     canvas, so the halo carries more of the separation here. */
+  --shadow-screenshot:
+    0 2px 4px -1px rgba(0, 0, 0, 0.30),
+    0 6px 12px -2px rgba(0, 0, 0, 0.26),
+    0 14px 28px -4px rgba(0, 0, 0, 0.23),
+    0 28px 52px -6px rgba(0, 0, 0, 0.20),
+    0 52px 92px -8px rgba(0, 0, 0, 0.18),
+    0 0 70px -8px rgba(255, 46, 154, 0.15),
+    0 0 160px -14px rgba(255, 46, 154, 0.25);
+  --screenshot-highlight: rgba(255, 255, 255, 0.14);
 }
 
 @theme inline {
@@ -199,9 +234,8 @@
   --radius-sm: calc(var(--radius) - 8px);
   --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 8px);
-  --radius-2xl: calc(var(--radius) + 16px);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 16px);
 
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);
@@ -211,6 +245,8 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+  --shadow-glow: var(--shadow-glow);
+  --shadow-screenshot: var(--shadow-screenshot);
 
   --animate-marquee: marquee 35s linear infinite;
 }

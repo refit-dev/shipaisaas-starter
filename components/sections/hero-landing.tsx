@@ -166,7 +166,7 @@ export default function HeroLanding() {
             }}
             aria-hidden
           />
-          <div className="border-border bg-card relative z-10 overflow-hidden rounded-2xl border shadow-2xl">
+          <div className="border-border bg-card shadow-screenshot relative z-10 overflow-hidden rounded-2xl border">
             <Image
               src="/_static/ui-ss/dashboard.png"
               alt="Dashboard preview"
@@ -174,6 +174,16 @@ export default function HeroLanding() {
               height={632}
               priority
               className="w-full object-cover object-top"
+            />
+            {/* Light on the top bezel. It has to be an empty overlay above the
+                image: an inset shadow on the frame would paint under the
+                image and never be seen. */}
+            <div
+              className="pointer-events-none absolute inset-0 rounded-2xl"
+              style={{
+                boxShadow: "inset 0 1px 0 0 var(--screenshot-highlight)",
+              }}
+              aria-hidden
             />
           </div>
         </div>
