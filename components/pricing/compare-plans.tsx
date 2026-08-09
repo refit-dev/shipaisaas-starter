@@ -130,7 +130,7 @@ export function ComparePlans() {
 
       {/* Table */}
       <motion.div
-        className="overflow-hidden border border-border"
+        className="bg-card overflow-hidden rounded-2xl border border-border"
         initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={viewport}
@@ -140,7 +140,7 @@ export function ComparePlans() {
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-border bg-muted/20">
-                <th className="sticky left-0 z-20 w-40 bg-muted/20 p-5 md:w-1/4">
+                <th className="bg-card sticky left-0 z-20 w-40 p-5 md:w-1/4 md:bg-transparent">
                   <span className="sr-only">Features</span>
                 </th>
                 {plansColumns.map((col) => (
@@ -160,7 +160,7 @@ export function ComparePlans() {
               {translatedRows.map((row: PlansRow, i: number) => (
                 <motion.tr
                   key={i}
-                  className="group border-b border-border transition-colors duration-200 hover:bg-muted/30"
+                  className="group border-b border-border transition-colors duration-200 last:border-b-0 hover:bg-muted/30"
                   initial={shouldReduceMotion ? false : { opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={viewport}

@@ -34,7 +34,7 @@ export default function HeroLanding() {
       <div className="relative z-10 flex flex-col items-center px-6 pt-32 pb-0 md:px-16">
         {/* The first thing a developer actually does */}
         <div
-          className="mb-9"
+          className="mb-9 max-w-full"
           style={{
             opacity: 0,
             animation: "word-appear 0.35s ease-out forwards",

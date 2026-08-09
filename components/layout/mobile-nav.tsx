@@ -79,8 +79,10 @@ export function NavMobile({}: NavMobileProps) {
 
   return (
     <>
-      {/* Fixed top-right controls */}
-      <div className="fixed top-3 right-3 z-[60] flex items-center gap-1 md:hidden">
+      {/* Fixed top-right controls. top-3.5 centres the 36px buttons in the
+          same 64px band as the logo; right-2 lands their icons on the px-4
+          content edge, so the header is optically symmetric. */}
+      <div className="fixed top-3.5 right-2 z-[60] flex items-center gap-1 md:hidden">
         <ModeToggle />
         <button
           onClick={() => setOpen(!open)}
@@ -99,13 +101,20 @@ export function NavMobile({}: NavMobileProps) {
         )}
       >
 
-        {/* Top bar — Logo */}
-        <div className="relative z-10 flex items-center px-5 pt-3 pb-4 border-b border-border">
-          <Logo />
+        {/* Top bar — must match the navbar's h-16 and px-4 exactly, or the
+            logo shifts the moment the menu opens. The divider goes on a
+            wrapper, never on the h-16 row itself: border-box would take that
+            1px out of the row's content height and centre the logo half a
+            pixel higher than the navbar does. The navbar has the same split —
+            its border lives on <header>, outside MaxWidthWrapper. */}
+        <div className="border-border relative z-10 border-b">
+          <div className="flex h-16 items-center px-4">
+            <Logo />
+          </div>
         </div>
 
         {/* Nav links */}
-        <ul className="relative z-10 flex-1 px-5 pt-2">
+        <ul className="relative z-10 flex-1 px-4 pt-2">
           {links &&
             links.length > 0 &&
             links.map(({ title, href, disabled, external }: any) => (
@@ -130,7 +139,7 @@ export function NavMobile({}: NavMobileProps) {
         </ul>
 
         {/* CTA */}
-        <div className="relative z-10 flex flex-col gap-3 px-5 py-8">
+        <div className="relative z-10 flex flex-col gap-3 px-4 py-8">
           <CtaButton
             href={ctaHref}
             label={ctaLabel}
@@ -154,7 +163,7 @@ export function NavMobile({}: NavMobileProps) {
         </div>
 
         {documentation && (
-          <div className="relative z-10 px-5 pb-8 md:hidden">
+          <div className="relative z-10 px-4 pb-8 md:hidden">
             <DocsSidebarNav setOpen={setOpen} />
           </div>
         )}

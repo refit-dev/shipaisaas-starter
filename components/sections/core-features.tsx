@@ -9,8 +9,8 @@ import {
   Mail,
   MoonStar,
   Receipt,
+  Scale,
   ShieldHalf,
-  Zap,
 } from "lucide-react";
 
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
@@ -81,13 +81,13 @@ const coreFeatures = [
   {
     title: "Dark Mode",
     description:
-      "Light, dark and system themes built on CSS variables and shadcn/ui.",
+      "Light and dark themes built on CSS variables and shadcn/ui.",
     icon: MoonStar,
   },
   {
     title: "MIT Licensed",
     description: "Fork it, sell what you build with it, no strings attached.",
-    icon: Zap,
+    icon: Scale,
   },
 ];
 

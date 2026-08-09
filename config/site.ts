@@ -31,6 +31,7 @@ export const footerLinks: SidebarNavItem[] = [
     items: [
       { title: "Getting started", href: "/help/getting-started" },
       { title: "Chat", href: "/help/using-the-chat" },
+      { title: "Pricing", href: "/pricing" },
       { title: "Upgrade to Pro", href: "https://shipaisaas.com" },
     ],
   },
@@ -40,7 +41,6 @@ export const footerLinks: SidebarNavItem[] = [
       { title: "Help centre", href: "/help" },
       { title: "Blog", href: "/blog" },
       { title: "Changelog", href: "/changelog" },
-      { title: "Pricing", href: "/pricing" },
       { title: "GitHub", href: "https://github.com/jeanchrinot/shipaisaas-starter" },
     ],
   },
