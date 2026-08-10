@@ -44,7 +44,7 @@ export function ForgotPasswordForm() {
         <p className="text-muted-foreground text-sm">{"Enter your email address and we'll send you a verification code."}</p>
       </div>
 
-      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
+      <div className="border-border bg-card shadow-sm grid rounded-2xl border gap-6 p-6 sm:p-8">
         {error && (
           <div className="bg-destructive/12 border-destructive/25 text-destructive rounded-xl border px-4 py-3 text-sm font-medium">
             {error}

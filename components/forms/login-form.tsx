@@ -101,7 +101,7 @@ export function LoginForm() {
         </p>
       </div>
 
-      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
+      <div className="border-border bg-card shadow-sm grid rounded-2xl border gap-6 p-6 sm:p-8">
         {messageText && (
           <div
             className={cn(
@@ -170,7 +170,7 @@ export function LoginForm() {
             <span className="border-border w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs tracking-wide uppercase">
-            <span className="bg-background text-muted-foreground px-3">
+            <span className="bg-card text-muted-foreground px-3">
               Or continue with
             </span>
           </div>

@@ -76,7 +76,7 @@ export function SignUpForm() {
         </p>
       </div>
 
-      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
+      <div className="border-border bg-card shadow-sm grid rounded-2xl border gap-6 p-6 sm:p-8">
         <form className="grid gap-5" onSubmit={onPasswordSubmit}>
           {error && (
             <div className="bg-destructive/12 border-destructive/25 text-destructive rounded-xl border px-4 py-3 text-sm font-medium">
@@ -145,7 +145,7 @@ export function SignUpForm() {
             <span className="border-border w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs tracking-wide uppercase">
-            <span className="bg-background text-muted-foreground px-3">
+            <span className="bg-card text-muted-foreground px-3">
               Or continue with
             </span>
           </div>
