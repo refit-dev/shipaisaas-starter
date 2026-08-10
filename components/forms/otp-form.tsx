@@ -99,7 +99,7 @@ export function OTPForm() {
     return (
       <div className="flex flex-col gap-6">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-foreground text-2xl font-semibold tracking-tight">Create new password</h1>
+          <h1 className="text-foreground font-display text-2xl font-extrabold tracking-[-0.02em]">Create new password</h1>
           <p className="text-muted-foreground text-sm">
             {`Choose a new password for ${email}`.split(email).map((part, i, arr) =>
               i < arr.length - 1 ? (
@@ -109,9 +109,9 @@ export function OTPForm() {
           </p>
         </div>
 
-        <div className="border border-border bg-background grid gap-6 p-6 sm:p-8">
+        <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
           {(passwordError || error) && (
-            <div className="bg-destructive/10 text-destructive px-4 py-3 text-sm font-medium">
+            <div className="bg-destructive/12 border-destructive/25 text-destructive rounded-xl border px-4 py-3 text-sm font-medium">
               {passwordError || error}
             </div>
           )}
@@ -122,7 +122,7 @@ export function OTPForm() {
               <Input id="password" name="password" type="password" value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required minLength={8} placeholder="••••••••"
-                disabled={isPending} className="bg-muted" />
+                disabled={isPending} className="bg-background" />
             </div>
 
             <div className="grid gap-2">
@@ -130,7 +130,7 @@ export function OTPForm() {
               <Input id="confirmPassword" name="confirmPassword" type="password"
                 value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                 required minLength={8} placeholder="••••••••"
-                disabled={isPending} className="bg-muted" />
+                disabled={isPending} className="bg-background" />
             </div>
 
             <button type="submit"
@@ -156,7 +156,7 @@ export function OTPForm() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-foreground text-2xl font-semibold tracking-tight">
+        <h1 className="text-foreground font-display text-2xl font-extrabold tracking-[-0.02em]">
           {mode === "reset-password" ? "Verify identity" : "Verify your email"}
         </h1>
         <p className="text-muted-foreground text-sm">
@@ -164,9 +164,9 @@ export function OTPForm() {
         </p>
       </div>
 
-      <div className="border border-border bg-background grid gap-6 p-6 sm:p-8">
+      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
         {error && (
-          <div className="bg-destructive/10 text-destructive px-4 py-3 text-sm font-medium">
+          <div className="bg-destructive/12 border-destructive/25 text-destructive rounded-xl border px-4 py-3 text-sm font-medium">
             {error}
           </div>
         )}

@@ -13,10 +13,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/shared/icons";
 
+/**
+ * Success used to be brand pink, which reads as "this is a promotion" rather
+ * than "that worked" — and the design system has a --success token for exactly
+ * this.
+ */
 function messageClasses(style: string) {
-  if (style === "success") return "bg-primary/10 text-primary";
-  if (style === "error") return "bg-destructive/10 text-destructive";
-  return "bg-muted text-foreground border border-border";
+  if (style === "success")
+    return "bg-success/12 border-success/25 text-success";
+  if (style === "error")
+    return "bg-destructive/12 border-destructive/25 text-destructive";
+  return "bg-muted border-border text-foreground";
 }
 
 export function LoginForm() {
@@ -86,7 +93,7 @@ export function LoginForm() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-foreground text-2xl font-semibold tracking-tight">
+        <h1 className="text-foreground font-display text-2xl font-extrabold tracking-[-0.02em]">
           Welcome back
         </h1>
         <p className="text-muted-foreground text-sm">
@@ -94,11 +101,11 @@ export function LoginForm() {
         </p>
       </div>
 
-      <div className="border-border bg-background grid gap-6 border p-6 sm:p-8">
+      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
         {messageText && (
           <div
             className={cn(
-              "px-4 py-3 text-sm font-medium",
+              "rounded-xl border px-4 py-3 text-sm font-medium",
               messageClasses(messageStyle),
             )}
           >
@@ -117,7 +124,7 @@ export function LoginForm() {
               required
               maxLength={50}
               disabled={isAnyPending}
-              className="bg-muted"
+              className="bg-background"
             />
           </div>
 
@@ -140,7 +147,7 @@ export function LoginForm() {
               minLength={8}
               maxLength={100}
               disabled={isAnyPending}
-              className="bg-muted"
+              className="bg-background"
             />
           </div>
 
@@ -174,7 +181,7 @@ export function LoginForm() {
           onClick={handleGoogleSignIn}
           className={cn(
             buttonVariants({ variant: "outline", size: "lg" }),
-            "bg-muted w-full cursor-pointer",
+            "bg-background w-full cursor-pointer",
           )}
           disabled={isAnyPending}
         >

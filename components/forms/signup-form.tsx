@@ -68,7 +68,7 @@ export function SignUpForm() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-foreground text-2xl font-semibold tracking-tight">
+        <h1 className="text-foreground font-display text-2xl font-extrabold tracking-[-0.02em]">
           Create your account
         </h1>
         <p className="text-muted-foreground text-sm">
@@ -76,10 +76,10 @@ export function SignUpForm() {
         </p>
       </div>
 
-      <div className="border-border bg-background grid gap-6 border p-6 sm:p-8">
+      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
         <form className="grid gap-5" onSubmit={onPasswordSubmit}>
           {error && (
-            <div className="bg-destructive/10 text-destructive px-4 py-3 text-sm font-medium">
+            <div className="bg-destructive/12 border-destructive/25 text-destructive rounded-xl border px-4 py-3 text-sm font-medium">
               {error}
             </div>
           )}
@@ -94,7 +94,7 @@ export function SignUpForm() {
               required
               maxLength={50}
               disabled={isAnyPending}
-              className="bg-muted"
+              className="bg-background"
             />
           </div>
 
@@ -108,7 +108,7 @@ export function SignUpForm() {
               required
               maxLength={50}
               disabled={isAnyPending}
-              className="bg-muted"
+              className="bg-background"
             />
           </div>
 
@@ -123,7 +123,7 @@ export function SignUpForm() {
               minLength={8}
               maxLength={100}
               disabled={isAnyPending}
-              className="bg-muted"
+              className="bg-background"
             />
             <p className="text-muted-foreground text-[13px]">
               At least 8 characters.
@@ -156,7 +156,7 @@ export function SignUpForm() {
           onClick={handleGoogleSignIn}
           className={cn(
             buttonVariants({ variant: "outline", size: "lg" }),
-            "bg-muted w-full cursor-pointer",
+            "bg-background w-full cursor-pointer",
           )}
           disabled={isAnyPending}
         >

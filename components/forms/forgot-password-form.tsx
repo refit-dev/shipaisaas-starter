@@ -40,13 +40,13 @@ export function ForgotPasswordForm() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-foreground text-2xl font-semibold tracking-tight">Reset password</h1>
+        <h1 className="text-foreground font-display text-2xl font-extrabold tracking-[-0.02em]">Reset password</h1>
         <p className="text-muted-foreground text-sm">{"Enter your email address and we'll send you a verification code."}</p>
       </div>
 
-      <div className="border border-border bg-background grid gap-6 p-6 sm:p-8">
+      <div className="border-border bg-card shadow-lg grid rounded-2xl border gap-6 p-6 sm:p-8">
         {error && (
-          <div className="bg-destructive/10 text-destructive px-4 py-3 text-sm font-medium">
+          <div className="bg-destructive/12 border-destructive/25 text-destructive rounded-xl border px-4 py-3 text-sm font-medium">
             {error}
           </div>
         )}
@@ -64,7 +64,7 @@ export function ForgotPasswordForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={"name@example.com"}
               disabled={isPending}
-              className="bg-muted"
+              className="bg-background"
             />
           </div>
 
